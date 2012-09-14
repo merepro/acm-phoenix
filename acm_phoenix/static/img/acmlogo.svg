@@ -1,0 +1,28 @@
+<svg style="width: 15%; height: 15%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 355 355">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <linearGradient id="svg_6" x1="0.74219" y1="0.21484" x2="0.00781" y2="0.99219">
+   <stop offset="0" stop-color="#83a9de"/>
+   <stop offset="1" stop-color="#20629c"/>
+  </linearGradient>
+  <linearGradient id="svg_11" x1="0.48047" y1="0.02344" x2="0.48047" y2="0.62109">
+   <stop offset="0" stop-color="#20629c"/>
+   <stop offset="1" stop-color="#83a9de"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_12">
+   <g>
+    <g transform="rotate(-45 178.00000000000006,178) ">
+     <rect id="svg_1" height="250" width="250" y="53" x="53" stroke-width="0" stroke="#000000" fill="url(#svg_6)"/>
+    </g>
+   </g>
+   <circle id="svg_7" r="110.26804" cy="180" cx="186.00001" stroke-width="0" stroke="#000000" fill="#0261AF"/>
+   <circle id="svg_7" r="110.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="#ffffff"/>
+   <circle id="svg_8" r="98.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="url(#svg_11)"/>
+  </g>
+<text fill="#005FA0" stroke="#005FA0" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="186" y="204" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
+  <text fill="#ffffff" stroke="#ffffff" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="180" y="200" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
+ </g>
+</svg>
