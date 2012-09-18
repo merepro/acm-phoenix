@@ -1,2 +1,2 @@
-from acm-phoenix import app
-app.run(debug=True)
+from acm_phoenix import app
+app.run('acm.frvl.us', debug=True)
