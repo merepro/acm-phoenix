@@ -525,7 +525,7 @@ h6 {
   font-family: inherit;
   font-weight: bold;
   line-height: 1;
-  color: inherit;
+  color: #3067BA;
   text-rendering: optimizelegibility;
 }
 h1 small,
@@ -1426,7 +1426,7 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
   cursor: not-allowed;
-  background-color: #eeeeee;
+  background-color: #000;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
