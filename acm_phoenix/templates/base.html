@@ -9,14 +9,16 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
+        <link rel="SHORTCUT ICON" href="/static/favicon.ico" />
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         {% block css %}
-        <link rel="stylesheet" href="/static/css/normalize.css">
-        <link rel="stylesheet" href="/static/css/bootstrap.css">
-        <link rel="stylesheet" href="/static/css/bootstrap-responsive.css">
-        <link rel="stylesheet" href="/static/css/font-awesome.css">
-        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/normalize.css" />
+        <link rel="stylesheet" href="/static/css/bootstrap.css" />
+        <link rel="stylesheet" href="/static/css/bootstrap-responsive.css" />
+        <link rel="stylesheet" href="/static/css/font-awesome.css" />
+        <link rel="stylesheet" href="/static/css/main.css" />
+        {% endblock %}
+        {% block extra_css %}
         {% endblock %}
         {% block header_script %}
         <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
@@ -27,6 +29,7 @@
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
 
+        <!-- Page Header -->
         <div class="container container-fluid">
           <header id="banner" class="jumbotron subhead" style="padding-top: 15px;">
             <a href="/"><img class="pull-left" id="logoImg" src="/static/img/acmlogoucr.svg" />
@@ -40,14 +43,16 @@
           <div class="navbar">
             <div class="navbar-inner">
               <ul class="nav nav-pills">
+                <!-- Navigation: insert relevant links from link view -->
+                {% block navigation %}
                 <li><a href="/"><i class="icon-white icon-home"></i> Home</a></li>
                 <li><a href="/news"><i class="icon-white icon-list"></i> News</a></li>
                 <li><a href="/events"><i class="icon-white icon-calendar"></i> Events</a></li>
-                <li><a href="/membership"><i class="icon-white icon-group"></i> Membership</a></li>
+                {% endblock %}
               </ul>
               <ul class="nav nav-pills pull-right">
-                <li class="divider-vertical"></li>
-                <li><a href="https://auth.ucr.edu/cas/login/?service=http://acm.frvl.us:5000"><i class="icon-user"></i> Login with CAS</a></li>
+                {% from "users/macros.html" import render_user_area %}
+                {{ render_user_area(g.user) }}
               </ul>
             </div>
           </div>
@@ -66,6 +71,8 @@
         <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
         <script src="/static/js/plugins.js"></script>
         <script src="/static/js/main.js"></script>
+        {% endblock %}
+        {% block extra_script %}
         {% endblock %}
 
         {% block analytics %}

@@ -1,16 +1,88 @@
 {% extends "base.html" %}
+  {% block extra_css %}
+    <!-- Need signature pad jquery plugin -->
+    <link rel="stylesheet" href="/static/packages/signature-pad/build/jquery.signaturepad.css" />
+  {% endblock %}
   {% block content %}
     {% from "forms/macros.html" import render_field %}
-    <form method="POST" action="." class="form">
+    <form method="POST" id="regForm" action="." class="form span9 offset1 form-horizontal sigPad">
+      <legend id="registrationHeader">
+        <img src="/static/img/acmlogo.svg" style="width: 15%;" />
+        <span>@</span>
+        <img src="/static/img/ucr_logo_cmyk.svg" style="width: 45%;" />
+        <p>Membership Form</p>
+      </legend>
+      <blockquote id="clubDescription">
+        The Association for Computing Machinery (ACM) is an academic and professional organization devoted to bring Computer Science students beyond the four walls of a classroom and into the real world. We focus on knowledge growth, professional development, and leadership. With committees, research projects, programming competitions, and networking, we at ACM provide you the tools and experience to help your education and your future. We encourage CS/CE/BI and all majors to participate in our activities and events.
+      </blockquote>
       {{ form.csrf_token }}
-      {{ render_field(form.name, class="input text") }}
-      {{ render_field(form.email, class="input text") }}
-      {{ render_field(form.password, class="input text") }}
-      {{ render_field(form.confirm, class="input text") }}
-      {{ render_field(form.accept_tos, class="input checkbox") }}
-      <label>ReCaptcha</label>
-      {{ form.recaptcha }}
-      <input type="submit" value="Register" class="button green">
+      <legend><button class="btn btn-danger disabled"><i class="icon-user-md"></i> required </button> Membership Details</legend>
+      <div class="control-group">
+        {{ render_field(form.name, class="input-large name", required="required", placeholder="John Doe") }}
+        {{ render_field(form.email, class="input-large", required="required", type="email", placeholder="jdoe001@ucr.edu") }}
+        {{ render_field(form.netid, class="input-large", required="required", placeholder="CAS NetID e.g. jdoe001") }}
+      </div>
+      <legend><button class="btn btn-danger disabled"><i class="icon-info-sign"></i> required</button> Personal Information</legend>
+      <div class="control-group">
+        {{ render_field(form.standing, required="required") }}
+        {{ render_field(form.major, required="required") }}
+        {{ render_field(form.shirt_size, class="select", required="required") }}
+        {{ render_field(form.sid, class="input-large", required="required", pattern="\d{9}", placeholder="9 Digit SID e.g. 012345678") }}
+      </div>
+      <legend><button class="btn btn-primary disabled"><i class="icon-info-sign"></i> optional</button> Extra Information</legend>
+      <div class="control-group">
+        {{ render_field(form.description, rows="5") }}
+      </div>
+      <legend><button class="btn btn-danger disabled"><i class="icon-pencil"></i> required</button> Signed Agreement</legend>
+      <div class="tabbable tabs-left">
+        <span class="clearButton pull-right"><a href="#clear">Clear</a></span>
+        <ul class="sigNav nav nav-tabs">
+          <li class="typeIt active"><a href="#type-it" class="current">Type It</a></li>
+          <li class="drawIt"><a href="#draw-it" >Draw It</a></li>
+        </ul>
+        <div class="sig sigWrapper">
+          <div class="typed"></div>
+          <canvas id="pad" class="pad" width="500" height="70"></canvas>
+          <input id="output" type="hidden" name="output" class="output">
+        </div>
+      </div>
+      <br clear="all" />
+      <button class="btn btn-primary offset4" id="reg_and_pay" name="reg_and_pay"
+              type="submit">
+        <i class="icon-credit-card"></i> Register and Pay Membership
+      </button>
+      <button class="btn btn-success" id="reg_only" name="reg_only" type="submit">
+        <i class="icon-group"></i> Register Only
+      </button>
     </form>
-    <a href="{{ url_for('users.login') }}">Login</a>
+  {% endblock %}
+  {% block extra_script %}
+    <!--[if lt IE 9]><script src="/static/packages/signature-pad/build/flashcanvas.js"></script><![endif]-->
+    <script src="/static/packages/signature-pad/build/jquery.signaturepad.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.sigPad').signaturePad({
+          'lineTop': 60,
+          'lineColour': '#333',
+          'penColour': '#333'
+        });
+        
+        $('.typeIt, .drawIt').click(function() {
+          $('.typeIt, .drawIt').toggleClass('active');
+        });
+
+        $('#regForm').submit(function() {
+          var output = $("#output");
+          var canvas = document.getElementById("pad");
+          if ($(output).val().length == 0) {
+            var ctx = canvas.getContext("2d");
+            ctx.fillStyle = "blue";
+            ctx.font = "normal 50px Journal";
+            ctx.fillText($("#name").val(), 15, 55);
+            $(output).val(canvas.toDataURL());
+          }
+        });
+      });
+    </script>
+    <script src="/static/packages/signature-pad/build/json2.min.js"></script>
   {% endblock %}

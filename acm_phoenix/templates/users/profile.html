@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+  {% block navigation %}
+    <li><a href="/profile"><i class="icon-white icon-list-alt"></i> Summary</a></li>
+  {% endblock %}
+  {% block content %}
+    <h1>Account Summary</h1>
+    <p>This is everything we think we know about you</p>
+    <div id="contantInfo" class="span5 pull-left">
+      <h3>About you</h3>
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr><td>Name</td><td>{{ user.name }}</td></tr>
+          <tr><td>Email</td><td>{{ user.email }}</td></tr>
+          <tr><td>NetID</td><td>{{ user.netid }}</td></tr>
+          <tr><td>Student ID#</td><td>{{ user.sid }}</td></tr>
+          <tr><td>Class Standing</td><td>{{ user.standing }}</td></tr>
+          <tr><td>Major</td><td>{{ user.major }}</td></tr>
+          <tr><td>T-Shirt Size</td><td>{{ user.shirt_size }}</td></tr>
+          <tr><td>Signature</td><td><img src="{{ user.signature }}" /></td></tr>
+        </tbody>
+      </table>
+      <hr />
+      <h3>Description</h3>
+      <blockquote>{{ user.description }}</blockquote>
+      <hr />
+    </div>
+    <div id="roleInfo" class="span5 offset1">
+      <h3>Membership Roles</h3>
+      <p>These are the roles you have within the club website</p>
+      {% from "users/macros.html" import pretty_print_role %}
+      {{ pretty_print_role(user.role) }}
+      <hr />
+    </div>
+    <div id="membershipDetails" class="span5 offset1">
+      <h3>Membership Details</h3>
+      {% if user.member %}
+        You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h %d, %Y') }}</time>.
+        {% if user.getMemberStatus() == "In Progress" %}
+        <div class="well">
+          <a href="/paymembership/" class="btn btn-primary"><i class="icon-credit-card"></i> Pay membership dues with WePay</a><br> to become an official member.
+        </div>
+        {% elif user.getMemberStatus() == "Unregistered" %}
+        <div class="well">
+          <a id="register" href="/register/" class="btn btn-success"><i class="icon-group"></i> Become a registered member</a><br> by filling out the Membership Form.
+        </div>
+        {% endif %}
+      {% else %}
+        You are not currently registered as a member of ACM@UCR. Also, {{ user.wepay_verification }}
+      {% endif %}
+    </div>
+  {% endblock %}
