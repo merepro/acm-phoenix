@@ -1,17 +1,14 @@
-from flask.ext.wtf import Form, TextField, PasswordField, BooleanField, RecaptchaField
+from flask.ext.wtf import Form, TextField, IntegerField, SelectField, TextAreaField, SubmitField
 from flask.ext.wtf import Required, Email, EqualTo
 
-class LoginForm(Form):
-    email = TextField('Email address', [Required(), Email()])
-    password = PasswordField('Password', [Required()])
-
 class RegisterForm(Form):
-    name = TextField('NickName', [Required()])
-    email = TextField('Email address', [Required(), Email()])
-    password = PasswordField('Password', [Required()])
-    confirm = PasswordField('Repeat Password', [
-            Required(),
-            EqualTo('confirm', message='Passwords must match')
-            ])
-    accept_tos = BooleanField('I accept the TOS', [Required()])
-    recaptcha = RecaptchaField()
+    name = TextField(u'Full Name', [Required()])
+    netid = TextField(u'NetID', [Required()])
+    email = TextField(u'Email address', [Required(), Email()])
+    sid = IntegerField(u'Student ID#', [Required()])
+    standing = SelectField(u'Class Standing', [Required()], choices=[('freshman', 'Freshman'), ('soph', 'Sophomore'), ('junior', 'Junior'), ('senior', 'Senior'), ('alum', 'Alumni'), ('grad', 'Graduate Student'), ('faculty', 'Faculty')])
+    major = SelectField(u'Major', [Required()], choices=[('CS', 'CS (Computer Science)'), ('CE', 'CE (Computer Engineering)'), ('BI', 'BI (Business Informatics)'), ('Other', 'Other')])
+    shirt_size = SelectField(u'T-Shirt Size', [Required()], choices=[('S', 'Small'), ('M', 'Medium'), ('L', 'Large'), ('XL', 'X-Large'), ('XXL', '2X-Large')])
+    description = TextAreaField(u'Describe yourself!')
+    reg_only = SubmitField(u'<i class="icon-group"></i> Register Only')
+    reg_and_pay = SubmitField(u'<i class="icon-credit-card"></i> Register and Pay Membership')
