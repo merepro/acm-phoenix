@@ -12,6 +12,9 @@ def not_found(error):
 from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
+from acm_phoenix.admin.views import admin as adminModule
+app.register_blueprint(adminModule)
+
 from acm_phoenix.users.models import User
 @app.before_request
 def before_request():
