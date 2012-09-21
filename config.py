@@ -6,7 +6,7 @@ DEBUG = False
 ADMINS = frozenset(['acm.at.ucr+webmaster@gmail.com'])
 SECRET_KEY = 'MIIEpAIBAAKCAQEAwTs9CBbomFmsYmYzChcAT6FYm6szVtW2wlYaPRajiV7XvFaoZfBpDKDy2xsTaWkWdspR2juyyoVStJSuzLt7pIP7SX6ibDkbKtSthZJA5JAqhtvVF2BtR+yApLoM9hWEF4XQZDswMAGgYOBi+/C5FSqW/jPKoSaO+6dVgf+VKS9Nmp9G'
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'acm-phoenix.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'acm_phoenix.db')
 DATABASE_CONNECT_OPTIONS = {}
 
 THREADS_PER_PAGE = 8
