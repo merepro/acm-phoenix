@@ -18,10 +18,12 @@ from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
 from acm_phoenix.users.models import User
-from acm_phoenix.admin.models import UserAdmin
+from acm_phoenix.admin.models import UserAdmin, ReportAdmin
 
+# Admin Views
 admin = Admin(app)
 admin.add_view(UserAdmin(db.session))
+admin.add_view(ReportAdmin(db.session))
 
 @app.before_request
 def before_request():
