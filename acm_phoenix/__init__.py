@@ -1,5 +1,10 @@
 from flask import Flask, render_template, g, session, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.admin import Admin
+from flask.ext.admin.contrib.sqlamodel import ModelView
+
+from time import strftime
+
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -12,10 +17,12 @@ def not_found(error):
 from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
-from acm_phoenix.admin.views import admin as adminModule
-app.register_blueprint(adminModule)
-
 from acm_phoenix.users.models import User
+from acm_phoenix.admin.models import UserAdmin
+
+admin = Admin(app)
+admin.add_view(UserAdmin(db.session))
+
 @app.before_request
 def before_request():
   """
@@ -31,9 +38,6 @@ def show_home():
     """
     Display home page to visitors
     """
-    g.user = None
-    if 'user_id' in session:
-        g.user = User.query.get(session['user_id'])
     return render_template('home.html')
 
 @app.route('/logout')

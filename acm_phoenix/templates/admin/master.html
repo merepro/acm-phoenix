@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+  {% block navigation %}
+    <li><a href="/admin"><i class="icon-white icon-home"></i> Admin Home</a></li>
+    <li><a href="/admin/userview/"><i class="icon-cog icon-white"></i> User Tools</a></li>  
+    <li><a href="/admin/reports"><i class="icon-legal icon-white"></i> Report Tools</a></li>
+  {% endblock %}
+  {% block content %}
+    <div class="hero-unit">
+      <h3>Administrative Backend</h3>
+      <p class="lead">Welcome to the admin backend panel. This is where you'll be able to modify and add user records for offline membership applications and payments and access/retrieve user info and statistics for reports.
+      </p>
+    </div>
+  {% endblock %}
