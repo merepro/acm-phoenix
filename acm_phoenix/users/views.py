@@ -96,7 +96,7 @@ def register():
       sig_img = raw_signature
 
     user = User(form.name.data, form.netid.data, form.email.data, \
-                  form.standing.data, form.major.data, form.sid.data, \
+                  form.standing.data, form.major.data, \
                   form.shirt_size.data, form.description.data, sig_img)
     user.member = True
 
