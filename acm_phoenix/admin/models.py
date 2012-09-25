@@ -13,7 +13,7 @@ class UserAdmin(ModelView):
     A modification on ModelView that removes extraneous columns like Description,
     WePay Verification Key, and Signature
     """
-    excluded_list_columns = ['description', 'wepay_verification', 'signature']
+    excluded_list_columns = ['description', 'wepay_verification', 'signature', 'wepay_checkout_id']
 
     # Only text based columns are searchable anyways.
     searchable_columns = (User.name, User.email, User.netid, User.standing, User.major)
@@ -27,7 +27,7 @@ class ReportAdmin(ModelView):
     A modification on ModelView that adds report-creating options like generating paper copies
     of membership information.
     """
-    excluded_list_columns = ['description', 'wepay_verification', 'signature', 'role', 'membership_status']
+    excluded_list_columns = ['description', 'wepay_verification', 'signature', 'role', 'membership_status', 'wepay_checkout_id']
     searchable_columns = (User.name, User.email, User.netid, User.standing, User.major)
 
     # This view is for reports only so nothing is editable or creatable.

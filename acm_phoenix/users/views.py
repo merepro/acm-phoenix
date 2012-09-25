@@ -119,6 +119,9 @@ def register():
     
     if form.reg_and_pay.data == True:
       response = wepay_membership_response(user)
+      user.wepay_checkout_id = response['checkout_id']
+      db.session.add(user)
+      db.session.commit()
       return redirect(response['checkout_uri'])
     else:
       # redirect user to the 'home' method of the user module.
@@ -145,4 +148,7 @@ def verify_membership_payment(verification_key):
 def payment_redirect():
   user = User.query.get(session['user_id'])
   response = wepay_membership_response(user)
+  user.wepay_checkout_id = response['checkout_id']
+  db.session.add(user)
+  db.session.commit()
   return redirect(response['checkout_uri'])

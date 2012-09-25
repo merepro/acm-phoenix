@@ -18,6 +18,7 @@ class User(db.Model):
     major = db.Column(db.String(50))
     shirt_size = db.Column(db.String(5))
     wepay_verification = db.Column(db.String(255))
+    wepay_checkout_id = db.Column(db.Integer)
     signature = db.Column(db.LargeBinary)
 
     def __init__(self, name=None, netid=None, email=None, standing=None,
