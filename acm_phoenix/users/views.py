@@ -47,6 +47,7 @@ def wepay_membership_response(user):
   """
   Make a WePay API call for membership payment and return the response.
   """
+  # Generate verification_key for wepay payment.
   random_string = base64.urlsafe_b64encode(os.urandom(30))
   verification_key = hashlib.sha224(random_string + user.email +
                                     user.name).hexdigest()
@@ -54,7 +55,7 @@ def wepay_membership_response(user):
   user.wepay_verification = verification_key
   db.session.commit()
 
-  # Application settings
+  # WePay Application settings
   account_id = 319493
   access_token = '6dd6802f8ebef4992308a0e4f7698c275781ac36854f9451127115d995d8cda7'
   production = False
@@ -80,7 +81,12 @@ def register():
   """
   form = RegisterForm(request.form)
   if form.validate_on_submit():
-    # create an user instance not yet stored in the database
+    # If netid and email are unique, create an user instance not yet stored in the database
+    user = User.query.filter_by(netid=form.netid.data, email=form.email.data).first()
+    if user:
+      flash(u'NetID/Email already registred', 'error')
+      return render_template("users/register.html", form=form)
+
     raw_signature = request.form['output']
     
     # Convert drawn signature to base64 encoded image.
