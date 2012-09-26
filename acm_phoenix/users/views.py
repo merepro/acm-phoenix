@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+B1;2802;0cfrom flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 
 # WePay transaction
 from wepay import WePay
@@ -9,7 +9,12 @@ from datetime import datetime
 from signpad2image.signpad2image import s2i
 import StringIO
 
-from acm_phoenix import db
+# Google OAuth2
+from oauth2client.client import OAuth2WebServerFlow
+from apiclient.discovery import build
+import httplib2
+
+from acm_phoenix import db, app
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm
 from acm_phoenix.users.models import User
@@ -17,7 +22,13 @@ from acm_phoenix.users.decorators import requires_login
 
 mod = Blueprint('users', __name__, url_prefix='')
 
+flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_CLIENT_ID'],
+                           client_secret=app.config['GOOGLE_CLIENT_SECRET'],
+                           scope='https://www.googleapis.com/auth/userinfo.email',
+                           redirect_uri='http://acm.frvl.us:5000/oauth2callback')
+
 @mod.route('/profile/')
+@requires_login
 def home():
   """
   Display User profile
@@ -27,21 +38,11 @@ def home():
 @mod.route('/login/', methods=['GET', 'POST'])
 def login():
   """
-  Login form
+  Login with rmail account using Google OAuth2
   """
-  # form = LoginForm(request.form)
-  # # make sure data are valid, but doesn't validate password is right
-  # if form.validate_on_submit():
-  #   user = User.query.filter_by(email=form.email.data).first()
-  #   # we use werzeug to validate user's password
-  #   if user and check_password_hash(user.password, form.password.data):
-  #     # the session can't be modified as it's signed, 
-  #     # it's a safe place to store the user id
-  #     session['user_id'] = user.id
-  #     flash('Welcome %s' % user.name)
-  #     return redirect(url_for('users.home'))
-  #   flash('Wrong email or password', 'error-message')
-  # return render_template("users/login.html", form=form)
+  auth_uri = flow.step1_get_authorize_url()
+  return redirect(auth_uri)
+
   
 def wepay_membership_response(user):
   """
@@ -129,6 +130,7 @@ def register():
   return render_template("users/register.html", form=form)
 
 @mod.route('/verify/<string:verification_key>')
+@requires_login
 def verify_membership_payment(verification_key):
   # Notice that accepting verification_key as a string automatically cuts off
   # the trailing ?checkout_uri=##### from the WePay redirect.
@@ -142,9 +144,10 @@ def verify_membership_payment(verification_key):
     db.session.commit()
     session['user_id'] = user.id
 
-  return redirect(url_for('users.home'))
+  return redirect('/')
   
 @mod.route('/paymembership/')
+@requires_login
 def payment_redirect():
   user = User.query.get(session['user_id'])
   response = wepay_membership_response(user)
@@ -152,3 +155,34 @@ def payment_redirect():
   db.session.add(user)
   db.session.commit()
   return redirect(response['checkout_uri'])
+
+@mod.route('/oauth2callback/')
+def authenticate_user():
+  error = request.args.get('error')
+  if error:
+    return redirect(url_for('users.home'))
+
+  # Get OAuth2 authentication code
+  code = request.args.get('code')
+
+  # Exchange code for fresh credentials
+  credentials = flow.step2_exchange(code)
+
+  # Extract email and email verification
+  id_token = credentials.id_token
+  email = id_token['email']
+  verified_email = id_token['verified_email']
+
+  if verified_email == 'true':
+    # Find user with this email
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+      flash(u'We couldn\'t find any users with that email. You must register to be a member before logging in with rmail', 'error')
+      return redirect('/register')
+    else:
+      # Log them in and send them to their profile page
+      session['user_id'] = user.id
+      return redirect(url_for('users.home'))
+  else:
+    flash(u'Sorry, we couldn\'t verify your email', 'error')
+    return redirect('/')
