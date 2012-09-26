@@ -1,4 +1,4 @@
-B1;2802;0cfrom flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 
 # WePay transaction
 from wepay import WePay
