@@ -1,7 +1,6 @@
 from flask import Flask, render_template, g, session, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.admin import Admin
-from flask.ext.admin.contrib.sqlamodel import ModelView
 
 from time import strftime
 
@@ -18,12 +17,13 @@ from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
 from acm_phoenix.users.models import User
-from acm_phoenix.admin.models import UserAdmin, ReportAdmin
+from acm_phoenix.admin.models import AdminView, UserAdmin, ReportAdmin
 
 # Admin Views
-admin = Admin(app)
+admin = Admin(index_view=AdminView())
 admin.add_view(UserAdmin(db.session))
 admin.add_view(ReportAdmin(db.session))
+admin.init_app(app)
 
 @app.before_request
 def before_request():
