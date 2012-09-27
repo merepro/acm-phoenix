@@ -1,7 +1,7 @@
 import os
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
+DEBUG = True
 
 ADMINS = frozenset(['acm.at.ucr+webmaster@gmail.com'])
 SECRET_KEY = 'MIIEpAIBAAKCAQEAwTs9CBbomFmsYmYzChcAT6FYm6szVtW2wlYaPRajiV7XvFaoZfBpDKDy2xsTaWkWdspR2juyyoVStJSuzLt7pIP7SX6ibDkbKtSthZJA5JAqhtvVF2BtR+yApLoM9hWEF4XQZDswMAGgYOBi+/C5FSqW/jPKoSaO+6dVgf+VKS9Nmp9G'
@@ -19,5 +19,7 @@ RECAPTCHA_PUBLIC_KEY = '6LfDW9YSAAAAAAjSp9n2mS7G1bMwrYH7EESVOLQe'
 RECAPTCHA_PRIVATE_KEY = '6LfDW9YSAAAAAIJTT53vTrOzG5NdPhetB6Z8JLao'
 RECAPTCHA_OPTIONS = {'theme': 'white'}
 
-GOOGLE_CLIENT_ID=401399822645-a1015kkb76m6evpn3mhk3hr4voqejt2f.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=TS6HarpynHCdSTesaRMlbaU_
+GOOGLE_CLIENT_ID= '401399822645-a1015kkb76m6evpn3mhk3hr4voqejt2f.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET= 'TS6HarpynHCdSTesaRMlbaU_'
+
+HOST_URL= 'http://localhost'
