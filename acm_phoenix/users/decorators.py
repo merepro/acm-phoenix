@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import g, flash, redirect, url_for, request
+from flask import g, redirect, url_for, request
 
 def requires_login(f):
   @wraps(f)
