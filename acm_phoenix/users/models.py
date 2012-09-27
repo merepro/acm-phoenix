@@ -43,3 +43,6 @@ class User(db.Model):
 
     def __repr__ (self):
         return '%s (%s)' % (self.name, self.email)
+
+    def isAdmin(self):
+        return self.role == 0
