@@ -20,12 +20,15 @@ from acm_phoenix.users.forms import RegisterForm
 from acm_phoenix.users.models import User
 from acm_phoenix.users.decorators import requires_login
 
+# User Blueprint
 mod = Blueprint('users', __name__, url_prefix='')
 
+# Google OAuth2 flow object to get user's email.
 flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_CLIENT_ID'],
                            client_secret=app.config['GOOGLE_CLIENT_SECRET'],
                            scope='https://www.googleapis.com/auth/userinfo.email',
                            redirect_uri=app.config['HOST_URL'] + '/oauth2callback')
+
 
 @mod.route('/profile/')
 @requires_login
@@ -40,6 +43,10 @@ def login():
   """
   Login with rmail account using Google OAuth2
   """
+  session['next_path'] = request.args.get('next')
+  if session['next_path'] is None:
+    session['next_path'] = url_for('users.home')
+  
   auth_uri = flow.step1_get_authorize_url()
   return redirect(auth_uri)
 
@@ -180,9 +187,9 @@ def authenticate_user():
       flash(u'We couldn\'t find any users with that email. You must register to be a member before logging in with rmail', 'error')
       return redirect('/register')
     else:
-      # Log them in and send them to their profile page
+      # Log them in and send them to their request destination.
       session['user_id'] = user.id
-      return redirect(url_for('users.home'))
+      return redirect(session['next_path'])
   else:
     flash(u'Sorry, we couldn\'t verify your email', 'error')
     return redirect('/')
