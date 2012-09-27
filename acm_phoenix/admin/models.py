@@ -1,12 +1,29 @@
-from acm_phoenix.users.models import User
-from flask import flash, render_template, make_response, send_file
+from flask import render_template, send_file, g, redirect, url_for
 from flask.ext.admin.contrib.sqlamodel import ModelView
 from flask.ext.admin import expose
+from flask.ext.admin.base import AdminIndexView
 from flask.ext.admin.actions import action
 from flask.ext.admin.babel import gettext, lazy_gettext
+
+from acm_phoenix.users.models import User
+from acm_phoenix.users.decorators import requires_login
+
+# For Rendering PDF and writing to Zipfiles
 import xhtml2pdf.pisa as pisa
 import cStringIO as StringIO
 import zipfile
+
+class AdminView(AdminIndexView):
+    """
+    A subclass of the BaseView that forces user authentication
+    """
+    @expose('/')
+    def index(self):
+        return self.render('admin/master.html')
+
+    def is_accessible(self):
+        # Only accessible to those with an admin role.
+        return g.user is not None and g.user.isAdmin()
 
 class UserAdmin(ModelView):
     """
@@ -18,9 +35,14 @@ class UserAdmin(ModelView):
     # Only text based columns are searchable anyways.
     searchable_columns = (User.name, User.email, User.netid, User.standing, User.major)
 
+    def is_accessible(self):
+        # Only accessible to those with an admin role.
+        return g.user is not None and g.user.isAdmin()
+
     def __init__(self, session, **kwargs):
         # Just call parent class with predefined model.
         super(UserAdmin, self).__init__(User, session, name="user", endpoint="usertools", **kwargs)
+
 
 class ReportAdmin(ModelView):
     """
@@ -34,6 +56,10 @@ class ReportAdmin(ModelView):
     can_create = False
     can_edit = False
     can_delete = False
+
+    def is_accessible(self):
+        # Only accessible to those with an admin role.
+        return g.user is not None and g.user.isAdmin()
 
     def __init__(self, session, **kwargs):
         super(ReportAdmin, self).__init__(User, session, name="report", endpoint="reports", **kwargs)
