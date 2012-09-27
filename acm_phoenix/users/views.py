@@ -25,7 +25,7 @@ mod = Blueprint('users', __name__, url_prefix='')
 flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_CLIENT_ID'],
                            client_secret=app.config['GOOGLE_CLIENT_SECRET'],
                            scope='https://www.googleapis.com/auth/userinfo.email',
-                           redirect_uri='http://acm.frvl.us:5000/oauth2callback')
+                           redirect_uri=app.config['HOST_URL'] + '/oauth2callback')
 
 @mod.route('/profile/')
 @requires_login
@@ -62,7 +62,7 @@ def wepay_membership_response(user):
   production = False
 
   wepay = WePay(production, access_token)
-  redirect_url = 'http://acm.frvl.us:5000/verify/' + verification_key
+  redirect_url = app.config['HOST_URL'] + '/verify/' + verification_key
 
   response = wepay.call('/checkout/create', {
       'account_id': account_id,
