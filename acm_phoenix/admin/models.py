@@ -6,12 +6,17 @@ from flask.ext.admin.actions import action
 from flask.ext.admin.babel import gettext, lazy_gettext
 
 from acm_phoenix.users.models import User
+from acm_phoenix.users import constants as USER
 from acm_phoenix.users.decorators import requires_login
+
+from wtforms.fields import SelectField
 
 # For Rendering PDF and writing to Zipfiles
 import xhtml2pdf.pisa as pisa
 import cStringIO as StringIO
 import zipfile
+
+from time import strftime
 
 class AdminView(AdminIndexView):
     """
@@ -35,6 +40,18 @@ class UserAdmin(ModelView):
     # Only text based columns are searchable anyways.
     searchable_columns = (User.name, User.email, User.netid, User.standing, User.major)
 
+    list_formatters = dict(role=lambda m, p: USER.ROLE[m.role].title(),
+                           membership_status=lambda m, p: USER.MEMBER_STATUS[m.membership_status].title(),
+                           member_since=lambda m, p: m.member_since.strftime("%b %d, %Y"),
+                           membership_paid_on=lambda m, p: m.membership_paid_on.strftime("%b %d, %Y") if m.membership_paid_on is not None else "Not Paid",
+                           standing=lambda m, p: m.standing.title())
+
+    form_overrides = dict(role=SelectField, membership_status=SelectField)
+    form_args = dict(
+        role = dict(choices=[(2, 'Member'), (1, 'Publisher'), (0, 'Administrator')]),
+        membership_status = dict(choices=[(0, 'Unregistered'), (1, 'In Progress (Unpaid)'), (2, 'Official (Paid)')])
+    )
+
     def is_accessible(self):
         # Only accessible to those with an admin role.
         return g.user is not None and g.user.isAdmin()
@@ -56,6 +73,12 @@ class ReportAdmin(ModelView):
     can_create = False
     can_edit = False
     can_delete = False
+
+    list_formatters = dict(role=lambda m, p: USER.ROLE[m.role].title(),
+                           membership_status=lambda m, p: USER.MEMBER_STATUS[m.membership_status].title(),
+                           member_since=lambda m, p: m.member_since.strftime("%b %d, %Y"),
+                           membership_paid_on=lambda m, p: m.membership_paid_on.strftime("%b %d, %Y") if m.membership_paid_on is not None else "Not Paid",
+                           standing=lambda m, p: m.standing.title())
 
     def is_accessible(self):
         # Only accessible to those with an admin role.
