@@ -1,6 +1,7 @@
 {% extends "base.html" %}
   {% block navigation %}
     <li><a href="/profile"><i class="icon-white icon-list-alt"></i> Summary</a></li>
+    <li><a href="/profile/edit"><i class="icon-white icon-pencil"></i> Edit</a></li>
   {% endblock %}
   {% block content %}
     <h1>Account Summary</h1>
@@ -20,7 +21,9 @@
       </table>
       <hr />
       <h3>Description</h3>
-      <blockquote>{{ user.description }}</blockquote>
+      <blockquote>
+        {{ user.description | markdown }}
+      </blockquote>
       <hr />
     </div>
     <div id="roleInfo" class="span5 offset1">

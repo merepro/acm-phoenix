@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+from flaskext.markdown import Markdown
 
 # WePay transaction
 from wepay import WePay
@@ -16,19 +17,21 @@ import httplib2
 
 from acm_phoenix import db, app
 from acm_phoenix.users import constants as USER
-from acm_phoenix.users.forms import RegisterForm
+from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
 from acm_phoenix.users.decorators import requires_login
 
 # User Blueprint
 mod = Blueprint('users', __name__, url_prefix='')
 
+# Initialize Markdown
+Markdown(app)
+
 # Google OAuth2 flow object to get user's email.
 flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_CLIENT_ID'],
                            client_secret=app.config['GOOGLE_CLIENT_SECRET'],
                            scope='https://www.googleapis.com/auth/userinfo.email',
                            redirect_uri=app.config['HOST_URL'] + '/oauth2callback')
-
 
 @mod.route('/profile/')
 @requires_login
@@ -37,6 +40,36 @@ def home():
   Display User profile
   """
   return render_template("users/profile.html", user=g.user)
+
+@mod.route('/profile/edit/', methods=['GET', 'POST'])
+@requires_login
+def edit_profile():
+  """
+  Allow User to edit their profile info
+  """
+  form = EditForm(request.form)
+  user = g.user
+  if form.validate_on_submit():
+    # Checking if someone is trying to change their email to another user's.
+    otherUser = User.query.filter_by(netid=form.netid.data, email=form.email.data).first()
+
+    # The user with the new netid and email either shouldn't exist or should be the current user.
+    if otherUser is not None and user != otherUser:
+      flash(u'You seem to be trying to change your netid/email to someone else\'s', 'error')
+      return redirect(url_for('users.home'))
+
+    user.name = form.name.data
+    user.netid = form.netid.data
+    user.email = form.email.data
+    user.standing = form.standing.data
+    user.major = form.major.data
+    user.shirt_size = form.shirt_size.data
+    user.description = form.description.data
+    
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('users.home'))
+  return render_template('users/edit.html', user=user, form=form)
 
 @mod.route('/login/', methods=['GET', 'POST'])
 def login():
