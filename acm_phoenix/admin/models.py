@@ -46,10 +46,13 @@ class UserAdmin(ModelView):
                            membership_paid_on=lambda m, p: m.membership_paid_on.strftime("%b %d, %Y") if m.membership_paid_on is not None else "Not Paid",
                            standing=lambda m, p: m.standing.title())
 
+    # Some impossible page size
+    page_size = 1000
+
     form_overrides = dict(role=SelectField, membership_status=SelectField)
     form_args = dict(
-        role = dict(choices=[(2, 'Member'), (1, 'Publisher'), (0, 'Administrator')]),
-        membership_status = dict(choices=[(0, 'Unregistered'), (1, 'In Progress (Unpaid)'), (2, 'Official (Paid)')])
+        role = dict(choices=[(2, 'Member'), (1, 'Publisher'), (0, 'Administrator')], coerce=int),
+        membership_status = dict(choices=[(0, 'Unregistered'), (1, 'In Progress (Unpaid)'), (2, 'Official (Paid)')], coerce=int)
     )
 
     def is_accessible(self):
@@ -73,6 +76,9 @@ class ReportAdmin(ModelView):
     can_create = False
     can_edit = False
     can_delete = False
+
+    # Some impossible page size
+    page_size = 1000
 
     list_formatters = dict(role=lambda m, p: USER.ROLE[m.role].title(),
                            membership_status=lambda m, p: USER.MEMBER_STATUS[m.membership_status].title(),
