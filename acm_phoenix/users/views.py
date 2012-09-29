@@ -21,6 +21,9 @@ from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
 from acm_phoenix.users.decorators import requires_login
 
+# Github Flavored Markdown
+from acm_phoenix.users.gfm import gfm
+
 # User Blueprint
 mod = Blueprint('users', __name__, url_prefix='')
 
@@ -64,7 +67,7 @@ def edit_profile():
     user.standing = form.standing.data
     user.major = form.major.data
     user.shirt_size = form.shirt_size.data
-    user.description = form.description.data
+    user.description = gfm(form.description.data)
     
     db.session.add(user)
     db.session.commit()
@@ -144,7 +147,7 @@ def register():
 
     user = User(form.name.data, form.netid.data, form.email.data, \
                   form.standing.data, form.major.data, \
-                  form.shirt_size.data, form.description.data, sig_img)
+                  form.shirt_size.data, gfm(form.description.data), sig_img)
     user.member = True
 
     # Insert the record in our database and commit it

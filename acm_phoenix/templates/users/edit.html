@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+  {% block navigation %}
+    <li><a href="/profile/"><i class="icon-white icon-list"></i> Summary</a></li>
+    <li><a href="/profile/edit/"><i class="icon-white icon-pencil"></i> Edit</a></li>
+  {% endblock %}
+  {% block content %}
+    {% from "forms/macros.html" import render_field %}
+    <form method="POST" id="editForm" action="." class="form span9 offset1 form-horizontal">
+      {{ form.csrf_token }}
+      <div class="control-group">
+        {{ render_field(form.name, class="input-large name", required="required", value=user.name) }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.email, class="input-large", required="required", type="email", value=user.email) }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.netid, class="input-large", required="required", value=user.netid) }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.standing, required="required") }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.major, required="required") }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.shirt_size, required="required") }}
+      </div>
+      <div class="control-group">
+        {{ render_field(form.description, rows="5") }}
+      </div>
+      <button class="btn btn-primary offset4">Submit</button>
+      <a href="/profile" class="btn">Cancel</a>
+    </form>
+  {% endblock %}
+  {% block extra_script %}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Hack to insert user description as default 'value' for textarea.
+        formatted_desc = {% autoescape false %}{{ user.description | tojson }}{% endautoescape %}
+        $("#description").val(formatted_desc);
+
+        // Hack to select correct default option.
+        $("#standing").children("option[value='{{ user.standing }}']")
+          .attr("selected", "selected");
+        $("#major").children("option[value='{{ user.major }}']")
+          .attr("selected", "selected");
+        $("#shirt_size").children("option[value='{{ user.shirt_size }}']")
+          .attr("selected", "selected");
+      });
+    </script>
+  {% endblock %}
