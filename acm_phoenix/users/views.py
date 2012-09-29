@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flaskext.markdown import Markdown
+from flaskext.gravatar import Gravatar
 
 # WePay transaction
 from wepay import WePay
@@ -36,6 +37,15 @@ flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_CLIENT_ID'],
                            scope='https://www.googleapis.com/auth/userinfo.email',
                            redirect_uri=app.config['HOST_URL'] + '/oauth2callback')
 
+# Gravatar initialization
+gravatar = Gravatar(app,
+                    size=200,
+                    rating='g',
+                    default='retro',
+                    force_default=False,
+                    force_lower=False)
+
+# Routing rules
 @mod.route('/profile/')
 @requires_login
 def home():

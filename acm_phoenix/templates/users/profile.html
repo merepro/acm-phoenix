@@ -6,7 +6,13 @@
   {% block content %}
     <h1>Account Summary</h1>
     <p>This is everything we think we know about you</p>
-    <div id="contantInfo" class="span5 pull-left">
+    <div id="gravatarViewport" class="span5 pull-left">
+      <h3>Your profile</h3>
+      <img class="img-polaroid" src="{{ user.email | gravatar }}" />
+      <br />
+      (powered by gravatar.com)
+    </div>
+    <div id="contactInfo" class="span6 pull-right">
       <h3>About you</h3>
       <table class="table table-bordered table-hover">
         <tbody>
@@ -20,20 +26,22 @@
         </tbody>
       </table>
       <hr />
+    </div>
+    <div id="markdownedDesc" class="span5 pull-left">
       <h3>Description</h3>
       <blockquote>
         {{ user.description | markdown }}
       </blockquote>
       <hr />
     </div>
-    <div id="roleInfo" class="span5 offset1">
+    <div id="roleInfo" class="span6 pull-right">
       <h3>Membership Roles</h3>
       <p>These are the roles you have within the club website</p>
       {% from "users/macros.html" import pretty_print_role %}
       {{ pretty_print_role(user.role) }}
       <hr />
     </div>
-    <div id="membershipDetails" class="span5 offset1">
+    <div id="membershipDetails" class="span6 pull-right">
       <h3>Membership Details</h3>
       {% if user.member %}
         You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h %d, %Y') }}</time>.
