@@ -117,6 +117,14 @@ body {
     height: 200px;
 }
 
+#postFilter {
+    padding: 15px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border: 1px solid #e5e5e5;
+}
+
 #tagLine {
     color: white;
     text-shadow: 1px 1px 1px #23649E;
@@ -126,8 +134,8 @@ body {
     width: 300px;
 }
 
-.white-background {
-    background: white;
+.postHeader {
+    background: url(http://subtlepatterns.com/patterns/light_wool.png);
 }
 
 /* ==========================================================================
