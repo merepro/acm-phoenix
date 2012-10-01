@@ -16,8 +16,13 @@ def not_found(error):
 from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
+from acm_phoenix.articles.views import mod as articlesModule
+app.register_blueprint(articlesModule)
+
 from acm_phoenix.users.models import User
 from acm_phoenix.admin.models import AdminView, UserAdmin, ReportAdmin
+from acm_phoenix.articles.models import Post, Tag
+from acm_phoenix.articles.forms import SearchForm
 
 # Admin Views
 admin = Admin(index_view=AdminView())
@@ -38,9 +43,11 @@ def before_request():
 @app.route('/')
 def show_home():
     """
-    Display home page to visitors
+    Display home page to visitors and show front page articles.
     """
-    return render_template('home.html')
+    posts = Post.query.filter(Tag.name == "frontpage").all()
+    form = SearchForm()
+    return render_template('home.html', posts=posts, form=form)
 
 @app.route('/logout')
 def logout():
