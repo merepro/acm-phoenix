@@ -110,9 +110,9 @@ def wepay_membership_response(user):
   db.session.commit()
 
   # WePay Application settings
-  account_id = 319493
-  access_token = '6dd6802f8ebef4992308a0e4f7698c275781ac36854f9451127115d995d8cda7'
-  production = False
+  account_id = app.config['WEPAY_ACCT_ID']
+  access_token = app.config['WEPAY_ACC_TOK']
+  production = app.config['WEPAY_IN_PROD']
 
   wepay = WePay(production, access_token)
   redirect_url = app.config['HOST_URL'] + '/verify/' + verification_key
