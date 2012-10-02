@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form, TextField, SelectField, SubmitField, SelectMultipleField
 
-from acm_phoenix.articles.models import Category, Tag
 from acm_phoenix.users.models import User
+from acm_phoenix.articles.models import Category, Tag
 
 class SearchForm(Form):
     query = TextField(u'Search Query')

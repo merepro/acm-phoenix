@@ -53,7 +53,7 @@ def formatted_query(query):
     """
     Pretty print query
     """
-    stripped_query = query.replace("%", "")
+    stripped_query = query.replace("%", "") if query is not None else ""
     if len(stripped_query) == 0:
         return ""
     else:

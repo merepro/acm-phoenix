@@ -112,6 +112,11 @@ body {
     width: 500px;
 }
 
+#gfmRaw {
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
 #logoImg {
     width: 350px;
     height: 200px;

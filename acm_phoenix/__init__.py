@@ -20,14 +20,16 @@ from acm_phoenix.articles.views import mod as articlesModule
 app.register_blueprint(articlesModule)
 
 from acm_phoenix.users.models import User
-from acm_phoenix.admin.models import AdminView, UserAdmin, ReportAdmin
+from acm_phoenix.admin.models import AdminView, UserAdmin, ReportAdmin, PostAdmin, CategoryAdmin, TagAdmin
 from acm_phoenix.articles.models import Post, Tag
-from acm_phoenix.articles.forms import SearchForm
 
-# Admin Views
+# User Admin Views
 admin = Admin(index_view=AdminView())
 admin.add_view(UserAdmin(db.session))
 admin.add_view(ReportAdmin(db.session))
+admin.add_view(PostAdmin(db.session))
+admin.add_view(CategoryAdmin(db.session))
+admin.add_view(TagAdmin(db.session))
 admin.init_app(app)
 
 @app.before_request
@@ -46,8 +48,7 @@ def show_home():
     Display home page to visitors and show front page articles.
     """
     posts = Post.query.filter(Tag.name == "frontpage").all()
-    form = SearchForm()
-    return render_template('home.html', posts=posts, form=form)
+    return render_template('home.html', posts=posts)
 
 @app.route('/logout')
 def logout():

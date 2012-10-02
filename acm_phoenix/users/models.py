@@ -44,5 +44,11 @@ class User(db.Model):
     def __repr__ (self):
         return '%s (%s)' % (self.name, self.email)
 
+    def __unicode__(self):
+        return self.name
+
     def isAdmin(self):
-        return self.role == 0
+        return self.role == USER.ADMIN
+
+    def isPublisher(self):
+        return self.role <= USER.PUBLISHER
