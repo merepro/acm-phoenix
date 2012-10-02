@@ -47,7 +47,7 @@ def show_home():
     """
     Display home page to visitors and show front page articles.
     """
-    posts = Post.query.filter(Tag.name == "frontpage").all()
+    posts = Post.query.filter(Tag.name == "frontpage").order_by("created DESC").all()
     return render_template('home.html', posts=posts)
 
 @app.route('/logout')
