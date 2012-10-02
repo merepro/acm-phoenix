@@ -3,6 +3,16 @@
     <li><a href="/admin"><i class="icon-white icon-home"></i> Admin Home</a></li>
     <li><a href="/admin/usertools/"><i class="icon-cog icon-white"></i> User Tools</a></li>  
     <li><a href="/admin/reports"><i class="icon-legal icon-white"></i> Report Tools</a></li>
+    <ul class="nav nav-pills">
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-file"></i> Publishing Tools <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/publish"><i class="icon-edit"></i> Articles</a></li>
+          <li><a href="/publish/cat"><i class="icon-list-alt"></i> Categories</a></li>
+          <li><a href="/publish/tag"><i class="icon-paper-clip"></i> Tags</a></li>
+        </ul>
+      </li>
+    </ul>
   {% endblock %}
   {% block content %}
     <div class="hero-unit">

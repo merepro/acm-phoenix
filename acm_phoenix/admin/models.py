@@ -30,8 +30,8 @@ class AdminView(AdminIndexView):
         return self.render('admin/master.html')
 
     def is_accessible(self):
-        # Only accessible to those with an admin role.
-        return g.user is not None and g.user.isAdmin()
+        # Only accessible to those with at least a publisher role.
+        return g.user is not None and g.user.isPublisher()
 
 
 class UserAdmin(ModelView):
@@ -102,7 +102,7 @@ class CategoryAdmin(ModelView):
     searchable_columns = (Category.title, Category.slug)
 
     def __init__(self, session, **kwargs):
-        super(CategoryAdmin, self).__init__(Category, session, name="category", endpoint="cats", **kwargs)
+        super(CategoryAdmin, self).__init__(Category, session, name="category", endpoint="cats", url='/publish/cat', **kwargs)
 
     def is_accessible(self):
         # Only accessible to those with a publisher role.
@@ -115,7 +115,7 @@ class TagAdmin(ModelView):
     searchable_columns = (Tag.name,)
 
     def __init__(self, session, **kwargs):
-        super(TagAdmin, self).__init__(Tag, session, name="tags", endpoint="tags", **kwargs)
+        super(TagAdmin, self).__init__(Tag, session, name="tags", endpoint="tags", url='/publish/tag', **kwargs)
 
     def is_accessible(self):
         # Only accessible to those with a publisher role.
