@@ -27,7 +27,6 @@
         {{ render_field(form.standing, required="required") }}
         {{ render_field(form.major, required="required") }}
         {{ render_field(form.shirt_size, class="select", required="required") }}
-        {{ render_field(form.sid, class="input-large", required="required", pattern="\d{9}", placeholder="9 Digit SID e.g. 012345678") }}
       </div>
       <legend><button class="btn btn-primary disabled"><i class="icon-info-sign"></i> optional</button> Extra Information</legend>
       <div class="control-group">
@@ -37,7 +36,7 @@
       <div class="tabbable tabs-left">
         <span class="clearButton pull-right"><a href="#clear">Clear</a></span>
         <ul class="sigNav nav nav-tabs">
-          <li class="typeIt active"><a href="#type-it" class="current">Type It</a></li>
+          <li class="typeIt active"><a href="#type-it" class="current">Generate It</a></li>
           <li class="drawIt"><a href="#draw-it" >Draw It</a></li>
         </ul>
         <div class="sig sigWrapper">
@@ -62,9 +61,7 @@
     <script>
       $(document).ready(function() {
         $('.sigPad').signaturePad({
-          'lineTop': 60,
-          'lineColour': '#333',
-          'penColour': '#333'
+          'lineTop': 60
         });
         
         $('.typeIt, .drawIt').click(function() {

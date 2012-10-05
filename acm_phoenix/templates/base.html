@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}ACM@UCR{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="SHORTCUT ICON" href="/static/favicon.ico" />
@@ -46,8 +46,8 @@
                 <!-- Navigation: insert relevant links from link view -->
                 {% block navigation %}
                 <li><a href="/"><i class="icon-white icon-home"></i> Home</a></li>
-                <li><a href="/news"><i class="icon-white icon-list"></i> News</a></li>
-                <li><a href="/events"><i class="icon-white icon-calendar"></i> Events</a></li>
+                <li><a href="/articles/cat/news"><i class="icon-white icon-list"></i> News</a></li>
+                <li><a href="/articles/cat/events"><i class="icon-white icon-calendar"></i> Events</a></li>
                 {% endblock %}
               </ul>
               <ul class="nav nav-pills pull-right">
@@ -61,6 +61,20 @@
         <!-- Add your site or application content here -->
         <div id="content" role="main" class="container container-fluid white-background">
           <div class="row-fluid">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+              {% if messages %}
+                {% for category, m in messages %}
+                  {% if category == 'error' %}
+                  <div class="alert alert-error">
+                  {% else %}
+                  <div class="alert">
+                  {% endif %}
+                  <a href="#" class="close" data-dismiss="alert">x</a>
+                  {{ m }}
+                  </div>
+               {% endfor %}
+             {% endif %}
+            {% endwith %}
             {% block content %}
             {% endblock %}
           </div>
@@ -85,4 +99,5 @@
         </script>
         {% endblock %}
     </body>
+    <br />
 </html>

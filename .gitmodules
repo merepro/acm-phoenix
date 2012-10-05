@@ -1,0 +1,12 @@
+[submodule "acm_phoenix/static/packages/wepay-python-sdk"]
+	path = acm_phoenix/static/packages/wepay-python-sdk
+	url = git://github.com/wepay/Python-SDK.git
+[submodule "acm_phoenix/static/packages/signature-pad"]
+	path = acm_phoenix/static/packages/signature-pad
+	url = git://github.com/acm-ucr/signature-pad.git
+[submodule "acm_phoenix/static/packages/signpad2image"]
+	path = acm_phoenix/static/packages/signpad2image
+	url = git://github.com/videntity/python-signpad2image.git
+[submodule "acm_phoenix/static/packages/showdown"]
+	path = acm_phoenix/static/packages/showdown
+	url = git://github.com/coreyti/showdown.git

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+  {% block navigation %}
+    <li><a href="/admin"><i class="icon-white icon-home"></i> Admin Home</a></li>
+    <li><a href="/admin/usertools/"><i class="icon-cog icon-white"></i> User Tools</a></li>  
+    <li><a href="/admin/reports"><i class="icon-legal icon-white"></i> Report Tools</a></li>
+    <ul class="nav nav-pills">
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-file"></i> Publishing Tools <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/publish"><i class="icon-edit"></i> Articles</a></li>
+          <li><a href="/publish/cat"><i class="icon-list-alt"></i> Categories</a></li>
+          <li><a href="/publish/tag"><i class="icon-paper-clip"></i> Tags</a></li>
+        </ul>
+      </li>
+    </ul>
+  {% endblock %}
+  {% block content %}
+    <div class="hero-unit">
+      <h3>Administrative Backend</h3>
+      <p class="lead">Welcome to the admin backend panel. This is the central hub for the tools you will be using to maintain the website and add content</p>
+      <p>If you are an administrator, you have access to all tools, meaning you can edit both users and articles. Please don't abuse this power.</p>
+      <p>If you are a publisher, you only have access to the publishing tools.</p>
+      <p>In the future, it would be nice if this backend were more robust. Perhaps we can integrate flask-signals in the keep every admin/publisher notified of recent activities?</p>
+    </div>
+  {% endblock %}

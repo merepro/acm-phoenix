@@ -1,12 +1,12 @@
 import os
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
+DEBUG = True
 
 ADMINS = frozenset(['acm.at.ucr+webmaster@gmail.com'])
 SECRET_KEY = 'MIIEpAIBAAKCAQEAwTs9CBbomFmsYmYzChcAT6FYm6szVtW2wlYaPRajiV7XvFaoZfBpDKDy2xsTaWkWdspR2juyyoVStJSuzLt7pIP7SX6ibDkbKtSthZJA5JAqhtvVF2BtR+yApLoM9hWEF4XQZDswMAGgYOBi+/C5FSqW/jPKoSaO+6dVgf+VKS9Nmp9G'
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'acm-phoenix.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'acm_phoenix.db')
 DATABASE_CONNECT_OPTIONS = {}
 
 THREADS_PER_PAGE = 8
@@ -18,3 +18,12 @@ RECAPTCHA_USE_SSL = False
 RECAPTCHA_PUBLIC_KEY = '6LfDW9YSAAAAAAjSp9n2mS7G1bMwrYH7EESVOLQe'
 RECAPTCHA_PRIVATE_KEY = '6LfDW9YSAAAAAIJTT53vTrOzG5NdPhetB6Z8JLao'
 RECAPTCHA_OPTIONS = {'theme': 'white'}
+
+GOOGLE_CLIENT_ID = '401399822645-a1015kkb76m6evpn3mhk3hr4voqejt2f.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'TS6HarpynHCdSTesaRMlbaU_'
+
+HOST_URL = 'http://localhost'
+
+WEPAY_ACCT_ID = 319493
+WEPAY_ACC_TOK = '6dd6802f8ebef4992308a0e4f7698c275781ac36854f9451127115d995d8cda7'
+WEPAY_IN_PROD = False

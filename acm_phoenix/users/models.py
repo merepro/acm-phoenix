@@ -10,28 +10,28 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     role = db.Column(db.SmallInteger, default=USER.USER)
     member = db.Column(db.Boolean, default=False)
-    member_since = db.Column(db.DateTime, default=datetime.now())
+    member_since = db.Column(db.DateTime)
     membership_status = db.Column(db.SmallInteger, default=USER.UNREGISTERED)
     membership_paid_on = db.Column(db.DateTime)
     description = db.Column(db.Text)
     standing = db.Column(db.String(15))
     major = db.Column(db.String(50))
-    sid = db.Column(db.Integer)
     shirt_size = db.Column(db.String(5))
     wepay_verification = db.Column(db.String(255))
+    wepay_checkout_id = db.Column(db.Integer)
     signature = db.Column(db.LargeBinary)
 
     def __init__(self, name=None, netid=None, email=None, standing=None,
-                 major=None, sid=None, shirt_size=None, description=None,
+                 major=None, shirt_size=None, description=None,
                  signature=None):
         self.name = name
         self.email = email
         self.netid = netid
         self.standing = standing
         self.major = major
-        self.sid = sid
         self.shirt_size = shirt_size
         self.description = description
+        self.member_since = datetime.now()
         self.membership_status = USER.IN_PROGRESS
         self.signature = signature
 
@@ -43,3 +43,12 @@ class User(db.Model):
 
     def __repr__ (self):
         return '%s (%s)' % (self.name, self.email)
+
+    def __unicode__(self):
+        return self.name
+
+    def isAdmin(self):
+        return self.role == USER.ADMIN
+
+    def isPublisher(self):
+        return self.role <= USER.PUBLISHER

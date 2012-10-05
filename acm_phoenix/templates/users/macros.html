@@ -15,24 +15,33 @@
   {% else %}
     <li><a href="/register"><i class="icon-white icon-group"></i> Register for Membership</a></li>
     <li class="divider-vertical"></li>
-    <li><a href="https://auth.ucr.edu/cas/login/?service=http://acm.frvl.us:5000"><i class="icon-user"></i> Login with CAS</a></li>
+    <li><a href="/login"><i class="icon-user"></i> Login with R'Mail</a></li>
   {% endif %}
 {% endmacro %}
 
 {% macro pretty_print_role(role) %}
     {% if role <= 2 %}
-      <span class="label label-success">Member</span>
+      <a href="/profile/edit" rel="tooltip" data-placement="top"
+         data-original-title="You can edit your account details">
+        <span class="label label-success">Member</span>
+      </a>
     {% endif %}
     {% if role <= 1 %}
-      <span class="label label-info">Publisher</span>
+      <a href="/publish" rel="tooltip" data-placement="top"
+         data-original-title="You can create and publish articles">
+         <span class="label label-info">Publisher</span>
+      </a>
     {% endif %}
     {% if role == 0 %}
-      <span class="label label-important">Administrator</span>
+      <a href="/admin" rel="tooltip" data-placement="top"
+         data-original-title="You can create/edit users and generate reports">
+        <span class="label label-important">Administrator</span>
+      </a>
     {% endif %}
     {% if role == 3 %}
       <span>
         Our records indicate that you are not currently a member of ACM@UCR.
         This could be because you haven't paid your yearly dues or you paid them in person and our records have not be updated.
-        For more information about becoming a member, visit the <a href="/membership">membership</a> page.</span>
+      </span>
     {% endif %}
 {% endmacro %}

@@ -1,0 +1,105 @@
+{% extends "admin/master.html" %}
+{% import "admin/lib.html" as lib with context %}
+  {% block content %}
+  <form action="" method="POST" class="form-horizontal">
+    <div class="span5">
+      {{ form.csrf_token }}
+      <div class="control-group{% if form.title.errors %} error{% endif %}">
+        {{ form.title.label(class='control-label') }}
+        <div class="controls">
+          <div>
+            {{ form.title() | safe }}
+          </div>
+          {% if form.title.errors %}
+          <ul>
+            {% for e in form.title.errors if e is string %}
+            <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="control-group{% if form.slug.errors %} error{% endif %}">
+        {{ form.slug.label(class='control-label') }}
+        <div class="controls">
+          <div>
+            {{ form.slug() | safe }}
+          </div>
+          {% if form.slug.errors %}
+          <ul>
+            {% for e in form.slug.errors if e is string %}
+            <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="control-group{% if form.tags.errors %} error{% endif %}">
+        {{ form.tags.label(class='control-label') }}
+        <div class="controls">
+          <div>
+            {{ form.tags() | safe }}
+          </div>
+          {% if form.tags.errors %}
+          <ul>
+            {% for e in form.tags.errors if e is string %}
+            <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="control-group{% if form.category.errors %} error{% endif %}">
+        {{ form.category.label(class='control-label') }}
+        <div class="controls">
+          <div>
+            {{ form.category() | safe }}
+          </div>
+          {% if form.category.errors %}
+          <ul>
+            {% for e in form.category.errors if e is string %}
+            <li>{{ e }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <input type="hidden" id="author" name="author" value="{{ g.user.id }}" />
+      {{ lib.render_form_buttons(cancel_url) }}
+    </div>
+    <div class="span7">
+      <ul id="gfmTab" class="nav nav-tabs">
+        <li class="active">
+          <a href="#raw" data-toggle="tab">Raw Content</a>
+        </li>
+        <li>
+          <a href="#gfmRaw" data-toggle="tab">Markdown'd Preview</a>
+        </li>
+      </ul>
+      <div id="gfmContent" class="tab-content">
+        <div id="raw" class="tab-pane fade active in">
+          {{ form.gfm_content(rows="30", class="span12", style="padding: 15px;") }}
+        </div>
+        <div id="gfmRaw" class="tab-pane fade">
+        </div>
+      </div>
+    </div>
+  </form>
+  {% endblock %}
+  {% block extra_script %}
+    <!-- Using showdown.js for markdown interpretation. -->
+    <script type="text/javascript" src="/static/packages/showdown/src/showdown.js"></script>
+    <script type="text/javascript">
+      var converter = new Showdown.converter();
+
+      $('#gfmTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      })
+
+      $('a[href="#gfmRaw"]').click(function() {
+        showdown = converter.makeHtml($('#gfm_content').val())
+        $("#gfmRaw").html(showdown)
+      })
+    </script>
+  {% endblock %}

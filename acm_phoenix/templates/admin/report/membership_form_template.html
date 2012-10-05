@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Membership Form</title>
+    <link rel="stylesheet" type="text/css" href="acm_phoenix/static/css/membership_minimal.css" />
+  </head>
+  <body>
+    <legend>
+      <img src="acm_phoenix/static/img/acmlogo.png" width=120 />
+      <span>@</span>
+      <img src="acm_phoenix/static/img/ucrlogo.png" width=390 />
+      <p>Membership Form</p>
+    </legend>
+    <blockquote>
+      The Association for Computing Machinery (ACM) is an academic and professional organization devoted to bring Computer Science students beyond the four walls of a classroom and into the real world. We focus on knowledge growth, professional development, and leadership. With committees, research projects, programming competitions, and networking, we at ACM provide you the tools and experience to help your education and your future. We encourage CS/CE/BI and all majors to participate in our activities and events.
+    </blockquote>
+    <div>
+      <div class="control-label">Name: </div>
+      <div class="underlined-entry">{{ user.name }}</div>
+    </div>
+    <div>
+      <div class="control-label">UCR Email Address: </div>
+      <div class="underlined-entry">{{ user.email }}</div>
+    </div>
+    <div>
+      <div class="control-label">Class Standing: </div>
+      <div class="underlined-entry">{{ user.standing.title() }}</div>
+    </div>
+    <div>
+      <div class="control-label">Major: </div>
+      <div class="underlined-entry">{{ user.major }}</div>
+    </div>
+    <div>
+      <div class="control-label">T-Shirt Size: </div>
+      <div class="underlined-entry">{{ user.shirt_size }}</div>
+    </div>
+    <div>
+      <div><span style="font-weight: bold;">Signature: </span><img src="{{ user.signature }}" /></div>
+    </div>
+  </body>
+</html>

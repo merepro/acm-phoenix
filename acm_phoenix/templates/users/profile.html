@@ -1,37 +1,47 @@
 {% extends "base.html" %}
   {% block navigation %}
     <li><a href="/profile"><i class="icon-white icon-list-alt"></i> Summary</a></li>
+    <li><a href="/profile/edit"><i class="icon-white icon-pencil"></i> Edit</a></li>
   {% endblock %}
   {% block content %}
     <h1>Account Summary</h1>
     <p>This is everything we think we know about you</p>
-    <div id="contantInfo" class="span5 pull-left">
+    <div id="gravatarViewport" class="span5 pull-left">
+      <h3>Your profile</h3>
+      <img class="img-polaroid" src="{{ user.email | gravatar }}" />
+      <br />
+      (powered by gravatar.com)
+    </div>
+    <div id="contactInfo" class="span6 pull-right">
       <h3>About you</h3>
       <table class="table table-bordered table-hover">
         <tbody>
           <tr><td>Name</td><td>{{ user.name }}</td></tr>
           <tr><td>Email</td><td>{{ user.email }}</td></tr>
           <tr><td>NetID</td><td>{{ user.netid }}</td></tr>
-          <tr><td>Student ID#</td><td>{{ user.sid }}</td></tr>
-          <tr><td>Class Standing</td><td>{{ user.standing }}</td></tr>
+          <tr><td>Class Standing</td><td>{{ user.standing.title() }}</td></tr>
           <tr><td>Major</td><td>{{ user.major }}</td></tr>
           <tr><td>T-Shirt Size</td><td>{{ user.shirt_size }}</td></tr>
-          <tr><td>Signature</td><td><img src="{{ user.signature }}" /></td></tr>
+          <tr><td>Signature</td><td><img style="width: 100%;" src="{{ user.signature }}" /></td></tr>
         </tbody>
       </table>
       <hr />
+    </div>
+    <div id="markdownedDesc" class="span5 pull-left">
       <h3>Description</h3>
-      <blockquote>{{ user.description }}</blockquote>
+      <blockquote>
+        {{ user.description | markdown }}
+      </blockquote>
       <hr />
     </div>
-    <div id="roleInfo" class="span5 offset1">
+    <div id="roleInfo" class="span6 pull-right">
       <h3>Membership Roles</h3>
       <p>These are the roles you have within the club website</p>
       {% from "users/macros.html" import pretty_print_role %}
       {{ pretty_print_role(user.role) }}
       <hr />
     </div>
-    <div id="membershipDetails" class="span5 offset1">
+    <div id="membershipDetails" class="span6 pull-right">
       <h3>Membership Details</h3>
       {% if user.member %}
         You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h %d, %Y') }}</time>.
@@ -48,4 +58,11 @@
         You are not currently registered as a member of ACM@UCR. Also, {{ user.wepay_verification }}
       {% endif %}
     </div>
+  {% endblock %}
+  {% block extra_script %}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("a[rel='tooltip']").tooltip();
+      });
+    </script>
   {% endblock %}
