@@ -18,4 +18,34 @@
       <h3>Front Page Articles</h3>
     </div>
     {{ render_posts(posts) }}
+    <div id="postFilter" class="postHeader span3 sidebar-nav">
+      <form method="POST" id="searchForm" action="." class="form post form-search pull-right">
+        <h4>Filter posts</h4>
+        {{ form.csrf_token }}
+        <div class="control-group">
+          {{ render_field(form.query, placeholder="Search for specific posts") }}
+          <br clear="all" />
+        </div>
+        <div class="control-group">
+          {{ render_field(form.category) }}
+          <br clear="all" />
+        </div>
+        <div class="control-group">
+          {{ render_field(form.author) }}
+          <br clear="all" />
+        </div>
+        <div class="control-group">
+          {{ render_field(form.tags) }}
+          <br clear="all" />
+        </div>
+        <div class="control-group">
+          {{ render_field(form.order_by) }}
+          <br clear="all" />
+        </div>
+        <br />
+        <div class="control-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
   {% endblock %}
