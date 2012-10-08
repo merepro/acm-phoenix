@@ -104,7 +104,7 @@ def valid_args(args):
     return args is not None and len(args) > 0
 
 def ilist_to_string(ilist):
-    return ",".join([str(i) for i in ilist])
+    return ",".join([str(i.id) for i in ilist])
 
 # Routing rules
 @mod.route('/', methods=['GET', 'POST'])

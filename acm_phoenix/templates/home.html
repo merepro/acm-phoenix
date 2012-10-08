@@ -19,7 +19,7 @@
     </div>
     {{ render_posts(posts) }}
     <div id="postFilter" class="postHeader span3 sidebar-nav">
-      <form method="POST" id="searchForm" action="." class="form post form-search pull-right">
+      <form method="POST" id="searchForm" action="/articles/" class="form post form-search pull-right">
         <h4>Filter posts</h4>
         {{ form.csrf_token }}
         <div class="control-group">
