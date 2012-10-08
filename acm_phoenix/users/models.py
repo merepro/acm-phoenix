@@ -1,8 +1,13 @@
+"""Database Models used by users and other modules"""
+
 from acm_phoenix import db
 from acm_phoenix.users import constants as USER
 from datetime import datetime
 
 class User(db.Model):
+    """
+    Defines the User object.
+    """
     __tablename__ = 'users_user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
@@ -36,19 +41,37 @@ class User(db.Model):
         self.signature = signature
 
     def getRole(self):
+        """
+        Get this user's role as a string.
+        """
         return USER.ROLE[self.role]
 
     def getMemberStatus(self):
+        """
+        Get this user's membership status as a string.
+        """
         return USER.MEMBER_STATUS[self.membership_status]
 
     def __repr__ (self):
+        """
+        Represent User as Name (email)
+        """
         return '%s (%s)' % (self.name, self.email)
 
     def __unicode__(self):
+        """
+        Only full name for unicode representation
+        """
         return self.name
 
     def isAdmin(self):
+        """
+        True if User is an administrator
+        """
         return self.role == USER.ADMIN
 
     def isPublisher(self):
+        """
+        True if User is at least a publisher
+        """
         return self.role <= USER.PUBLISHER

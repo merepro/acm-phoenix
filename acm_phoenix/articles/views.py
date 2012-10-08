@@ -27,7 +27,10 @@ gravatar = Gravatar(app,
 
 @app.template_filter('formatted_time')
 def timesince(date):
-    format = "%b %d, %Y"
+    """
+    A filter that formats a datetime as Month Day, Year.
+    """
+    format = '%b %d, %Y'
     return date.strftime(format)
 
 @app.template_filter('format_authors')
@@ -36,16 +39,16 @@ def authors(author_ids):
     Convert list of author ids into author names
     """
     if author_ids is None:
-        return ""
+        return ''
     else:
         ids = []
         for author_id in author_ids.split(','):
             ids.append(User.id == int(author_id))
         authors = User.query.filter(or_(*ids)).all()
         if authors is None:
-            return ""
+            return ''
         else:
-            return "by " + ", ".join([author.name for author in authors])
+            return 'by ' + ', '.join([author.name for author in authors])
         
 
 @app.template_filter('format_query')
@@ -53,7 +56,7 @@ def formatted_query(query):
     """
     Pretty print query
     """
-    stripped_query = query.replace("%", "") if query is not None else ""
+    stripped_query = query.replace('%', '') if query is not None else ''
     if len(stripped_query) == 0:
         return ""
     else:
@@ -65,46 +68,56 @@ def formatted_category(cat_ids):
     Convert list of category ids into category slugs
     """
     if cat_ids is None:
-        return ""
+        return ''
     else:
         ids = []
         for cat_id in cat_ids.split(','):
             ids.append(Category.id == int(cat_id))
         cats = Category.query.filter(or_(*ids)).all()
         if cats is None:
-            return ""
+            return ''
         else:
-            return "in " + ", ".join([cat.slug.title() for cat in cats])
+            return 'in ' + ', '.join([cat.slug.title() for cat in cats])
 
 @app.template_filter('format_tags')
 def formatted_tag(tag_ids):
     """
-    Convert list of tag ids into tag names
+    Convert list of tag ids into tag names.
     """
     if tag_ids is None:
-        return ""
+        return ''
     else:
         ids = []
         for tag_id in tag_ids.split(','):
             ids.append(Tag.id == int(tag_id))
         tags = Tag.query.filter(or_(*ids)).all()
         if tags is None:
-            return ""
+            return ''
         else:
-            return "with tags: " + ", ".join([tag.name.title() for tag in tags])
+            return 'with tags: ' + ', '.join([tag.name.title() for tag in tags])
 
 @app.template_filter('format_order')
 def format_order(order):
+    """
+    Prints User-Friendly description of ORDERing technique.
+    """
     if order is None:
-        return ""
+        return ''
     else:
-        return "Ordered by " + ORDER[order]
+        return 'Ordered by ' + ORDER[order]
 
 def valid_args(args):
+    """
+    Checks request args to see if they are valid. I.E., they contain a value.
+    """
     return args is not None and len(args) > 0
 
 def ilist_to_string(ilist):
-    return ",".join([str(i.id) for i in ilist])
+    """
+    Converts a list of Model IDs into strings to be sent as a request
+    for searching.
+    """
+    return ','.join([str(i.id) for i in ilist])
 
 # Routing rules
 @mod.route('/', methods=['GET', 'POST'])
@@ -132,7 +145,10 @@ def show_all():
 
         categories = []
         req_cat = request.args.get('c')
-        category_list = req_cat.split(',') if req_cat is not None else ([cat.id for cat in Category.query.all()])
+        category_list = (req_cat.split(',')
+                         if req_cat is not None 
+                         else ([cat.id for cat in Category.query.all()]))
+        
         for category in category_list:
             categories.append(Post.category_id == category)
 
@@ -140,7 +156,9 @@ def show_all():
 
         authors = []
         req_auth = request.args.get('a')
-        author_list = req_auth.split(',') if req_auth is not None else ([user.id for user in User.query.all()])
+        author_list = (req_auth.split(',')
+                       if req_auth is not None
+                       else ([user.id for user in User.query.all()]))
         for author in author_list:
             authors.append(Post.author_id == author)
 
@@ -148,10 +166,12 @@ def show_all():
 
         # Generate list of tags to look for in relationship table.
         req_tags = request.args.get('t')
-        tag_list = [int(tag_id) for tag_id in req_tags.split(',')] if req_tags is not None else ([tag.id for tag in Tag.query.all()])
+        tag_list = ([int(tag_id) for tag_id in req_tags.split(',')]
+                    if req_tags is not None
+                    else ([tag.id for tag in Tag.query.all()]))
         tags = Post.tags.any(Tag.id.in_(tag_list))
 
-        order = request.args.get('order') or "created"
+        order = request.args.get('order') or 'created'
 
         """
         To be clear, this query looks for anything like the search term
@@ -165,17 +185,19 @@ def show_all():
 
     form = SearchForm()
     if form.validate_on_submit():
-        args = "?q=" + form.query.data
+        args = '?q=' + form.query.data
         if valid_args(form.category.data):
-            args += "&c=" + ilist_to_string(form.category.data)
+            args += '&c=' + ilist_to_string(form.category.data)
         if valid_args(form.author.data):
-            args += "&a=" + ilist_to_string(form.author.data)
+            args += '&a=' + ilist_to_string(form.author.data)
         if valid_args(form.tags.data):
-            args += "&t=" + ilist_to_string(form.tags.data)
-        args += "&order=" + form.order_by.data
+            args += '&t=' + ilist_to_string(form.tags.data)
+        args += '&order=' + form.order_by.data
 
         return redirect(url_for('articles.show_all') + args)
-    return render_template('articles/articles.html', posts=posts, form=form, query=search_term, cats=req_cat, authors=req_auth, tags=req_tags, order=order)
+    return render_template('articles/articles.html', posts=posts,
+                           form=form, query=search_term, cats=req_cat,
+                           authors=req_auth, tags=req_tags, order=order)
 
 @mod.route('/cat/<slug>/')
 def show_cat(slug):
