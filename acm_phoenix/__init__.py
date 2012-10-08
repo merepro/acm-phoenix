@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.html'), 404
+    return render_template('404.html', error=error), 404
 
 from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
@@ -20,7 +20,8 @@ from acm_phoenix.articles.views import mod as articlesModule
 app.register_blueprint(articlesModule)
 
 from acm_phoenix.users.models import User
-from acm_phoenix.admin.models import AdminView, UserAdmin, ReportAdmin, PostAdmin, CategoryAdmin, TagAdmin
+from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin, 
+                                      PostAdmin, CategoryAdmin, TagAdmin)
 from acm_phoenix.articles.models import Post, Tag
 from acm_phoenix.articles.forms import SearchForm
 
@@ -35,12 +36,12 @@ admin.init_app(app)
 
 @app.before_request
 def before_request():
-  """
-  pull user's profile from the database before every request are treated
-  """
-  g.user = None
-  if 'user_id' in session:
-    g.user = User.query.get(session['user_id']);
+    """
+    pull user's profile from the database before every request are treated
+    """
+    g.user = None
+    if 'user_id' in session:
+        g.user = User.query.get(session['user_id'])
 
 
 @app.route('/')
@@ -49,7 +50,8 @@ def show_home():
     Display home page to visitors and show front page articles.
     """
     form = SearchForm()
-    posts = Post.query.filter(Tag.name == "frontpage").order_by("created DESC").all()
+    frontpage_filter = Post.query.filter(Tag.name == "frontpage")
+    posts = frontpage_filter.order_by("created DESC").all()
     return render_template('home.html', posts=posts, form=form)
 
 @app.route('/logout')
