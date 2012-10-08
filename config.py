@@ -22,7 +22,7 @@ RECAPTCHA_OPTIONS = {'theme': 'white'}
 GOOGLE_CLIENT_ID = '401399822645-a1015kkb76m6evpn3mhk3hr4voqejt2f.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'TS6HarpynHCdSTesaRMlbaU_'
 
-HOST_URL = 'http://localhost'
+HOST_URL = 'http://localhost:5000'
 
 WEPAY_ACCT_ID = 319493
 WEPAY_ACC_TOK = '6dd6802f8ebef4992308a0e4f7698c275781ac36854f9451127115d995d8cda7'
