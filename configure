@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # Installing necessary python packages.
-package_path="acm_phoenix/static/packages"
 pip install -r requirements.txt
 pip install -e git://github.com/videntity/python-signpad2image.git
 git submodule init && git submodule update
