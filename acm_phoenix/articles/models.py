@@ -78,5 +78,15 @@ class Post(db.Model):
                              backref=db.backref('posters', lazy='dynamic'),
                              order_by=User.name)
 
+    def __init__(self, title=None, gfm_content=None, created=None, tags=None,
+                 slug=None, category=None, author=None):
+        title = title
+        gfm_content = gfm_content
+        created = datetime.now()
+        tags = tags
+        slug = slug
+        category = category
+        author = author
+
     def __unicode__(self):
         return self.slug
