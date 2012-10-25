@@ -2,7 +2,7 @@
 
 # Installing necessary python packages.
 pip install -r requirements.txt
-pip install -e git://github.com/videntity/python-signpad2image.git
+pip install -e git://github.com/videntity/python-signpad2image.git#egg=python-signpad2image
 git submodule init && git submodule update
 
 # Initialize database.
