@@ -171,7 +171,7 @@ def show_all():
                     else ([tag.id for tag in Tag.query.all()]))
         tags = Post.tags.any(Tag.id.in_(tag_list))
 
-        order = request.args.get('order') or 'created'
+        order = request.args.get('order') or 'created DESC'
 
         """
         To be clear, this query looks for anything like the search term
