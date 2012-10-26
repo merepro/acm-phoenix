@@ -1,8 +1,7 @@
 {% extends "base.html" %}
   {% block title %}ACM at UCR{% endblock %}
   {% block content %}
-    {% from "forms/macros.html" import render_field %}
-    {% from "articles/macros.html" import render_posts %}
+    {% from "articles/macros.html" import render_posts, render_search_form %}
     <div class="hero-unit">
       <h1>Message from the ACM@UCR Chair</h1>
       <h2>Our Mission</h2>
@@ -16,36 +15,7 @@
     </div>
     <div class="page-header">
       <h3>Front Page Articles</h3>
-    </div>
-    {{ render_posts(posts) }}
-    <div id="postFilter" class="postHeader span3 sidebar-nav">
-      <form method="POST" id="searchForm" action="/articles/" class="form post form-search pull-right">
-        <h4>Filter posts</h4>
-        {{ form.csrf_token }}
-        <div class="control-group">
-          {{ render_field(form.query, placeholder="Search for specific posts") }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.category) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.author) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.tags) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.order_by) }}
-          <br clear="all" />
-        </div>
-        <br />
-        <div class="control-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+      {{ render_posts(posts) }}
+      {{ render_search_form(form) }}
     </div>
   {% endblock %}
