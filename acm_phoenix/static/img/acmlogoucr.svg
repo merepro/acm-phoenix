@@ -43,17 +43,33 @@
    <path d="m102.942,219.23499c0,0 6.795,57.05603 8.341,59.129c1.547,2.07303 6.57301,10.02002 21.26501,10.02002c21.392,0 18.045,-8.716 32.61699,-12.10901c10.11401,-2.35501 30.97701,-3.04099 30.38301,-14.151l-1.912,-35.75496c-0.60901,-11.39502 -30.595,-16.28302 -42.312,-4.50903c-11.847,11.90506 -43.64401,13.50116 -48.382,-2.625l0,-0.00002z" stroke-width="2" stroke="#fab20b" fill-rule="evenodd" fill="url(#svg_15)" id="path3898"/>
    <path d="m172.89799,295.24301c10.295,9.20099 29.50999,-1.03101 28.06299,-12.07803l-7.325,-55.91199c0,22.94202 -36.944,15.65601 -36.944,31.578c2.076,27.80099 11.629,32.32202 16.20598,36.41202l0.00003,0z" stroke-width="1px" stroke="#fab20b" fill-rule="evenodd" fill="#2767A0" id="path3900"/>
    <path d="m310.54901,345.48001c0,0 -33.34802,0 -33.34802,0c-17.91199,0 -39.47098,-1.94601 -69.49701,-6.841c-30.52798,-4.97702 -40.17398,-9.55902 -45.38197,-32.25201c-2.18701,-9.52896 -5.63901,-48.866 -5.63901,-48.866c0,15.603 27.00101,19.90201 44.73302,21.99002c23.32602,2.746 49.82098,3.909 73.49597,3.909c0,0 37.92618,0 37.92618,0c17.61682,0 53.26184,-1.16299 76.58884,-3.909c17.73199,-2.08801 35.267,-4.88702 45.10901,-23.94504c0,0 -3.828,41.29205 -6.01501,50.82101c-5.20801,22.69299 -14.88095,27.147 -45.38196,32.25201c-29.577,4.94998 -57.76605,6.841 -72.58997,6.841l-0.00003,0l-0.00003,0z" stroke-width="3" stroke="#fab20b" fill-rule="evenodd" fill="url(#svg_15)" id="path3902"/>
+<path id="ucrPath" fill="transparent" fill-rule="evenodd" stroke-width="3" d="m309.24252,385.4241c0,0 -31.54773,0 -31.54773,0c-16.94498,0 -37.34013,-1.84094 -65.74519,-6.47168c-28.87991,-4.70834 -38.00517,-9.04294 -42.93202,-30.51086c-2.06894,-9.01456 -5.33456,-46.22797 -5.33456,-46.22797c0,14.76068 25.54335,18.82764 42.31808,20.80292c22.06674,2.59775 47.13141,3.69797 69.52823,3.69797c0,0 35.87878,0 35.87878,0c16.66574,0 50.38644,-1.10022 72.45413,-3.69797c16.77472,-1.97528 33.3631,-4.62323 42.67377,-22.65237c0,0 -3.62134,39.06287 -5.69031,48.07742c-4.92682,21.46793 -14.07758,25.68149 -42.93198,30.51086c-27.98026,4.68277 -54.64752,6.47168 -68.67117,6.47168l0,0l-0.00003,0z" stroke="transparent"/>
    <g id="svg_5">
-    <text fill="#005FA0" stroke="#005FA0" stroke-width="2" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="241" y="329" id="svg_13" font-size="35" text-anchor="middle" font-family="arial">
+    <text fill="#005FA0" stroke="#005FA0" stroke-width="2" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="228" y="329" id="svg_13" font-size="35" text-anchor="begin" font-family="arial">
+      <textPath xlink:href="#ucrPath" startOffset="15" letter-spacing="3">
+	<tspan dy="3">
         UCR
+	</tspan>
+      </textPath>
     </text>
-    <text fill="#ffffff" stroke="#ffffff" stroke-width="2" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="225" y="327" id="svg_13" font-size="35" text-anchor="middle" font-family="arial">
-        UC
+    <text fill="#ffffff" stroke="#ffffff" stroke-width="2" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="225" y="327" id="svg_13" font-size="35" text-anchor="begin" font-family="arial">
+      <textPath xlink:href="#ucrPath" startOffset="15" letter-spacing="3">
+        UC<tspan fill="#fab20b" stroke="#fab20b">R</tspan>
+      </textPath>
     </text>
-    <text fill="#fab20b" stroke="#fab20b" stroke-width="2" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="264" y="327" id="svg_13" font-size="35" text-anchor="middle" font-family="arial">R</text>
    </g>
-   <text fill="#005FA0" stroke="#005FA0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="343" y="330" id="svg_13" font-size="28" text-anchor="middle">Chapter</text>
-   <text fill="#ffffff" stroke="#ffffff" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="341" y="328" font-size="28" text-anchor="middle" id="svg_9">Chapter</text>
+   <text fill="#005FA0" stroke="#005FA0" stroke-width="1" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="338" y="330" id="svg_13" font-size="28" text-anchor="begin">
+     <textPath xlink:href="#ucrPath" startOffset="0">
+       <tspan dy="2">
+        Chapter
+       </tspan>
+     </textPath>     
+   </text>
+   <text fill="#ffffff" stroke="#ffffff" stroke-width="1" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="335" y="328" font-size="28" text-anchor="begin" id="svg_9">
+     <textPath xlink:href="#ucrPath" startOffset="0">
+       Chapter
+     </textPath>
+   </text>
   </g>
  </g>
 </svg>
