@@ -22,7 +22,7 @@
    <circle id="svg_7" r="110.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="#ffffff"/>
    <circle id="svg_8" r="98.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="url(#svg_11)"/>
   </g>
-<text fill="#005FA0" stroke="#005FA0" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="186" y="204" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
-  <text fill="#ffffff" stroke="#ffffff" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="180" y="200" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
+<text fill="#005FA0" stroke="#005FA0" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="186" y="204" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" font-family="arial">acm</text>
+  <text fill="#ffffff" stroke="#ffffff" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="180" y="200" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" font-family="arial">acm</text>
  </g>
 </svg>
