@@ -10,7 +10,7 @@ For the frontend, ACM@UCR takes advantage of modern design frameworks such as [T
 
 We try our best to conform to good coding standards in HTML5/CSS, Javascript, and Python to make sure that future generations will be able to maintain and extend the website as they see fit to add new content.
 
-Personally, I suggest you freshen up on your Python, HTML5/CSS, and Javascript to make sure you can easily read through and understand the code for the most part. The newly founded [webplatform.org](www.webplatform.org) will become a good place for HTML5/CSS and Javascript. For Python, I recommend looking through the [Google Python course](http://code.google.com/edu/languages/google-python-class/).
+Personally, I suggest you freshen up on your Python, HTML5/CSS, and Javascript to make sure you can easily read through and understand the code for the most part. The newly founded [webplatform.org](http://www.webplatform.org) will become a good place for HTML5/CSS and Javascript. For Python, I recommend looking through the [Google Python course](http://code.google.com/edu/languages/google-python-class/).
 
 ##Ok, cool. So how do I contribute?
 Well, first off, make sure your [github account is set up](https://help.github.com/articles/set-up-git). Then fork the repository and make a local clone.
