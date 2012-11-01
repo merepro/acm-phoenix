@@ -206,3 +206,19 @@ def show_cat(slug):
     """
     cat = Category.query.filter_by(slug=slug).first()
     return redirect(url_for('articles.show_all') + '?c=' + str(cat.id))
+
+@mod.route('/tag/<name>/')
+def show_tag(name):
+    """
+    Show all posts under a certain tag name
+    """
+    tag = Tag.query.filter_by(name=name).first()
+    return redirect(url_for('articles.show_all') + '?t=' + str(tag.id))
+
+@mod.route('/author/<netid>/')
+def show_tag(netid):
+    """
+    Show all posts by a certain author. NetID is unique.
+    """
+    author = User.query.filter_by(netid=netid).first()
+    return redirect(url_for('articles.show_all') + '?a=' + str(author.id))
