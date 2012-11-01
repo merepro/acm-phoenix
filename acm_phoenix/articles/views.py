@@ -140,8 +140,6 @@ def show_all():
         # Otherwise, get posts that fit requests
         search_term = "%" + (request.args.get('q') or "") + "%"
 
-        # Create filtering conditions
-        filters = []
 
         categories = []
         req_cat = request.args.get('c')
@@ -152,7 +150,7 @@ def show_all():
         for category in category_list:
             categories.append(Post.category_id == category)
 
-        filters.append(or_(*categories))
+        category_filter = or_(*categories)
 
         authors = []
         req_auth = request.args.get('a')
@@ -162,7 +160,7 @@ def show_all():
         for author in author_list:
             authors.append(Post.author_id == author)
 
-        filters.append(and_(*authors))
+        author_filter = or_(*authors)
 
         # Generate list of tags to look for in relationship table.
         req_tags = request.args.get('t')
@@ -176,12 +174,12 @@ def show_all():
         """
         To be clear, this query looks for anything like the search term
         inside of the title or content of all posts and narrows it down
-        to the selected authors and categories and narrows that down
-        by the selected tags.
+        to the selected authors, the selected categories, and the selected tags.
         """
         posts = Post.query.filter(or_(Post.title.like(search_term),
                                       Post.gfm_content.like(search_term)),
-                                  or_(*filters), tags).order_by(order).all()
+                                  author_filter, category_filter,
+                                  tags).order_by(order).all()
 
     form = SearchForm()
     if form.validate_on_submit():
