@@ -220,3 +220,11 @@ def show_tag(netid):
     """
     author = User.query.filter_by(netid=netid).first()
     return redirect(url_for('articles.show_all') + '?a=' + str(author.id))
+
+@mod.route('/p/<slug>/')
+def show_post(slug):
+    """
+    Show the full post on a seperate page.
+    """
+    post = Post.query.filter_by(slug=slug).first()
+    return render_template('articles/post.html', post=post)
