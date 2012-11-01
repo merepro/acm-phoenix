@@ -259,6 +259,9 @@ def authenticate_user():
     else:
       # Log them in and send them to their request destination.
       session['user_id'] = user.id
+      if 'next_path' not in session:
+        session['next_path'] = url_for('users.home')
+
       return redirect(session['next_path'])
   else:
     flash(u'Sorry, we couldn\'t verify your email', 'error')
