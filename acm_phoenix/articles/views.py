@@ -215,7 +215,7 @@ def show_tag(name):
     return redirect(url_for('articles.show_all') + '?t=' + str(tag.id))
 
 @mod.route('/author/<netid>/')
-def show_tag(netid):
+def show_author(netid):
     """
     Show all posts by a certain author. NetID is unique.
     """
