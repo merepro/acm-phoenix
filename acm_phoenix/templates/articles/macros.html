@@ -4,7 +4,7 @@
   <div class="post accordion-group">
     <div class="accordion-heading postHeader">
       <div class="accordion-toggle" data-parent="#posts">
-        <h2><a rel="tooltip" data-placement="top" data-original-title="Go the post" href="articles/p/{{ post.slug }}"><i class="span1 icon-external-link"></i></a><span data-toggle="collapse" data-parent="#posts" href="#{{ post.id }}">{{ post.title }}</span>
+        <h2><a rel="tooltip" data-placement="top" data-original-title="Go the post" href="/articles/p/{{ post.slug }}"><i class="span1 icon-external-link"></i></a><span data-toggle="collapse" data-parent="#posts" href="#{{ post.id }}">{{ post.title }}</span>
 	  <br>
 	  <small>
 	    <i class="icon-calendar"></i> {{ post.created | formatted_time }} by <a href="/articles/author/{{ post.author.netid }}/">{{ post.author.name }}</a> in <a href="/articles/cat/{{ post.category.slug }}">{{ post.category.slug | title }}</a>
