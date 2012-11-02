@@ -1,6 +1,9 @@
-{% macro render_posts(posts) %}
+{% macro render_posts(posts, pagination) %}
+{{ pagination.info|safe }}
+{{ pagination.links|safe }}
 <div id="posts" class="accordion span8">
-  {% for post in posts %}
+  {% set start_point = ((pagination.page - 1) * pagination.per_page) %}
+  {% for post in posts[start_point:start_point + pagination.per_page] %}
   <div class="post accordion-group">
     <div class="accordion-heading postHeader">
       <div class="accordion-toggle" data-parent="#posts">

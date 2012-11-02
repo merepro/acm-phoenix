@@ -1,6 +1,7 @@
-from flask import Flask, render_template, g, session, url_for, redirect
+from flask import Flask, render_template, g, session, url_for, redirect, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.admin import Admin
+from flask.ext.paginate import Pagination
 
 from time import strftime
 
@@ -56,7 +57,11 @@ def show_home():
     form = SearchForm()
     frontpage_filter = Post.query.filter(Tag.name == "frontpage")
     posts = frontpage_filter.order_by("created DESC").all()
-    return render_template('home.html', posts=posts, form=form)
+    page = int(request.args.get('page')) if request.args.get('page') else 1
+    pagination = Pagination(posts, per_page=4, total=len(posts),
+                            page=page)
+    return render_template('home.html', posts=posts, form=form, 
+                           pagination=pagination)
 
 @app.route('/logout')
 def logout():

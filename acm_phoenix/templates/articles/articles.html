@@ -7,7 +7,7 @@
       <p>{{ query | format_query }} {{ cats | format_cats }} {{ authors | format_authors }} {{ tags | format_tags }}</p>
       <p class="lead">{{ order | format_order }}</p>
     </div>
-    {{ render_posts(posts) }}
+    {{ render_posts(posts, pagination) }}
     {{ render_search_form(form) }}
     </div>
   {% endblock %}

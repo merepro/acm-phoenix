@@ -1,6 +1,7 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flaskext.markdown import Markdown
 from flaskext.gravatar import Gravatar
+from flask.ext.paginate import Pagination
 from sqlalchemy import or_, and_
 
 from acm_phoenix import app, db
@@ -194,9 +195,14 @@ def show_all():
         args += '&order=' + form.order_by.data
 
         return redirect(url_for('articles.show_all') + args)
+
+    page = int(request.args.get('page')) if request.args.get('page') else 1
+    pagination = Pagination(posts, per_page=4, total=len(posts),
+                            page=page)
     return render_template('articles/articles.html', posts=posts,
                            form=form, query=search_term, cats=req_cat,
-                           authors=req_auth, tags=req_tags, order=order)
+                           authors=req_auth, tags=req_tags, order=order,
+                           pagination=pagination)
 
 @mod.route('/cat/<slug>/')
 def show_cat(slug):
