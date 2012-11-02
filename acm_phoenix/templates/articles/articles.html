@@ -2,7 +2,7 @@
   {% block content %}
     {% from "articles/macros.html" import render_posts, render_search_form  %}
     <div class="hero-unit">
-      <h1>Articles <small>{{ posts | length }} Results Found</small></h1>
+      <h1><i class="icon-file"></i>&nbsp; Articles <small>{{ posts | length }} Results Found</small></h1>
       <br />
       <p>{{ query | format_query }} {{ cats | format_cats }} {{ authors | format_authors }} {{ tags | format_tags }}</p>
       <p class="lead">{{ order | format_order }}</p>
