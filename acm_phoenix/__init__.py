@@ -57,11 +57,12 @@ def show_home():
     form = SearchForm()
     frontpage_filter = Post.query.filter(Tag.name == "frontpage")
     posts = frontpage_filter.order_by("created DESC").all()
+    users = User.query.all()
     page = int(request.args.get('page')) if request.args.get('page') else 1
     pagination = Pagination(posts, per_page=4, total=len(posts),
                             page=page)
     return render_template('home.html', posts=posts, form=form, 
-                           pagination=pagination)
+                           pagination=pagination, users=users)
 
 @app.route('/logout')
 def logout():
