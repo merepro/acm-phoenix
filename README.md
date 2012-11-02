@@ -40,3 +40,11 @@ If all went well, you should see:
      * Restarting with reloader
 
 You can then point your browser to the above URL and you'll have access to a functioning version of the site.
+
+As you access pages, this will spit out all information about requests made and results returned which is basically terminal spam. I recommend you run the Flask instance in the background by redirecting output:
+
+    $ python run.py 2> /path/to/logs/acm-phoenix.log &
+
+This will make it alot easier to debug the application when something goes wrong.
+
+###Technologies used

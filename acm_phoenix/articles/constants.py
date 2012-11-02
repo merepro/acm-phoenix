@@ -3,9 +3,9 @@
 DEFAULT = "created"
 RECENCY = "created DESC"
 TITLE = "title"
-CAT_NAME = "slug"
+CAT_NAME = "articles_category.slug"
 TAG_NAME = "tags"
-AUTHOR_NAME = "author"
+AUTHOR_NAME = "users_user.name"
 ORDER = {
     DEFAULT: "Recency",
     RECENCY: "Recency",

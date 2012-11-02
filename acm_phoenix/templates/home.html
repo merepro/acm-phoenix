@@ -1,51 +1,33 @@
 {% extends "base.html" %}
-  {% block title %}ACM at UCR{% endblock %}
+  {% block title %}ACM@UCR{% endblock %}
   {% block content %}
-    {% from "forms/macros.html" import render_field %}
-    {% from "articles/macros.html" import render_posts %}
-    <div class="hero-unit">
-      <h1>Message from the ACM@UCR Chair</h1>
-      <h2>Our Mission</h2>
-      <p class="lead">We want ACM@UCR to become one of the best resources for undergraduate and graduate CS/CE/BI majors at UCR, while also encouraging non-technical members to actively participate</p>
-      <p>ACM's primary goal, as defined by the national ACM chapter is to <em>advance computing as a science and a profession.</em> As the new chair, I also strive for this goal. However, ACM is not and has never been a dictatorship, especially at UCR. ACM is a club whose strength comes from the community we nurture and assist. Because of this, for ACM to reach the next step as a club, we must improve our social efforts to bring more members in and, in the process, recruit more great students that will be able to lead others and keep us on the leading edge of the quickly growing CS field.</p>
-      <p>If you would like to join us in completing this goal, you can do so by becoming an active member and contributing your knowledge and experience.</p>
-      <p>
-        <a href="/register/" class="btn btn-large btn-primary"><i class="icon-white icon-group"></i> Become an <b>ACM@UCR</b> member</a>
-        <a href="/profile/" class="btn btn-large btn-warning"><i class="icon-white icon-home"></i> Go to your profile</a>
-      </p>
+    {% from "articles/macros.html" import render_posts, render_search_form %}
+    <div class="row-fluid span12">
+      <div class="well">
+	<h2>What is ACM@UCR?</h2>
+	<p class="lead">
+	  ACM@UCR is a professional organization targeted towards CS, CE, and BI students.
+	</p>
+	<p class="lead">
+	  We focus on improving our members' knowledge in the field by providing them with an experience to supplement what they learn in class. To do this we offer tutoring sessions, workshops and tech talks by professionals in the field, and setting up networking events with professors and graduate students.
+	</p>
+	<hr>
+	<h2>Who are we?</h2>
+	<div id="memberPics">
+	  {% for user in users %}
+          <img class="img-polaroid" src="{{ user.email | gravatar(size=45) }}" title="{{ user.name | title }}">
+	  {% endfor %}
+	</div>
+	<hr>
+	<p class="lead">
+	  We're a collection of undergraduate and graduate students dedicated to practical and theoretical concepts in Computer Science.
+	</p>
+      </div>
     </div>
+    <br>
     <div class="page-header">
       <h3>Front Page Articles</h3>
-    </div>
-    {{ render_posts(posts) }}
-    <div id="postFilter" class="postHeader span3 sidebar-nav">
-      <form method="POST" id="searchForm" action="/articles/" class="form post form-search pull-right">
-        <h4>Filter posts</h4>
-        {{ form.csrf_token }}
-        <div class="control-group">
-          {{ render_field(form.query, placeholder="Search for specific posts") }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.category) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.author) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.tags) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.order_by) }}
-          <br clear="all" />
-        </div>
-        <br />
-        <div class="control-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+      {{ render_posts(posts, pagination) }}
+      {{ render_search_form(form) }}
     </div>
   {% endblock %}

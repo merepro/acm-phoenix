@@ -1,42 +1,13 @@
 {% extends "base.html" %}
   {% block content %}
-    {% from "forms/macros.html" import render_field %}
-    {% from "articles/macros.html" import render_posts %}
+    {% from "articles/macros.html" import render_posts, render_search_form  %}
     <div class="hero-unit">
-      <h1>Articles <small>{{ posts | length }} Results Found</small></h1>
+      <h1><i class="icon-file"></i>&nbsp; Articles <small>{{ posts | length }} Results Found</small></h1>
       <br />
       <p>{{ query | format_query }} {{ cats | format_cats }} {{ authors | format_authors }} {{ tags | format_tags }}</p>
       <p class="lead">{{ order | format_order }}</p>
     </div>
-    {{ render_posts(posts) }}
-    <div id="postFilter" class="postHeader span3 sidebar-nav">
-      <form method="POST" id="searchForm" action="." class="form post form-search pull-right">
-        <h4>Filter posts</h4>
-        {{ form.csrf_token }}
-        <div class="control-group">
-          {{ render_field(form.query, placeholder="Search for specific posts") }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.category) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.author) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.tags) }}
-          <br clear="all" />
-        </div>
-        <div class="control-group">
-          {{ render_field(form.order_by) }}
-          <br clear="all" />
-        </div>
-        <br />
-        <div class="control-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+    {{ render_posts(posts, pagination) }}
+    {{ render_search_form(form) }}
     </div>
   {% endblock %}

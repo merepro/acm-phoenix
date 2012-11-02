@@ -1,28 +1,160 @@
-<svg style="width: 15%; height: 15%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 355 355">
- <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
- <defs>
-  <linearGradient id="svg_6" x1="0.74219" y1="0.21484" x2="0.00781" y2="0.99219">
-   <stop offset="0" stop-color="#83a9de"/>
-   <stop offset="1" stop-color="#20629c"/>
-  </linearGradient>
-  <linearGradient id="svg_11" x1="0.48047" y1="0.02344" x2="0.48047" y2="0.62109">
-   <stop offset="0" stop-color="#20629c"/>
-   <stop offset="1" stop-color="#83a9de"/>
-  </linearGradient>
- </defs>
- <g>
-  <title>Layer 1</title>
-  <g id="svg_12">
-   <g>
-    <g transform="rotate(-45 178.00000000000006,178) ">
-     <rect id="svg_1" height="250" width="250" y="53" x="53" stroke-width="0" stroke="#000000" fill="url(#svg_6)"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   style="width: 15%; height: 15%"
+   viewBox="0 0 355 355"
+   id="svg3716"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   width="100%"
+   height="100%"
+   sodipodi:docname="acmlogo.png">
+  <metadata
+     id="metadata3749">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview3747"
+     showgrid="false"
+     inkscape:zoom="1.5295775"
+     inkscape:cx="177.5"
+     inkscape:cy="177.5"
+     inkscape:window-x="674"
+     inkscape:window-y="158"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3716" />
+  <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+  <defs
+     id="defs3718">
+    <linearGradient
+       id="svg_6"
+       x1="0.74219"
+       y1="0.21484"
+       x2="0.00781"
+       y2="0.99219">
+      <stop
+         offset="0"
+         stop-color="#83a9de"
+         id="stop3721" />
+      <stop
+         offset="1"
+         stop-color="#20629c"
+         id="stop3723" />
+    </linearGradient>
+    <linearGradient
+       id="svg_11"
+       x1="0.48047"
+       y1="0.02344"
+       x2="0.48047"
+       y2="0.62109">
+      <stop
+         offset="0"
+         stop-color="#20629c"
+         id="stop3726" />
+      <stop
+         offset="1"
+         stop-color="#83a9de"
+         id="stop3728" />
+    </linearGradient>
+  </defs>
+  <g
+     id="g3730">
+    <title
+       id="title3732">Layer 1</title>
+    <g
+       id="svg_12">
+      <g
+         id="g3735">
+        <g
+           transform="rotate(-45 178.00000000000006,178) "
+           id="g3737">
+          <rect
+             id="svg_1"
+             height="250"
+             width="250"
+             y="53"
+             x="53"
+             stroke-width="0"
+             stroke="#000000"
+             fill="url(#svg_6)" />
+        </g>
+      </g>
+      <circle
+         id="svg_7"
+         r="110.26804"
+         cy="180"
+         cx="186.00001"
+         stroke-width="0"
+         stroke="#000000"
+         fill="#0261AF" />
+      <circle
+         id="circle3741"
+         r="110.26804"
+         cy="177"
+         cx="179.00001"
+         stroke-width="0"
+         stroke="#000000"
+         fill="#ffffff" />
+      <circle
+         id="svg_8"
+         r="98.26804"
+         cy="177"
+         cx="179.00001"
+         stroke-width="0"
+         stroke="#000000"
+         fill="url(#svg_11)" />
     </g>
-   </g>
-   <circle id="svg_7" r="110.26804" cy="180" cx="186.00001" stroke-width="0" stroke="#000000" fill="#0261AF"/>
-   <circle id="svg_7" r="110.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="#ffffff"/>
-   <circle id="svg_8" r="98.26804" cy="177" cx="179.00001" stroke-width="0" stroke="#000000" fill="url(#svg_11)"/>
+    <text
+       fill="#005FA0"
+       stroke="#005FA0"
+       stroke-width="4"
+       stroke-dasharray="null"
+       stroke-linejoin="null"
+       stroke-linecap="null"
+       x="186"
+       y="204"
+       id="svg_13"
+       font-size="85"
+       text-anchor="middle"
+       xml:space="preserve"
+       font-family="arial">acm</text>
+    <text
+       fill="#ffffff"
+       stroke="#ffffff"
+       stroke-width="4"
+       stroke-dasharray="null"
+       stroke-linejoin="null"
+       stroke-linecap="null"
+       x="180"
+       y="200"
+       id="text3745"
+       font-size="85"
+       text-anchor="middle"
+       xml:space="preserve"
+       font-family="arial">acm</text>
   </g>
-<text fill="#005FA0" stroke="#005FA0" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="186" y="204" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
-  <text fill="#ffffff" stroke="#ffffff" stroke-width="4" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="180" y="200" id="svg_13" font-size="85" text-anchor="middle" xml:space="preserve" externalResourcesRequired="true">acm</text>
- </g>
 </svg>

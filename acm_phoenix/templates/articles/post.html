@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+  {% block title %}
+    {% if post %}
+      {{ post.title }} | ACM@UCR
+    {% endif %}
+  {% endblock %}
+  {% block content %}
+  {% if post %}
+  <div class="post accordion-group">
+    <div class="accordion-heading postHeader">
+      <div class="accordion-toggle">
+        <h2><span>{{ post.title }}</span>
+	  <br>
+	  <small>
+	    <i class="icon-calendar"></i> {{ post.created | formatted_time }} by <a href="/articles/author/{{ post.author.netid }}/">{{ post.author.name }}</a> in <a href="/articles/cat/{{ post.category.slug }}">{{ post.category.slug | title }}</a>
+	    <br>
+	    <h6><i class="icon-tags"></i> {% for tag in post.tags %} <a href="/articles/tag/{{ tag.name }}">#{{ tag.name | title }}</a>&nbsp;{% endfor %}</h6>
+	  </small>
+	</h2>
+      </div>
+    </div>
+    <div id="{{ post.id }}" class="accordion-body">
+      <div class="accordion-inner">
+        {{ post.gfm_content | markdown }}
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="hero-unit">
+    <i class="icon-plane"></i>
+    <h1>Sorry, we couldn't find the post you were looking for.</h1>
+  </div>
+  {% endif %}
+  {% endblock %}

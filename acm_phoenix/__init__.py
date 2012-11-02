@@ -1,6 +1,7 @@
-from flask import Flask, render_template, g, session, url_for, redirect
+from flask import Flask, render_template, g, session, url_for, redirect, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.admin import Admin
+from flask.ext.paginate import Pagination
 
 from time import strftime
 
@@ -13,11 +14,15 @@ db = SQLAlchemy(app)
 def not_found(error):
     return render_template('404.html', error=error), 404
 
+# Loading user modules.
 from acm_phoenix.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
 from acm_phoenix.articles.views import mod as articlesModule
 app.register_blueprint(articlesModule)
+
+from acm_phoenix.snippets.views import mod as snippetsModule
+app.register_blueprint(snippetsModule)
 
 from acm_phoenix.users.models import User
 from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin, 
@@ -52,7 +57,12 @@ def show_home():
     form = SearchForm()
     frontpage_filter = Post.query.filter(Tag.name == "frontpage")
     posts = frontpage_filter.order_by("created DESC").all()
-    return render_template('home.html', posts=posts, form=form)
+    users = User.query.all()
+    page = int(request.args.get('page')) if request.args.get('page') else 1
+    pagination = Pagination(posts, per_page=4, total=len(posts),
+                            page=page)
+    return render_template('home.html', posts=posts, form=form, 
+                           pagination=pagination, users=users)
 
 @app.route('/logout')
 def logout():

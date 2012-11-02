@@ -34,9 +34,9 @@ class SearchForm(Form):
                                       query_factory=all_publishers)
     tags = QuerySelectMultipleField(u'With Tags', query_factory=all_tags)
 
-    # TODO(paranoiacblack): Sort by Author Name
     order_by = SelectField(u'Order by', default='created',
                            choices=[('created%20DESC', 'Recency'),
                                     ('title', 'Title'),
-                                    ('slug', 'Category Name')]
+                                    ('articles_category.slug', 'Category Name'),
+                                    ('users_user.name', 'Author Name')]
                            )

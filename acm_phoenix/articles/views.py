@@ -1,6 +1,7 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flaskext.markdown import Markdown
 from flaskext.gravatar import Gravatar
+from flask.ext.paginate import Pagination
 from sqlalchemy import or_, and_
 
 from acm_phoenix import app, db
@@ -140,8 +141,6 @@ def show_all():
         # Otherwise, get posts that fit requests
         search_term = "%" + (request.args.get('q') or "") + "%"
 
-        # Create filtering conditions
-        filters = []
 
         categories = []
         req_cat = request.args.get('c')
@@ -152,7 +151,7 @@ def show_all():
         for category in category_list:
             categories.append(Post.category_id == category)
 
-        filters.append(or_(*categories))
+        category_filter = or_(*categories)
 
         authors = []
         req_auth = request.args.get('a')
@@ -162,7 +161,7 @@ def show_all():
         for author in author_list:
             authors.append(Post.author_id == author)
 
-        filters.append(and_(*authors))
+        author_filter = or_(*authors)
 
         # Generate list of tags to look for in relationship table.
         req_tags = request.args.get('t')
@@ -176,12 +175,13 @@ def show_all():
         """
         To be clear, this query looks for anything like the search term
         inside of the title or content of all posts and narrows it down
-        to the selected authors and categories and narrows that down
-        by the selected tags.
+        to the selected authors, the selected categories, and the selected tags.
         """
-        posts = Post.query.filter(or_(Post.title.like(search_term),
-                                      Post.gfm_content.like(search_term)),
-                                  or_(*filters), tags).order_by(order).all()
+        posts = Post.query.join(Category).join(User).filter(
+            or_(Post.title.like(search_term),
+                Post.gfm_content.like(search_term)),
+            author_filter, category_filter,
+            tags).order_by(order).all()
 
     form = SearchForm()
     if form.validate_on_submit():
@@ -195,9 +195,14 @@ def show_all():
         args += '&order=' + form.order_by.data
 
         return redirect(url_for('articles.show_all') + args)
+
+    page = int(request.args.get('page')) if request.args.get('page') else 1
+    pagination = Pagination(posts, per_page=4, total=len(posts),
+                            page=page)
     return render_template('articles/articles.html', posts=posts,
                            form=form, query=search_term, cats=req_cat,
-                           authors=req_auth, tags=req_tags, order=order)
+                           authors=req_auth, tags=req_tags, order=order,
+                           pagination=pagination)
 
 @mod.route('/cat/<slug>/')
 def show_cat(slug):
@@ -206,3 +211,27 @@ def show_cat(slug):
     """
     cat = Category.query.filter_by(slug=slug).first()
     return redirect(url_for('articles.show_all') + '?c=' + str(cat.id))
+
+@mod.route('/tag/<name>/')
+def show_tag(name):
+    """
+    Show all posts under a certain tag name
+    """
+    tag = Tag.query.filter_by(name=name).first()
+    return redirect(url_for('articles.show_all') + '?t=' + str(tag.id))
+
+@mod.route('/author/<netid>/')
+def show_author(netid):
+    """
+    Show all posts by a certain author. NetID is unique.
+    """
+    author = User.query.filter_by(netid=netid).first()
+    return redirect(url_for('articles.show_all') + '?a=' + str(author.id))
+
+@mod.route('/p/<slug>/')
+def show_post(slug):
+    """
+    Show the full post on a seperate page.
+    """
+    post = Post.query.filter_by(slug=slug).first()
+    return render_template('articles/post.html', post=post)
