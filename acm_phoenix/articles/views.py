@@ -176,10 +176,11 @@ def show_all():
         inside of the title or content of all posts and narrows it down
         to the selected authors, the selected categories, and the selected tags.
         """
-        posts = Post.query.filter(or_(Post.title.like(search_term),
-                                      Post.gfm_content.like(search_term)),
-                                  author_filter, category_filter,
-                                  tags).order_by(order).all()
+        posts = Post.query.join(Category).join(User).filter(
+            or_(Post.title.like(search_term),
+                Post.gfm_content.like(search_term)),
+            author_filter, category_filter,
+            tags).order_by(order).all()
 
     form = SearchForm()
     if form.validate_on_submit():
