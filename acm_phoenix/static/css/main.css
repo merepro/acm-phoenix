@@ -112,14 +112,36 @@ body {
     width: 500px;
 }
 
+#footer {
+    margin-top: 10px;
+    background: url(/static/img/wild_oliva.png);
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 #gfmRaw {
     padding: 20px;
     border: 1px solid #ccc;
 }
 
+#iconImg {
+    width: 120px;
+    height: 70px;
+}
+
 #logoImg {
     width: 351px;
     height: 198px;
+}
+
+#minimalHeader {
+    color: #333;
+}
+
+#minimalHeaderLogo {
+    margin-top: -10px;
+    width: 150px;
 }
 
 #postFilter {
@@ -130,9 +152,27 @@ body {
     border: 1px solid #e5e5e5;
 }
 
+#socialLinks a {
+    color: white;
+}
+
+#socialLinks a:hover {
+    text-decoration: none;
+}
+
+#socialLinks div {
+    margin: 15px 0px 15px 0px;
+}
+
+#socialLinks i {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+}
+
 #tagLine {
     color: white;
-    text-shadow: 1px 1px 1px #23649E;
+    text-shadow: 1px 1px 1px #000;
 }
 
 #ucrLogo {
@@ -145,6 +185,15 @@ body {
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 
     background: url(/static/img/ice_age.png);
+}
+
+.shadowWhite {
+    color: white;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.ucrBlue {
+    color: #3067BA;
 }
 
 .well {
