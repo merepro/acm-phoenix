@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+  {% block content %}
+    <div class="row-fluid span11">
+      <div class="well">
+	<h2>What is ACM@UCR?</h2>
+	<p class="lead">
+	  ACM@UCR is a professional organization targeted towards CS, CE, and BI students.
+	</p>
+	<p class="lead">
+	  We focus on improving our members' knowledge in the field by providing them with an experience to supplement what they learn in class. To do this we offer tutoring sessions, workshops and tech talks by professionals in the field, and setting up networking events with professors and graduate students.
+	</p>
+	<hr>
+	<h2>Who are we?</h2>
+	<div id="memberPics">
+	  {% for user in users %}
+          <img class="img-polaroid" src="{{ user.email | gravatar(size=45) }}" title="{{ user.name | title }}">
+	  {% endfor %}
+	</div>
+	<hr>
+	<p class="lead">
+	  We're a collection of undergraduate and graduate students dedicated to practical and theoretical concepts in Computer Science.
+	</p>
+      </div>
+    </div>
+  {% endblock %}
