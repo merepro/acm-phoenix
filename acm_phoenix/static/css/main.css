@@ -152,6 +152,24 @@ body {
     border: 1px solid #e5e5e5;
 }
 
+#socialLinks a {
+    color: white;
+}
+
+#socialLinks a:hover {
+    text-decoration: none;
+}
+
+#socialLinks div {
+    margin: 15px 0px 15px 0px;
+}
+
+#socialLinks i {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+}
+
 #tagLine {
     color: white;
     text-shadow: 1px 1px 1px #000;
