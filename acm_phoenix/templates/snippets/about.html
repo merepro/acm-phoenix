@@ -13,7 +13,7 @@
 	<h2>Who are we?</h2>
 	<div id="memberPics">
 	  {% for user in users %}
-          <img class="img-polaroid" src="{{ user.email | gravatar(size=45) }}" title="{{ user.name | title }}">
+        <a href="/user/view/{{user.netid}}/"><img class="img-polaroid" src="{{ user.email | gravatar(size=45) }}" title="{{ user.name | title }}"></a>
 	  {% endfor %}
 	</div>
 	<hr>

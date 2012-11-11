@@ -266,3 +266,18 @@ def authenticate_user():
   else:
     flash(u'Sorry, we couldn\'t verify your email', 'error')
     return redirect('/')
+
+@mod.route('/user/view/<user_netid>/', methods = ['GET'])
+@requires_login
+def view_profile(user_netid):
+  """
+  Displays a user page by clicking on their mini-gravatar icon
+  in the About Us page
+  """
+  user = User.query.filter_by(netid=user_netid).first()
+  #If the user clicked is the user himself, display his profile home
+  if user == g.user:
+    return render_template('users/profile.html', user=g.user)
+  #Otherwise, display the profile page for other users
+  else:
+    return render_template('users/view.html', user=user)
