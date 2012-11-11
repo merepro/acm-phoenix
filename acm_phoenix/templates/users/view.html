@@ -4,8 +4,8 @@
     Home</a></li>
   {% endblock %}
   {% block content %}
-    <h1>User Profile</h1>
-    <p>This is what you know about this user</p> <!--Fix this to display user name-->
+    <h1>{{user.name}}'s Profile</h1>
+    <p>This is what you know about {{user.name}}</p> <!--Fix this to display user name-->
     <div id="gravatarViewport" class="span5 pull-left">
       <img class="img-polaroid" src="{{ user.email | gravatar }}" />
       <br />
@@ -32,22 +32,4 @@
       </blockquote>
       <hr />
     </div>
-    <div id="roleInfo" class="span6 pull-right">
-      <h3>Membership Roles</h3>
-      <p>These are the roles you have within the club website</p>
-      {% from "users/macros.html" import pretty_print_role %}
-      {{ pretty_print_role(user.role) }}
-      <hr />
-    </div>
-    <div id="membershipDetails" class="span6 pull-right">
-      <h3>Membership Details</h3>
-      {% if user.member %}
-        {% if user.getMemberStatus() == "In Progress" %}
-          {{user.name}}'s membership is currently in progress.
-        {% elif user.getMemberStatus() == "Unregistered" %}
-          {{user.name}} has not registered yet.
-        {% endif %}
-        {% else %}
-          {{user.name}} has been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h %d, %Y') }}</time>.
-        {% endif %}
   {% endblock %}
