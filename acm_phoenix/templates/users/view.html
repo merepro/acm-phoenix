@@ -15,12 +15,10 @@
       <h3>About this User</h3> <!--Fix this to display user name-->
       <table class="table table-bordered table-hover">
         <tbody>
-          <tr><td>Name</td><td>{{ user.name }}</td></tr>
           <tr><td>Email</td><td>{{ user.email }}</td></tr>
           <tr><td>NetID</td><td>{{ user.netid }}</td></tr>
           <tr><td>Class Standing</td><td>{{ user.standing.title() }}</td></tr>
           <tr><td>Major</td><td>{{ user.major }}</td></tr>
-          <tr><td>Signature</td><td><img style="width: 100%;" src="{{ user.signature }}" /></td></tr>
         </tbody>
       </table>
       <hr />
