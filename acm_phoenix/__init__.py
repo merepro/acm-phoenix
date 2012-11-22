@@ -27,7 +27,7 @@ app.register_blueprint(snippetsModule)
 from acm_phoenix.users.models import User
 from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin, 
                                       PostAdmin, CategoryAdmin, TagAdmin)
-from acm_phoenix.articles.models import Post, Tag
+from acm_phoenix.articles.models import Post, Tag, Category
 from acm_phoenix.articles.forms import SearchForm
 
 # User Admin Views
@@ -57,11 +57,16 @@ def show_home():
     form = SearchForm()
     frontpage_filter = Post.query.filter(Tag.name == "frontpage")
     posts = frontpage_filter.order_by("created DESC").all()
+    cats = Category.query.all()
+    tags = Tag.query.all()
+    author_filter = User.query.filter(User.role < 2)
+    authors = author_filter.order_by("name ASC").all()
     page = int(request.args.get('page')) if request.args.get('page') else 1
     pagination = Pagination(posts, per_page=4, total=len(posts),
                             page=page)
     return render_template('home.html', posts=posts, form=form, 
-                           pagination=pagination)
+                           pagination=pagination, tags=tags, cats=cats,
+                           authors=authors)
 
 @app.route('/logout')
 def logout():
