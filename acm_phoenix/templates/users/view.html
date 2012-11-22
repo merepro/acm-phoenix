@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+	{% block navigation %}
+    <li><a href="/"><i class="icon-white icon-list-alt"></i>
+    Home</a></li>
+  {% endblock %}
+  {% block content %}
+    <h1>{{user.name}}'s Profile</h1>
+    <p>This is what you know about {{user.name}}</p> <!--Fix this to display user name-->
+    <div id="gravatarViewport" class="span5 pull-left">
+      <img class="img-polaroid" src="{{ user.email | gravatar }}" />
+      <br />
+      (powered by gravatar.com)
+    </div>
+    <div id="contactInfo" class="span6 pull-right">
+      <h3>About this User</h3> <!--Fix this to display user name-->
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr><td>Email</td><td>{{ user.email }}</td></tr>
+          <tr><td>NetID</td><td>{{ user.netid }}</td></tr>
+          <tr><td>Class Standing</td><td>{{ user.standing.title() }}</td></tr>
+          <tr><td>Major</td><td>{{ user.major }}</td></tr>
+        </tbody>
+      </table>
+      <hr />
+    </div>
+    <div id="markdownDesc" class="span5 pull-left">
+      <h3>Description</h3>
+      <blockquote>
+        {{ user.description | markdown }}
+      </blockquote>
+      <hr />
+    </div>
+  {% endblock %}
