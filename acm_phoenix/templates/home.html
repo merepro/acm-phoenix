@@ -2,9 +2,75 @@
   {% block title %}ACM@UCR{% endblock %}
   {% block content %}
     {% from "articles/macros.html" import render_posts, render_search_form %}
-    <div class="page-header">
-      <h3 id="articles">Front Page Articles</h3>
-      {{ render_posts(posts, pagination) }}
-      {{ render_search_form(form) }}
+    <div>
+      <div class="span8">
+	<center><h3 id="articles">Front Page Articles</h3></center>
+	{{ render_posts(posts, pagination) }}
+      </div>
+      <div class="span4">
+	<center><h3 id="navigationTitle">Navigation</h3></center>
+	<form method="GET" action="/articles/">
+	  <div class="input-append">
+	    <input class="span9" type="text" name="q"
+		   placeholder="Search through articles for...">
+	    <button class="btn btn-primary" type="submit">
+	      <i class="icon-search"></i> 
+	    </button>
+	    <button id="showOptionForm" class="btn btn-primary" type="button">
+	      <i class="icon-reorder"></i> 
+	    </button>
+	  </div>
+	</form>
+	<div id="queryOptions">
+	  {{ render_search_form(form) }}
+	  <br clear="all">
+	</div>
+	<div class="navUnit">
+	  <h4><i class="icon-user-md"></i> Authors</h4>
+	  <ul id="authors" class="nav">
+	    {% for author in authors %}
+	      <li>
+		<a href="/articles/author/{{ author.netid }}">
+		  <img class="img-circle" 
+		       src="{{ author.email | gravatar(size=40) }}">
+		  {{ author.name }}
+		</a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	<div class="navUnit">
+	  <h4><i class="icon-list-alt"></i> Categories</h4>
+	  <ul id="cats" class="nav">
+	    {% for cat in cats %}
+	      <li>
+		<a href="/articles/cat/{{ cat }}">{{ cat | title }}</a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	<div class="navUnit">
+	  <h4><i class="icon-tags"></i> Tags</h4>
+	  <ul id="tags" class="nav">
+	    {% for tag in tags %}
+	      <li>
+		<a href="/articles/tag/{{ tag }}">{{ tag | title }}</a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+      </div>
     </div>
+  {% endblock %}
+  {% block extra_script %}
+    <script type="text/javascript">
+      // Extra script to hide or reveal option form.
+      $(document).ready(function() {
+	  var optionButton = $("#showOptionForm");
+	  var optionForm = $("#queryOptions");
+	  optionButton.click(function() {
+	      optionForm.slideToggle("slow");
+	  });
+      });
+    </script>
   {% endblock %}
