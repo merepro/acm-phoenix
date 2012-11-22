@@ -6,9 +6,9 @@
   {% endblock %}
   {% block content %}
   {% if post %}
-  <div class="post accordion-group">
-    <div class="accordion-heading postHeader">
-      <div class="accordion-toggle">
+  <div class="post">
+    <div class="postHeader">
+      <div>
         <h2><span>{{ post.title }}</span>
 	  <br>
 	  <small>
@@ -19,7 +19,7 @@
 	</h2>
       </div>
     </div>
-    <div id="{{ post.id }}" class="accordion-body">
+    <div id="{{ post.id }}">
       <div class="accordion-inner">
         {{ post.gfm_content | markdown }}
       </div>
