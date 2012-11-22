@@ -126,7 +126,7 @@ body {
     width: 100%;
     border-bottom: 1px solid #3067BA;
     border-top: 1px solid #3067BA;
-    background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/grey.png);
+    background: url(/static/img/grey.png);
 }
 
 #footerContent {
@@ -139,9 +139,8 @@ body {
     border: 1px solid #ccc;
 }
 
-/* TODO(paranoiacblack): No image leeching */
 #header {
-    background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/grey.png);
+    background: url(/static/img/grey.png);
     border-bottom: 1px solid #2d6cc0;
     padding-bottom: 15px;
 }
