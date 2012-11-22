@@ -47,7 +47,7 @@
     <div id="membershipDetails" class="span6 pull-right navUnit">
       <h3>Membership Details</h3>
       {% if user.member %}
-        You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h        {% elif user.getMemberStatus() == "Unregistered" %} %d, %Y') }}</time>.
+        You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h, %d, %Y') }}</time>.
         {% if user.getMemberStatus() == "In Progress" %}
         <div class="well">
           <a href="/paymembership/" class="btn btn-primary"><i class="icon-credit-card"></i> Pay membership dues with WePay</a><br> to become an official member.
