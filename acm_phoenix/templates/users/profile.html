@@ -6,42 +6,43 @@
   {% block content %}
     <h1>Account Summary</h1>
     <p>This is everything we think we know about you</p>
-    <div id="gravatarViewport" class="span5 pull-left">
+    <div id="gravatarViewport" class="span5 pull-left navUnit">
       <h3>Your profile</h3>
-      <img class="img-polaroid" src="{{ user.email | gravatar }}" />
+      <img class="img-polaroid" src="{{ user.email | gravatar }}" title="(powered by gravatar.com)" />
       <br />
-      (powered by gravatar.com)
     </div>
-    <div id="contactInfo" class="span6 pull-right">
+    <div id="contactInfo" class="span6 pull-right navUnit">
       <h3>About you</h3>
-      <table class="table table-bordered table-hover">
-        <tbody>
-          <tr><td>Name</td><td>{{ user.name }}</td></tr>
-          <tr><td>Email</td><td>{{ user.email }}</td></tr>
-          <tr><td>NetID</td><td>{{ user.netid }}</td></tr>
-          <tr><td>Class Standing</td><td>{{ user.standing.title() }}</td></tr>
-          <tr><td>Major</td><td>{{ user.major }}</td></tr>
-          <tr><td>T-Shirt Size</td><td>{{ user.shirt_size }}</td></tr>
-          <tr><td>Signature</td><td><img style="width: 100%;" src="{{ user.signature }}" /></td></tr>
-        </tbody>
-      </table>
-      <hr />
+      <dl>
+        <dt>Name</dt>
+	<dd>{{ user.name }}</dd>
+        <dt>Email</dt>
+	<dd>{{ user.email }}</dd>
+        <dt>NetID</dt>
+	<dd>{{ user.netid }}</dd>
+        <dt>Class Standing</dt>
+	<dd>{{ user.standing.title() }}</dd>
+        <dt>Major</dt>
+	<dd>{{ user.major }}</dd>
+        <dt>T-Shirt Size</dt>
+	<dd>{{ user.shirt_size }}</dd>
+        <dt>Signature</dt>
+	<dd><img style="width: 100%;" src="{{ user.signature }}" /></dd>
+      </dl>
     </div>
-    <div id="markdownedDesc" class="span5 pull-left">
+    <div id="markdownedDesc" class="span5 pull-left navUnit">
       <h3>Description</h3>
       <blockquote>
         {{ user.description | markdown }}
       </blockquote>
-      <hr />
     </div>
-    <div id="roleInfo" class="span6 pull-right">
+    <div id="roleInfo" class="span6 pull-right navUnit">
       <h3>Membership Roles</h3>
       <p>These are the roles you have within the club website</p>
       {% from "users/macros.html" import pretty_print_role %}
       {{ pretty_print_role(user.role) }}
-      <hr />
     </div>
-    <div id="membershipDetails" class="span6 pull-right">
+    <div id="membershipDetails" class="span6 pull-right navUnit">
       <h3>Membership Details</h3>
       {% if user.member %}
         You have been an {{ user.getMemberStatus() }} member since <time date="{{ user.member_since }}">{{ user.member_since.strftime('%h %d, %Y') }}</time>.

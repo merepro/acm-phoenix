@@ -1,12 +1,15 @@
 {% extends "base.html" %}
   {% block content %}
     {% from "articles/macros.html" import render_posts, render_search_form  %}
-    <div id="queryInfo">
-      <h3><i class="icon-file"></i>&nbsp; Articles <small>{{ posts | length }} Results Found {{ query | format_query }} {{ cats | format_cats }} {{ authors | format_authors }} {{ tags | format_tags }}</small>
-      </h3>
-      <p>{{ order | format_order }}</p>
+    <div class="span7">
+      <center id="queryInfo">
+	<h3><i class="icon-file"></i>&nbsp; Articles <small>{{ posts | length }} Results Found {{ query | format_query }} {{ cats | format_cats }} {{ authors | format_authors }} {{ tags | format_tags }}</small>
+	</h3>
+	<p>{{ order | format_order }}</p>
+      </center>
+      {{ render_posts(posts, pagination) }}
     </div>
-    {{ render_posts(posts, pagination) }}
-    {{ render_search_form(form) }}
+    <div class="span5">
+      {{ render_search_form(form) }}
     </div>
   {% endblock %}
