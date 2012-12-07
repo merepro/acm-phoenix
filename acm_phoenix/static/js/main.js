@@ -10,4 +10,11 @@ $(document).ready(function() {
 
     // Multiple pages are using tooltips now so they should always be loaded.
     $("a[rel='tooltip']").tooltip();
+
+    // Any images in a post should have the polaroid class for style purposes.
+    $('.post img').each(function() {
+	if(!$(this).hasClass('img-polaroid')) {
+	    $(this).addClass('img-polaroid');
+	}
+    });
 });
