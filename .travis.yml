@@ -9,4 +9,4 @@ install:
   - pip install -q Flask==$FLASK --use-mirrors
   - ./configure
 script:
-  - python setup.py
+  - python reinit_db.py
