@@ -1,5 +1,4 @@
 Flask==0.9
-multiprocessing
 Flask-Admin==1.0.2
 Flask-Markdown==0.3
 Flask-SQLAlchemy==0.16
@@ -31,3 +30,4 @@ wsgiref==0.1.2
 xhtml2pdf==0.0.4
 Flask-Gravatar==0.2.3
 flask-paginate
+pytest
