@@ -1,4 +1,5 @@
 Flask==0.9
+multiprocessing
 Flask-Admin==1.0.2
 Flask-Markdown==0.3
 Flask-SQLAlchemy==0.16
