@@ -62,7 +62,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
     gfm_content = db.Column(db.String)
-    created = db.Column(db.DateTime, default=datetime.utcnow())
+    created = db.Column(db.DateTime)
     tags = db.relationship('Tag', secondary=tags,
                            primaryjoin=(id == tags.c.post_id),
                            secondaryjoin=(Tag.id == tags.c.tag_id),
@@ -80,13 +80,14 @@ class Post(db.Model):
 
     def __init__(self, title=None, gfm_content=None, created=None, tags=None,
                  slug=None, category=None, author=None):
-        title = title
-        gfm_content = gfm_content
-        created = datetime.now()
-        tags = tags
-        slug = slug
-        category = category
-        author = author
+        self.title = title or ""
+        self.gfm_content = gfm_content or ""
+        self.created = datetime.now()
+        print self.created
+        self.tags = tags or []
+        self.slug = slug or ""
+        self.category = category
+        self.author = author
 
     def __unicode__(self):
         return self.slug
