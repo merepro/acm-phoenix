@@ -4,8 +4,5 @@
 pip install -q -r requirements.txt --use-mirrors
 git submodule init && git submodule update
 
-# Run tests
-nosetests
-
 # Initialize database.
 python reinit_db.py
