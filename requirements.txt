@@ -11,3 +11,4 @@ google-api-python-client==1.0
 xhtml2pdf==0.0.4
 wepay==0.1.5
 git+git://github.com/videntity/python-signpad2image.git#egg=python-signpad2image
+nose

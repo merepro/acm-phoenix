@@ -4,14 +4,14 @@ from flask.ext.paginate import Pagination
 
 from time import strftime
 
-db = SQLAlchemy()
+db = None
 
 # Define how to make configurable application
 def create_app(config_object, debug=False):
     global db
     app = Flask(__name__)
     app.config.from_object(config_object)
-    db.init_app(app)
+    db = SQLAlchemy(app)
 
     return app
 
