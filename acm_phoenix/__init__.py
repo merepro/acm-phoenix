@@ -1,6 +1,5 @@
 from flask import Flask, render_template, g, session, url_for, redirect, request
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.admin import Admin
 from flask.ext.paginate import Pagination
 
 from time import strftime
@@ -25,19 +24,12 @@ from acm_phoenix.snippets.views import mod as snippetsModule
 app.register_blueprint(snippetsModule)
 
 from acm_phoenix.users.models import User
-from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin, 
-                                      PostAdmin, CategoryAdmin, TagAdmin)
 from acm_phoenix.articles.models import Post, Tag, Category
 from acm_phoenix.articles.forms import SearchForm
 
-# User Admin Views
-admin = Admin(index_view=AdminView())
-admin.add_view(UserAdmin(db.session))
-admin.add_view(ReportAdmin(db.session))
-admin.add_view(PostAdmin(db.session))
-admin.add_view(CategoryAdmin(db.session))
-admin.add_view(TagAdmin(db.session))
+from acm_phoenix.admin import admin
 admin.init_app(app)
+
 
 @app.before_request
 def before_request():
