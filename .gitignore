@@ -28,4 +28,4 @@ pip-log.txt
 
 run.py
 config.py
-acm_phoenix.db
+.db
