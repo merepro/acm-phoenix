@@ -10,7 +10,7 @@ import hashlib, os, base64
 from datetime import datetime
 
 # Signature storage
-from signpad2image.signpad2image import s2i
+import signpad2image
 import StringIO
 
 # Google OAuth2
