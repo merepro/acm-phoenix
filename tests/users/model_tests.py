@@ -122,6 +122,7 @@ class UserModelTest(ACMTestCase):
         self.remove_user(user)
 
     def test_get_role(self):
+        """Tests the user getRole function."""
         user = User()
         assert user.getRole() == 'user'
 
@@ -132,6 +133,7 @@ class UserModelTest(ACMTestCase):
         assert user.getRole() == 'admin'
 
     def test_get_member_status(self):
+        """Tests the user getMemberStatus function."""
         user = User()
         assert user.getMemberStatus() == 'In Progress'
 
@@ -145,6 +147,7 @@ class UserModelTest(ACMTestCase):
         assert user.getMemberStatus() == 'Unrenewed'
 
     def test_role_predicates(self):
+        """Test predicate functions that identify user roles."""
         user = User()
         assert user.isAdmin() is False and user.isPublisher() is False
 
