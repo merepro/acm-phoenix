@@ -1,34 +1,35 @@
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.testing import TestCase
-from acm_phoenix import db, create_app, register_blueprints
+from tests import ACMTestCase
+from acm_phoenix import db
 from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
 from datetime import datetime
 
 # Unit tests for user interactions with system
-class UserModelTest(TestCase):
-    app = None
-
-    def create_app(self):
-        self.app = create_app('config.TestingConfig')
-        #register_blueprints(self.app)
-        return self.app
-
+class UserModelTest(ACMTestCase):
+    """Unit tests for the User SQL Model."""
+    # Helper functions for testing database interactions
     def remove_user(self, user):
+        """Removes a specific user from the database."""
         db.session.delete(user)
         db.session.commit()
 
     def add_user(self, user=None):
+        """Adds a user to the database.
+
+        user is optional, so if no user is passed in, the default User object
+        will be used instead."""
         if user is None:
             user = User()
         db.session.add(user)
         db.session.commit()
 
     def test_no_default_users(self):
+        """Tests that there are no default users in the database."""
         user = User.query.first()
         assert user is None
 
     def test_add_user_to_db(self):
+        """Tests that users can be added to the database."""
         user = User()
         self.add_user(user)
 
@@ -36,6 +37,7 @@ class UserModelTest(TestCase):
         self.remove_user(user)
 
     def test_remove_user_from_db(self):
+        """Tests that users can be removed from the database."""
         self.add_user()
 
         user = User.query.first()
@@ -43,6 +45,7 @@ class UserModelTest(TestCase):
         assert user not in db.session
 
     def test_default_user_values(self):
+        """Tests that the values for a default User are as expected."""
         now = datetime.now()
         self.add_user()
         user = User.query.first()
@@ -66,6 +69,7 @@ class UserModelTest(TestCase):
         self.remove_user(user)
 
     def test_modify_user_from_db(self):
+        """Tests that a User Object can be modified and recommitted."""
         self.add_user()
         user = User.query.first()
 
@@ -95,10 +99,3 @@ class UserModelTest(TestCase):
         assert user.signature == "testsig"
 
         self.remove_user(user)
-
-    def setUp(self):
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
