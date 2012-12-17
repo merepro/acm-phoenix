@@ -98,3 +98,58 @@ class UserModelTest(ACMTestCase):
         assert user.signature == "testsig"
 
         self.remove_user(user)
+
+    def test_create_user_with_ctor(self):
+        """Test the constructor for the User Model."""
+        user = User("Test User", "testu001", "testuser@ucr.edu", "S", "CS",
+                    "M", "test user", "testsig")
+
+        self.add_user(user)
+
+        user = User.query.first()
+
+        assert user.name == "Test User"
+        assert user.email == "testuser@ucr.edu"
+        assert user.netid == "testu001"
+        assert user.standing == "S"
+        assert user.major == "CS"
+        assert user.shirt_size == "M"
+        assert user.description == "test user"
+        assert user.member is False
+        assert user.membership_status is USER.IN_PROGRESS
+        assert user.signature == "testsig"
+        
+        self.remove_user(user)
+
+    def test_get_role(self):
+        user = User()
+        assert user.getRole() == 'user'
+
+        user.role = USER.PUBLISHER
+        assert user.getRole() == 'publisher'
+
+        user.role = USER.ADMIN
+        assert user.getRole() == 'admin'
+
+    def test_get_member_status(self):
+        user = User()
+        assert user.getMemberStatus() == 'In Progress'
+
+        user.membership_status = USER.UNREGISTERED
+        assert user.getMemberStatus() == 'Unregistered'
+
+        user.membership_status = USER.PAID
+        assert user.getMemberStatus() == 'Official'
+
+        user.membership_status = USER.UNPAID
+        assert user.getMemberStatus() == 'Unrenewed'
+
+    def test_role_predicates(self):
+        user = User()
+        assert user.isAdmin() is False and user.isPublisher() is False
+
+        user.role = USER.PUBLISHER
+        assert user.isPublisher() and not user.isAdmin()
+
+        user.role = USER.ADMIN
+        assert user.isPublisher() and user.isAdmin()

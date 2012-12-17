@@ -38,6 +38,7 @@ class User(db.Model):
         self.description = description
         self.member_since = datetime.now()
         self.membership_status = USER.IN_PROGRESS
+        self.role = USER.USER
         self.signature = signature
 
     def getRole(self):
