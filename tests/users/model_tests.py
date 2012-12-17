@@ -4,7 +4,6 @@ from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
 from datetime import datetime
 
-# Unit tests for user interactions with system
 class UserModelTest(ACMTestCase):
     """Unit tests for the User SQL Model."""
     # Helper functions for testing database interactions
