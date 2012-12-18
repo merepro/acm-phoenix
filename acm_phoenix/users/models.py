@@ -36,6 +36,7 @@ class User(db.Model):
         self.major = major
         self.shirt_size = shirt_size
         self.description = description
+        self.member = False
         self.member_since = datetime.now()
         self.membership_status = USER.IN_PROGRESS
         self.role = USER.USER
