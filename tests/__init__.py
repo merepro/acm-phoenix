@@ -1,6 +1,8 @@
 from flask.ext.testing import TestCase
 from acm_phoenix import db, create_app, register_blueprints
 
+import abc
+
 class ACMTestCase(TestCase):
     """Test case wrapper that implements common initialization code"""    
     app = None
@@ -24,6 +26,17 @@ class ACMFormTest(ACMTestCase):
     # Derived form tests should define the forms to be tested in this list.
     forms = []
 
+    def fields_in_form_data(self, form_data, fields):
+        for field in fields:
+            if field not in form_data:
+                return False
+        return True
+
+    @abc.abstractmethod
+    def test_necessary_fields_in_form(self):
+        """Tests that necessary fields are in forms to be tested."""
+        return
+
     def test_forms_have_csrf_disabled(self):
         """Tests that any form being tested has csrf disabled.
 
@@ -40,3 +53,10 @@ class ACMFormTest(ACMTestCase):
         for formClass in self.forms:
             form = formClass()
             assert form is not None
+
+    def test_empty_form_validation(self):
+        for formClass in self.forms:
+            """Tests that empty forms are invalid."""
+            form = formClass()
+            assert form.validate() is False
+        
