@@ -25,7 +25,7 @@ class ACMFormTest(ACMTestCase):
     forms = []
 
     def test_forms_have_csrf_disabled(self):
-        """Tests the any form being tested has csrf disabled.
+        """Tests that any form being tested has csrf disabled.
 
         Without having csrf tokens disabled, it is impossible to test form
         submissions by post because WTForms uses CSRF tokens. WTForms should
