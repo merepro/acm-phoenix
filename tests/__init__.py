@@ -56,17 +56,17 @@ class ACMFormTest(ACMTestCase):
         but we want to make sure."""
         for formClass in self.forms:
             form = formClass()
-            assert form.csrf_enabled is False
+            self.assertFalse(form.csrf_enabled)
 
     def test_create_form_from_ctor(self):
         """Tests that a valid form can be made from the construtor."""
         for formClass in self.forms:
             form = formClass()
-            assert form is not None
+            self.assertIsNotNone(form)
 
     def test_empty_form_validation(self):
         for formClass in self.forms:
             """Tests that empty forms are invalid."""
             form = formClass()
-            assert form.validate() is False
+            self.assertFalse(form.validate())
         
