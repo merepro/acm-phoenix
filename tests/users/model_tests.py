@@ -25,14 +25,14 @@ class UserModelTest(ACMTestCase):
     def test_no_default_users(self):
         """Tests that there are no default users in the database."""
         user = User.query.first()
-        assert user is None
+        self.assertIsNone(user)
 
     def test_add_user_to_db(self):
         """Tests that users can be added to the database."""
         user = User()
         self.add_user(user)
 
-        assert user in db.session
+        self.assertIn(user, db.session)
         self.remove_user(user)
 
     def test_remove_user_from_db(self):
@@ -41,7 +41,7 @@ class UserModelTest(ACMTestCase):
 
         user = User.query.first()
         self.remove_user(user)
-        assert user not in db.session
+        self.assertNotIn(user, db.session)
 
     def test_default_user_values(self):
         """Tests that the values for a default User are as expected."""
@@ -49,21 +49,21 @@ class UserModelTest(ACMTestCase):
         self.add_user()
         user = User.query.first()
 
-        assert user.name is None
-        assert user.netid is None
-        assert user.email is None
-        assert user.role is USER.USER
-        assert user.member is False
-        assert user.member_since >= now
-        assert user.membership_status is USER.IN_PROGRESS
-        assert user.membership_paid_on is None
-        assert user.description is None
-        assert user.standing is None
-        assert user.major is None
-        assert user.shirt_size is None
-        assert user.wepay_verification is None
-        assert user.wepay_checkout_id is None
-        assert user.signature is None
+        self.assertIsNone(user.name)
+        self.assertIsNone(user.netid)
+        self.assertIsNone(user.email)
+        self.assertIs(user.role, USER.USER)
+        self.assertFalse(user.member)
+        self.assertTrue(user.member_since >= now)
+        self.assertIs(user.membership_status, USER.IN_PROGRESS)
+        self.assertIsNone(user.membership_paid_on)
+        self.assertIsNone(user.description)
+        self.assertIsNone(user.standing)
+        self.assertIsNone(user.major)
+        self.assertIsNone(user.shirt_size)
+        self.assertIsNone(user.wepay_verification)
+        self.assertIsNone(user.wepay_checkout_id)
+        self.assertIsNone(user.signature)
 
         self.remove_user(user)
 
@@ -86,16 +86,16 @@ class UserModelTest(ACMTestCase):
         self.add_user(user)
         user = User.query.first()
 
-        assert user.name == "Test User"
-        assert user.email == "testuser@ucr.edu"
-        assert user.netid == "testu001"
-        assert user.standing == "S"
-        assert user.major == "CS"
-        assert user.shirt_size == "M"
-        assert user.description == "test user"
-        assert user.member is True
-        assert user.membership_status is USER.USER
-        assert user.signature == "testsig"
+        self.assertEquals(user.name, "Test User")
+        self.assertEquals(user.email, "testuser@ucr.edu")
+        self.assertEquals(user.netid, "testu001")
+        self.assertEquals(user.standing, "S")
+        self.assertEquals(user.major, "CS")
+        self.assertEquals(user.shirt_size, "M")
+        self.assertEquals(user.description, "test user")
+        self.assertTrue(user.member)
+        self.assertIs(user.membership_status, USER.USER)
+        self.assertEquals(user.signature, "testsig")
 
         self.remove_user(user)
 
@@ -108,51 +108,54 @@ class UserModelTest(ACMTestCase):
 
         user = User.query.first()
 
-        assert user.name == "Test User"
-        assert user.email == "testuser@ucr.edu"
-        assert user.netid == "testu001"
-        assert user.standing == "S"
-        assert user.major == "CS"
-        assert user.shirt_size == "M"
-        assert user.description == "test user"
-        assert user.member is False
-        assert user.membership_status is USER.IN_PROGRESS
-        assert user.signature == "testsig"
+        self.assertEquals(user.name, "Test User")
+        self.assertEquals(user.email, "testuser@ucr.edu")
+        self.assertEquals(user.netid, "testu001")
+        self.assertEquals(user.standing, "S")
+        self.assertEquals(user.major, "CS")
+        self.assertEquals(user.shirt_size, "M")
+        self.assertEquals(user.description, "test user")
+        self.assertFalse(user.member)
+        self.assertIs(user.membership_status, USER.IN_PROGRESS)
+        self.assertEquals(user.signature, "testsig")
         
         self.remove_user(user)
 
     def test_get_role(self):
         """Tests the user getRole function."""
         user = User()
-        assert user.getRole() == 'user'
+        self.assertEquals(user.getRole(), 'user')
 
         user.role = USER.PUBLISHER
-        assert user.getRole() == 'publisher'
+        self.assertEquals(user.getRole(), 'publisher')
 
         user.role = USER.ADMIN
-        assert user.getRole() == 'admin'
+        self.assertEquals(user.getRole(), 'admin')
 
     def test_get_member_status(self):
         """Tests the user getMemberStatus function."""
         user = User()
-        assert user.getMemberStatus() == 'In Progress'
+        self.assertEquals(user.getMemberStatus(), 'In Progress')
 
         user.membership_status = USER.UNREGISTERED
-        assert user.getMemberStatus() == 'Unregistered'
+        self.assertEquals(user.getMemberStatus(), 'Unregistered')
 
         user.membership_status = USER.PAID
-        assert user.getMemberStatus() == 'Official'
+        self.assertEquals(user.getMemberStatus(), 'Official')
 
         user.membership_status = USER.UNPAID
-        assert user.getMemberStatus() == 'Unrenewed'
+        self.assertEquals(user.getMemberStatus(), 'Unrenewed')
 
     def test_role_predicates(self):
         """Test predicate functions that identify user roles."""
         user = User()
-        assert user.isAdmin() is False and user.isPublisher() is False
+        self.assertFalse(user.isAdmin())
+        self.assertFalse(user.isPublisher())
 
         user.role = USER.PUBLISHER
-        assert user.isPublisher() and not user.isAdmin()
+        self.assertTrue(user.isPublisher())
+        self.assertFalse(user.isAdmin())
 
         user.role = USER.ADMIN
-        assert user.isPublisher() and user.isAdmin()
+        self.assertTrue(user.isPublisher())
+        self.assertTrue(user.isAdmin())
