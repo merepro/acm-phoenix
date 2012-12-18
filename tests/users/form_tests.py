@@ -11,27 +11,27 @@ class UserFormsTest(ACMFormTest):
     """Unit tests for User Forms."""
     forms = [RegisterForm, EditForm]
 
-    # Looping through the forms works here because RegisterForm and EditForm
-    # have the same fields.
-
     def test_necessary_fields_in_form(self):
         reg_and_edit_fields = ['name', 'netid', 'email', 'standing', 'major',
                                'shirt_size', 'description']
 
-        for formClass in self.forms:
-            form = formClass()
-            self.assertTrue(
-                self.fields_in_form_data(form.data, reg_and_edit_fields))
+        form = RegisterForm()
+        assert self.fields_in_form_data(form.data, reg_and_edit_fields)
+
+        form = EditForm()
+        assert self.fields_in_form_data(form.data, reg_and_edit_fields)
         
         
     def test_required_fields_make_form_valid(self):
         """Tests that form is valid iff required fields are valid."""
+        # Looping through the forms works here because they all have the same
+        # fields.
         for formClass in self.forms:
             form = formClass(name='Test User', netid='testu001',
                              email='testu001@ucr.edu', standing='soph',
                              major='CS', shirt_size='S',
                              description='test user')
-            self.assertTrue(form.validate())
+            assert form.validate()
 
 
         # Seeing if adding optional fields is really optional.
@@ -39,13 +39,13 @@ class UserFormsTest(ACMFormTest):
             form = formClass(name='Test User', netid='testu001',
                              email='testu001@ucr.edu', standing='soph',
                              major='CS', shirt_size='S')
-            self.assertTrue(form.validate())
+            assert form.validate()
 
         # Making sure that leaving one required field empty fails validation.
         for formClass in self.forms:
             form = formClass(netid='testu001', email='testu001@ucr.edu',
                              standing='soph', major='CS', shirt_size='S')
-            self.assertFalse(form.validate())
+            assert not form.validate()
 
     def test_forms_populate_models(self):
         """Tests that a validated form can populate associated model."""
@@ -56,18 +56,18 @@ class UserFormsTest(ACMFormTest):
                              major='CS', shirt_size='S',
                              description='test user')
             form.populate_obj(user)
-            self.assertEquals(user.name, 'Test User')
-            self.assertEquals(user.netid, 'testu001')
-            self.assertEquals(user.email, 'testu001@ucr.edu')
-            self.assertEquals(user.standing, 'soph')
-            self.assertEquals(user.major, 'CS')
-            self.assertEquals(user.shirt_size, 'S')
-            self.assertEquals(user.description, 'test user')
-            self.assertIs(user.role, USER.USER)
-            self.assertFalse(user.member)
-            self.assertIs(user.membership_status, USER.IN_PROGRESS)
-            self.assertIsNone(user.membership_paid_on)
-            self.assertIsNone(user.wepay_verification)
-            self.assertIsNone(user.wepay_checkout_id)
-            self.assertIsNone(user.signature)
+            assert user.name == 'Test User'
+            assert user.netid == 'testu001'
+            assert user.email == 'testu001@ucr.edu'
+            assert user.standing == 'soph'
+            assert user.major == 'CS'
+            assert user.shirt_size == 'S'
+            assert user.description == 'test user'
+            assert user.role is USER.USER
+            assert user.member is False
+            assert user.membership_status is USER.IN_PROGRESS
+            assert user.membership_paid_on is None
+            assert user.wepay_verification is None
+            assert user.wepay_checkout_id is None
+            assert user.signature is None
 
