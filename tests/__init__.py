@@ -37,6 +37,16 @@ class ACMFormTest(ACMTestCase):
         """Tests that necessary fields are in forms to be tested."""
         return
 
+    @abc.abstractmethod
+    def test_required_fields_make_form_valid(self):
+        """Tests that form is valid iff required fields are valid."""
+        return
+
+    @abc.abstractmethod
+    def test_forms_populate_models(self):
+        """Tests that a validated form can populate associated model."""
+        return
+
     def test_forms_have_csrf_disabled(self):
         """Tests that any form being tested has csrf disabled.
 
