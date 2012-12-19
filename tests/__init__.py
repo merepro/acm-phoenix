@@ -58,7 +58,7 @@ class ACMFormTest(ACMTestCase):
     def assertType(self, form, field_name, field_type):
         """Asserts field_name has field_type in form."""
         self.assertTrue(self.has_field(form, field_name))
-        self.assertIs(self._get_field(field_name).__class__, field_type)
+        self.assertIs(self._get_field(form, field_name).__class__, field_type)
 
     def assertOptional(self, form, field_name):
         """Asserts field_name is an optional field in form."""
