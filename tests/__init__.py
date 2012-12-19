@@ -6,11 +6,12 @@ import abc
 class ACMTestCase(TestCase):
     """Test case wrapper that implements common initialization code"""    
     app = None
+    client = None
 
     def create_app(self):
         """Creates testing application with correct database configuration"""
         self.app = create_app('config.TestingConfig')
-        #register_blueprints(self.app)
+        self.client = self.app.test_client()
         return self.app
 
     def setUp(self):
