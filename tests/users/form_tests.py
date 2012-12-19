@@ -15,13 +15,13 @@ class UserFormsTest(ACMFormTest):
     # have the same fields.
 
     def test_necessary_fields_in_form(self):
+        """Tests that necessary fields are in forms to be tested."""
         reg_and_edit_fields = ['name', 'netid', 'email', 'standing', 'major',
                                'shirt_size', 'description']
 
         for formClass in self.forms:
             form = formClass()
-            self.assertTrue(
-                self.fields_in_form_data(form.data, reg_and_edit_fields))
+            self.assertTrue(self.fields_in_form(form, reg_and_edit_fields))
         
         
     def test_required_fields_make_form_valid(self):

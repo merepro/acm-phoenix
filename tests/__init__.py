@@ -24,15 +24,54 @@ class ACMTestCase(TestCase):
         db.drop_all()
 
 class ACMFormTest(ACMTestCase):
+    from flask.ext.wtf import Field, Required, Email, Optional
+
     # Derived form tests should define the forms to be tested in this list.
     forms = []
 
-    def fields_in_form_data(self, form_data, fields):
+    def _get_field(self, form, field_name):
+        """Gets the field attribute of field_name from a given form."""
+        return getattr(form, field_name)
+
+    def _get_validator(self, field, validator_class):
+        """Gets a particular validator_class from a field."""
+        for validator in field.validators:
+            if isinstance(validator, validator_class):
+                return validator
+        return None
+
+    def get_validator(self, form, field_name, validator_class):
+        """Gets a particular validator_class from form.field_name."""
+        return self._get_validator(
+            self._get_field(form, field_name),
+            validator_class)
+
+    def has_field(self, form, field_name):
+        return hasattr(form, field_name)
+
+    def fields_in_form(self, form, fields):
         """Returns true if all fields are in form_data."""
-        for field in fields:
-            if field not in form_data:
+        for field_name in fields:
+            if not self.has_field(form, field_name):
                 return False
         return True
+
+    def assertType(self, form, field_name, field_type):
+        """Asserts field_name has field_type in form."""
+        self.assertTrue(self.has_field(form, field_name))
+        self.assertIs(self._get_field(field_name).__class__, field_type)
+
+    def assertOptional(self, form, field_name):
+        """Asserts field_name is an optional field in form."""
+        self.assertIsNotNone(self.get_validator(form, field_name, Optional))
+
+    def assertRequired(self, form, field_name):
+        """Asserts field_name is a required field in form."""
+        self.assertIsNotNone(self.get_validator(form, field_name, Required))
+
+    def assertEmail(self, form, field_name):
+        """Asserts field_name is an email field in form."""
+        self.assertIsNotNone(self.get_validator(form, field_name, Email))
 
     @abc.abstractmethod
     def test_necessary_fields_in_form(self):
