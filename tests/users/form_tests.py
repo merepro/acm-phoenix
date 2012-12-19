@@ -37,6 +37,37 @@ class UserFormsTest(ACMFormTest):
             self.assertType(form, 'shirt_size', SelectField)
             self.assertType(form, 'description', TextAreaField)
 
+    def test_select_fields_have_expected_choices(self):
+        """Tests that each SelectField in the form has the expected choices."""
+        standing_choices = [('freshman', 'Freshman'),
+                            ('soph', 'Sophomore'),
+                            ('junior', 'Junior'),
+                            ('senior', 'Senior'),
+                            ('alum', 'Alumni'),
+                            ('grad', 'Graduate Student'),
+                            ('faculty', 'Faculty')]
+        
+        major_choices = [('CS', 'CS (Computer Science)'),
+                         ('CE', 'CE (Computer Engineering)'),
+                         ('BI', 'BI (Business Informatics)'),
+                         ('Other', 'Other')]
+
+        shirt_size_choices = [('S', 'Small'),
+                              ('M', 'Medium'),
+                              ('L', 'Large'),
+                              ('XL', 'X-Large'),
+                              ('XXL', '2X-Large')]
+
+        for formClass in self.forms:
+            form = formClass()
+            self.assertChoices(form, 'standing', standing_choices)
+            self.assertChoiceValues(form, 'standing', standing_choices)
+            self.assertChoices(form, 'major', major_choices)
+            self.assertChoiceValues(form, 'major', major_choices)
+            self.assertChoices(form, 'shirt_size', shirt_size_choices)
+            self.assertChoiceValues(form, 'shirt_size', shirt_size_choices)
+            
+
     def test_fields_have_expected_validators(self):
         """Tests that form fields have the expected validators."""
         for formClass in self.forms:
