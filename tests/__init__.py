@@ -28,6 +28,7 @@ class ACMFormTest(ACMTestCase):
     forms = []
 
     def fields_in_form_data(self, form_data, fields):
+        """Returns true if all fields are in form_data."""
         for field in fields:
             if field not in form_data:
                 return False
@@ -66,8 +67,8 @@ class ACMFormTest(ACMTestCase):
             self.assertIsNotNone(form)
 
     def test_empty_form_validation(self):
+        """Tests that empty forms are invalid."""
         for formClass in self.forms:
-            """Tests that empty forms are invalid."""
             form = formClass()
             self.assertFalse(form.validate())
         
