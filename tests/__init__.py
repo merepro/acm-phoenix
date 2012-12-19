@@ -72,6 +72,19 @@ class ACMFormTest(ACMTestCase):
         """Asserts field_name is an email field in form."""
         self.assertIsNotNone(self.get_validator(form, field_name, Email))
 
+    def assertChoices(self, form, field_name, choices):
+        """Asserts field_name's choices are equivalent to expected choices."""
+        field = self._get_field(form, field_name)
+        self.assertEqual(field.choices, choices)
+
+    def assertChoiceValues(self, form, field_name, choices):
+        """Asserts field_name's choice values are equivalent to expected
+        choice values."""
+        import collections
+        equivalent = lambda a, e: collections.Counter(a) == collections.Counter(e)
+        field = self._get_field(form, field_name)
+        self.assertTrue(equivalent(field.choices, choices))
+
     @abc.abstractmethod
     def test_necessary_fields_in_form(self):
         """Tests that necessary fields are in forms to be tested."""
