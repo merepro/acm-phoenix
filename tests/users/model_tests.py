@@ -54,7 +54,7 @@ class UserModelTest(ACMTestCase):
         self.assertIsNone(user.email)
         self.assertIs(user.role, USER.USER)
         self.assertFalse(user.member)
-        self.assertTrue(user.member_since >= now)
+        self.assertGreaterEqual(user.member_since, now)
         self.assertIs(user.membership_status, USER.IN_PROGRESS)
         self.assertIsNone(user.membership_paid_on)
         self.assertIsNone(user.description)
