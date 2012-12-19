@@ -4,6 +4,8 @@ from tests import ACMFormTest
 from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
+from flask.ext.wtf import (Form, TextField, SelectField, 
+                           TextAreaField)
 
 import abc
 
@@ -22,7 +24,18 @@ class UserFormsTest(ACMFormTest):
         for formClass in self.forms:
             form = formClass()
             self.assertTrue(self.fields_in_form(form, reg_and_edit_fields))
-        
+
+    def test_fields_have_expected_types(self):
+        """Tests that each field has expected Field type."""
+        for formClass in self.forms:
+            form = formClass()
+            self.assertType(form, 'name', TextField)
+            self.assertType(form, 'netid', TextField)
+            self.assertType(form, 'email', TextField)
+            self.assertType(form, 'standing', SelectField)
+            self.assertType(form, 'major', SelectField)
+            self.assertType(form, 'shirt_size', SelectField)
+            self.assertType(form, 'description', TextAreaField)
 
     def test_fields_have_expected_validators(self):
         """Tests that form fields have the expected validators."""

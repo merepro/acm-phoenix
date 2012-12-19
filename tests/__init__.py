@@ -77,6 +77,10 @@ class ACMFormTest(ACMTestCase):
         """Tests that necessary fields are in forms to be tested."""
         return
 
+    @abc.abstractmethod
+    def test_fields_have_expected_types(self):
+        """Tests that each field has the expected Field type."""
+        return
 
     @abc.abstractmethod
     def test_fields_have_expected_validators(self):
