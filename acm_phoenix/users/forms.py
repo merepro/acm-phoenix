@@ -2,7 +2,7 @@
 
 from flask.ext.wtf import (Form, TextField, IntegerField, SelectField, 
                            TextAreaField, SubmitField)
-from flask.ext.wtf import Required, Email, EqualTo
+from flask.ext.wtf import Required, Email, EqualTo, Optional
 
 class RegisterForm(Form):
     """
@@ -40,7 +40,8 @@ class RegisterForm(Form):
         )
 
     description = TextAreaField(u'Describe yourself! '
-                                '(Github Flavored Markdown Allowed!)')
+                                '(Github Flavored Markdown Allowed!)',
+                                [Optional()])
 
     reg_only = SubmitField(u'<i class="icon-group"></i> Register Only')
     reg_and_pay = SubmitField(u'<i class="icon-credit-card"></i> '
@@ -52,7 +53,7 @@ class EditForm(Form):
     """
     name = TextField(u'Name', [Required()])
     netid = TextField(u'NetID', [Required()])
-    email = TextField(u'Email address', [Required()])
+    email = TextField(u'Email address', [Required(), Email()])
 
     standing = SelectField(
         u'Class Standing', [Required()],
@@ -83,5 +84,6 @@ class EditForm(Form):
         )
 
     description = TextAreaField(u'Describe yourself! '
-                                '(Github Flavored Markdown Allowed!)')
+                                '(Github Flavored Markdown Allowed!)',
+                                [Optional()])
     
