@@ -1,4 +1,5 @@
 from flask.ext.testing import TestCase
+from flask.ext.wtf import Field, Required, Email, Optional
 from acm_phoenix import db, create_app, register_blueprints
 
 import abc
