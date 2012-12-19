@@ -25,8 +25,6 @@ class ACMTestCase(TestCase):
         db.drop_all()
 
 class ACMFormTest(ACMTestCase):
-    from flask.ext.wtf import Field, Required, Email, Optional
-
     # Derived form tests should define the forms to be tested in this list.
     forms = []
 
@@ -77,6 +75,12 @@ class ACMFormTest(ACMTestCase):
     @abc.abstractmethod
     def test_necessary_fields_in_form(self):
         """Tests that necessary fields are in forms to be tested."""
+        return
+
+
+    @abc.abstractmethod
+    def test_fields_have_expected_validators(self):
+        """Tests that form fields have the expected validators."""
         return
 
     @abc.abstractmethod

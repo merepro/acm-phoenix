@@ -23,6 +23,20 @@ class UserFormsTest(ACMFormTest):
             form = formClass()
             self.assertTrue(self.fields_in_form(form, reg_and_edit_fields))
         
+
+    def test_fields_have_expected_validators(self):
+        """Tests that form fields have the expected validators."""
+        for formClass in self.forms:
+            form = formClass()
+            self.assertRequired(form, 'name')
+            self.assertRequired(form, 'netid')
+            self.assertRequired(form, 'email')
+            self.assertEmail(form, 'email')
+            self.assertRequired(form, 'standing')
+            self.assertRequired(form, 'major')
+            self.assertRequired(form, 'shirt_size')
+            self.assertOptional(form, 'description')
+            
         
     def test_required_fields_make_form_valid(self):
         """Tests that form is valid iff required fields are valid."""
