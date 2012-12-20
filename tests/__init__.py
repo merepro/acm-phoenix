@@ -1,5 +1,5 @@
 from flask.ext.testing import TestCase
-from flask.ext.wtf import Field, Required, Email, Optional
+from flask.ext.wtf import Required, Email, Optional
 from acm_phoenix import db, create_app, register_blueprints
 
 import abc
@@ -46,6 +46,7 @@ class ACMFormTest(ACMTestCase):
             validator_class)
 
     def has_field(self, form, field_name):
+        """Returns true if form has field_name."""
         return hasattr(form, field_name)
 
     def fields_in_form(self, form, fields):

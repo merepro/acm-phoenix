@@ -4,10 +4,8 @@ from tests import ACMFormTest
 from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
-from flask.ext.wtf import (Form, TextField, SelectField, 
+from flask.ext.wtf import (TextField, SelectField, 
                            TextAreaField)
-
-import abc
 
 class UserFormsTest(ACMFormTest):
     """Unit tests for User Forms."""
