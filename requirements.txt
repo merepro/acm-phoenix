@@ -5,6 +5,7 @@ Flask-SQLAlchemy==0.16
 Flask-WTF==0.8
 Flask-Gravatar==0.2.3
 Flask-Paginate
+Flask-Assets
 PIL==1.1.7
 google-api-python-client==1.0
 xhtml2pdf==0.0.4
