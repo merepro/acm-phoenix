@@ -50,7 +50,7 @@ def authors(author_ids):
             return ''
         else:
             return 'by ' + ', '.join([author.name for author in authors])
-        
+
 
 @app.template_filter('format_query')
 def formatted_query(query):
@@ -145,9 +145,9 @@ def show_all():
         categories = []
         req_cat = request.args.get('c')
         category_list = (req_cat.split(',')
-                         if req_cat is not None 
+                         if req_cat is not None
                          else ([cat.id for cat in Category.query.all()]))
-        
+
         for category in category_list:
             categories.append(Post.category_id == category)
 
@@ -199,10 +199,18 @@ def show_all():
     page = int(request.args.get('page')) if request.args.get('page') else 1
     pagination = Pagination(posts, per_page=4, total=len(posts),
                             page=page)
-    return render_template('articles/articles.html', posts=posts,
-                           form=form, query=search_term, cats=req_cat,
-                           authors=req_auth, tags=req_tags, order=order,
-                           pagination=pagination)
+
+    if len(request.args) == 0:
+        return render_template ('articles/articles.html', posts=posts,
+                                form=form, query=search_term, cats=req_cat,
+                                authors=req_auth, tags=req_tags, order=order,
+                                pagination=pagination)
+    return render_template ('articles/article_partial.html', posts=posts,
+                                form=form, query=search_term, cats=req_cat,
+                                authors=req_auth, tags=req_tags, order=order,
+                                pagination=pagination)
+
+
 
 @mod.route('/cat/<slug>/')
 def show_cat(slug):
