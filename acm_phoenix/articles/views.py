@@ -3,7 +3,7 @@ from flask import (Blueprint, request, render_template, flash, g, session,
 from flask.ext.paginate import Pagination
 from sqlalchemy import or_, and_
 
-from acm_phoenix import db
+from acm_phoenix.extensions import db
 from acm_phoenix.users.models import User
 from acm_phoenix.articles.models import Post, Category, Tag
 from acm_phoenix.articles.forms import SearchForm

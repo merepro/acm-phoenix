@@ -1,13 +1,8 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.admin import Admin
-
-db = SQLAlchemy()
-admin = Admin()
+from acm_phoenix.extensions import db, admin
 
 def create_app(config_object, debug=False):
     """Creates a valid acm_phoenix application."""
-    global db
     app = Flask(__name__)
     app.config.from_object(config_object)
     db.init_app(app)
@@ -28,10 +23,21 @@ def register_blueprints(app):
     app.register_blueprint(usersModule)
     app.register_blueprint(articlesModule)
     app.register_blueprint(snippetsModule)
+    register_admin_backend(app)
 
-    global admin
-    from acm_phoenix.admin.models import AdminView
-    admin = Admin(app, AdminView())
+def register_admin_backend(app):
+    from flask.ext.admin import Admin
+    from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin,
+                                          PostAdmin, CategoryAdmin, TagAdmin)
+
+    # User Admin Views
+    admin = Admin(index_view=AdminView())
+    admin.add_view(UserAdmin(db.session))
+    admin.add_view(ReportAdmin(db.session))
+    admin.add_view(PostAdmin(db.session))
+    admin.add_view(CategoryAdmin(db.session))
+    admin.add_view(TagAdmin(db.session))
+    admin.init_app(app)
 
 def register_filters(app):
     """Initializes all filters needed for submodules."""

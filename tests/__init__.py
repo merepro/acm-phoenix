@@ -1,6 +1,7 @@
 from flask.ext.testing import TestCase
 from flask.ext.wtf import Required, Email, Optional
-from acm_phoenix import db, create_app
+from acm_phoenix import create_app
+from acm_phoenix.extensions import db
 
 import abc
 

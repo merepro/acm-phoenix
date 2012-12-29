@@ -14,7 +14,7 @@ import StringIO
 # Google OAuth2
 from oauth2client.client import OAuth2WebServerFlow
 
-from acm_phoenix import db
+from acm_phoenix.extensions import db
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
