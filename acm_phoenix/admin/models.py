@@ -7,7 +7,6 @@ from flask.ext.admin.base import AdminIndexView
 from flask.ext.admin.actions import action
 from flask.ext.admin.babel import gettext, lazy_gettext
 
-from acm_phoenix import app
 from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.decorators import requires_login

@@ -1,10 +1,9 @@
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
-from flaskext.markdown import Markdown
-from flaskext.gravatar import Gravatar
+from flask import (Blueprint, request, render_template, flash, g, session,
+                   redirect, url_for, current_app)
 from flask.ext.paginate import Pagination
 from sqlalchemy import or_, and_
 
-from acm_phoenix import app, db
+from acm_phoenix import db
 from acm_phoenix.users.models import User
 from acm_phoenix.articles.models import Post, Category, Tag
 from acm_phoenix.articles.forms import SearchForm
@@ -15,97 +14,6 @@ from acm_phoenix.users.gfm import gfm
 
 # Article Blueprint
 mod = Blueprint('articles', __name__, url_prefix='/articles')
-
-# Initialize Markdown
-Markdown(app)
-
-gravatar = Gravatar(app,
-                    size=50,
-                    rating='g',
-                    default='retro',
-                    force_default=False,
-                    force_lower=False)
-
-@app.template_filter('formatted_time')
-def timesince(date):
-    """
-    A filter that formats a datetime as Month Day, Year.
-    """
-    format = '%b %d, %Y'
-    return date.strftime(format)
-
-@app.template_filter('format_authors')
-def authors(author_ids):
-    """
-    Convert list of author ids into author names
-    """
-    if author_ids is None:
-        return ''
-    else:
-        ids = []
-        for author_id in author_ids.split(','):
-            ids.append(User.id == int(author_id))
-        authors = User.query.filter(or_(*ids)).all()
-        if authors is None:
-            return ''
-        else:
-            return 'by ' + ', '.join([author.name for author in authors])
-        
-
-@app.template_filter('format_query')
-def formatted_query(query):
-    """
-    Pretty print query
-    """
-    stripped_query = query.replace('%', '') if query is not None else ''
-    if len(stripped_query) == 0:
-        return ""
-    else:
-        return "with query like '" + stripped_query + "'"
-
-@app.template_filter('format_cats')
-def formatted_category(cat_ids):
-    """
-    Convert list of category ids into category slugs
-    """
-    if cat_ids is None:
-        return ''
-    else:
-        ids = []
-        for cat_id in cat_ids.split(','):
-            ids.append(Category.id == int(cat_id))
-        cats = Category.query.filter(or_(*ids)).all()
-        if cats is None:
-            return ''
-        else:
-            return 'in ' + ', '.join([cat.slug.title() for cat in cats])
-
-@app.template_filter('format_tags')
-def formatted_tag(tag_ids):
-    """
-    Convert list of tag ids into tag names.
-    """
-    if tag_ids is None:
-        return ''
-    else:
-        ids = []
-        for tag_id in tag_ids.split(','):
-            ids.append(Tag.id == int(tag_id))
-        tags = Tag.query.filter(or_(*ids)).all()
-        if tags is None:
-            return ''
-        else:
-            return 'with tags: ' + ', '.join([tag.name.title() for tag in tags])
-
-@app.template_filter('format_order')
-def format_order(order):
-    """
-    Prints User-Friendly description of ORDERing technique.
-    """
-    if order is None:
-        return ''
-    else:
-        return 'Ordered by ' + ORDER[order]
 
 def valid_args(args):
     """

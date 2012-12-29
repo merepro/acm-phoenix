@@ -2,7 +2,7 @@
 
 from flask import flash
 
-from acm_phoenix import app, db
+from acm_phoenix import db
 from acm_phoenix.users.models import User
 from acm_phoenix.users.gfm import gfm
 

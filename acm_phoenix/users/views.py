@@ -1,8 +1,6 @@
 """Views for the users module"""
 from flask import (Blueprint, request, render_template, flash, g, session,
-                   redirect, url_for)
-from flaskext.markdown import Markdown
-from flaskext.gravatar import Gravatar
+                   redirect, url_for, current_app)
 
 # WePay transaction
 from wepay import WePay
@@ -16,7 +14,7 @@ import StringIO
 # Google OAuth2
 from oauth2client.client import OAuth2WebServerFlow
 
-from acm_phoenix import db, app
+from acm_phoenix import db
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
@@ -28,23 +26,8 @@ from acm_phoenix.users.gfm import gfm
 # User Blueprint
 mod = Blueprint('users', __name__, url_prefix='')
 
-# Initialize Markdown
-Markdown(app)
-
 # Google OAuth2 flow object to get user's email.
-flow = OAuth2WebServerFlow(
-  client_id=app.config['GOOGLE_CLIENT_ID'],
-  client_secret=app.config['GOOGLE_CLIENT_SECRET'],
-  scope='https://www.googleapis.com/auth/userinfo.email',
-  redirect_uri=app.config['HOST_URL'] + '/oauth2callback')
-
-# Gravatar initialization
-gravatar = Gravatar(app,
-                    size=200,
-                    rating='g',
-                    default='retro',
-                    force_default=False,
-                    force_lower=False)
+flow = None
 
 # Routing rules
 @mod.route('/profile/')
@@ -93,6 +76,13 @@ def login():
   """
   Login with rmail account using Google OAuth2
   """
+  global flow
+  flow = OAuth2WebServerFlow(
+    client_id=current_app.config['GOOGLE_CLIENT_ID'],
+    client_secret=current_app.config['GOOGLE_CLIENT_SECRET'],
+    scope='https://www.googleapis.com/auth/userinfo.email',
+    redirect_uri=current_app.config['HOST_URL'] + '/oauth2callback')
+
   session['next_path'] = request.args.get('next')
   if session['next_path'] is None:
     session['next_path'] = url_for('users.home')
@@ -233,6 +223,8 @@ def authenticate_user():
   """
   Authenticate user as logged in after Google OAuth2 sends a callback.
   """
+  global flow
+
   error = request.args.get('error')
   if error:
     return redirect(url_for('users.home'))
