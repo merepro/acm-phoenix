@@ -1,81 +1,131 @@
-from flask import Flask, render_template, g, session, url_for, redirect, request
+from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.paginate import Pagination
+from flask.ext.admin import Admin
 
-from time import strftime
+db = SQLAlchemy()
+admin = Admin()
 
-db = None
-
-# Define how to make configurable application
 def create_app(config_object, debug=False):
+    """Creates a valid acm_phoenix application."""
     global db
     app = Flask(__name__)
     app.config.from_object(config_object)
-    db = SQLAlchemy(app)
+    db.init_app(app)
+    register_blueprints(app)
+    register_filters(app)
+    register_decorators(app)
 
     return app
 
 def register_blueprints(app):
-    # Loading user modules.
+    """Registers submodules as blueprints."""
+    from acm_phoenix.views import mod as indexModule
     from acm_phoenix.users.views import mod as usersModule
     from acm_phoenix.articles.views import mod as articlesModule
     from acm_phoenix.snippets.views import mod as snippetsModule
-    from acm_phoenix.admin import admin
     
+    app.register_blueprint(indexModule)
     app.register_blueprint(usersModule)
     app.register_blueprint(articlesModule)
     app.register_blueprint(snippetsModule)
-    admin.init_app(app)
 
-app = create_app('config.DevelopmentConfig')
-register_blueprints(app)
+    global admin
+    from acm_phoenix.admin.models import AdminView
+    admin = Admin(app, AdminView())
 
-from acm_phoenix.users.models import User
+def register_filters(app):
+    """Initializes all filters needed for submodules."""
+    from flask.ext.gravatar import Gravatar
+    from flask.ext.markdown import Markdown
 
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('404.html', error=error), 404
+    Gravatar(app)
+    Markdown(app)
 
-@app.before_request
-def before_request():
-    """
-    pull user's profile from the database before every request are treated
-    """
-    g.user = None
-    if 'user_id' in session:
-        g.user = User.query.get(session['user_id'])
+    @app.template_filter('formatted_time')
+    def timesince(date):
+        """A filter that formats a datetime as Month Day, Year."""
+        format = '%b %d, %Y'
+        return date.strftime(format)
 
+    @app.template_filter('format_authors')
+    def authors(author_ids):
+        """Convert list of author ids into author names."""
+        from sqlalchemy import or_
+        from acm_phoenix.users.models import User
+        if author_ids is None:
+            return ''
+        else:
+            ids = []
+            for author_id in author_ids.split(','):
+                ids.append(User.id == int(author_id))
+            authors = User.query.filter(or_(*ids)).all()
+            if authors is None:
+                return ''
+            else:
+                return 'by ' + ', '.join([author.name for author in authors])
+                
+                
+    @app.template_filter('format_query')
+    def formatted_query(query):
+        """Pretty print query."""
+        stripped_query = query.replace('%', '') if query is not None else ''
+        if len(stripped_query) == 0:
+            return ''
+        else:
+            return "with query like '" + stripped_query + "'"
 
-@app.route('/')
-def show_home():
-    """
-    Display home page to visitors and show front page articles.
-    """
-    from acm_phoenix.articles.forms import SearchForm
-    from acm_phoenix.articles.models import Category, Post, Tag
-    form = SearchForm()
-    
-    frontpage_filter = Post.query.filter(Tag.name == "frontpage")
-    posts = frontpage_filter.order_by("created DESC").all()
+    @app.template_filter('format_cats')
+    def formatted_category(cat_ids):
+        """Convert list of category ids into category slugs."""
+        from sqlalchemy import or_
+        from acm_phoenix.articles.models import Category
+        if cat_ids is None:
+            return ''
+        else:
+            ids = []
+            for cat_id in cat_ids.split(','):
+                ids.append(Category.id == int(cat_id))
+            cats = Category.query.filter(or_(*ids)).all()
+            if cats is None:
+                return ''
+            else:
+                return 'in ' + ', '.join([cat.slug.title() for cat in cats])
 
-    cats = Category.query.all()
-    tags = Tag.query.all()
+    @app.template_filter('format_tags')
+    def formatted_tag(tag_ids):
+        """Convert list of tag ids into tag names."""
+        from sqlalchemy import or_
+        from acm_phoenix.articles.models import Tag
+        if tag_ids is None:
+            return ''
+        else:
+            ids = []
+            for tag_id in tag_ids.split(','):
+                ids.append(Tag.id == int(tag_id))
+            tags = Tag.query.filter(or_(*ids)).all()
+            if tags is None:
+                return ''
+            else:
+                return ('with tags: ' + 
+                        ', '.join([tag.name.title() for tag in tags]))
 
-    author_filter = User.query.filter(User.role < 2)
-    authors = author_filter.order_by("name ASC").all()
+    @app.template_filter('format_order')
+    def format_order(order):
+        """Prints User-Friendly description of ordering preference."""
+        from acm_phoenix.articles.constants import ORDER
+        if order is None:
+            return ''
+        else:
+            return 'Ordered by ' + ORDER[order]
 
-    page = int(request.args.get('page')) if request.args.get('page') else 1
-    pagination = Pagination(posts, per_page=4, total=len(posts),
-                            page=page)
+def register_decorators(app):
+    """Initializes global app request decorators."""
+    from flask import g, session
+    from acm_phoenix.users.models import User
 
-    return render_template('home.html', posts=posts, form=form, 
-                           pagination=pagination, tags=tags, cats=cats,
-                           authors=authors)
-
-@app.route('/logout')
-def logout():
-    """
-    Removes user information from session
-    """
-    session.pop('user_id', None)
-    return redirect(url_for('show_home'))
+    @app.before_request
+    def before_request():
+        """Pull user's profile from the database before each request."""
+        g.user = None
+        if 'user_id' in session:
+            g.user = User.query.get(session['user_id'])
