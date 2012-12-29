@@ -1,11 +1,10 @@
-from acm_phoenix import db
+from acm_phoenix import db, admin
 from flask.ext.admin import Admin
 
-from acm_phoenix.admin.models import (AdminView, UserAdmin, ReportAdmin, 
+from acm_phoenix.admin.models import (UserAdmin, ReportAdmin, 
                                       PostAdmin, CategoryAdmin, TagAdmin)
 
 # User Admin Views
-admin = Admin(index_view=AdminView())
 admin.add_view(UserAdmin(db.session))
 admin.add_view(ReportAdmin(db.session))
 admin.add_view(PostAdmin(db.session))
