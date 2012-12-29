@@ -32,7 +32,7 @@ def show_home():
 
     page = int(request.args.get('page')) if request.args.get('page') else 1
     pagination = Pagination(posts, per_page=4, total=len(posts),
-                            page=page)
+                            page=page, link_size='large')
 
     return render_template('home.html', posts=posts, form=form, 
                            pagination=pagination, tags=tags, cats=cats,

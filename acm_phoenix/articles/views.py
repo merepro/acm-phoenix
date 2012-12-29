@@ -106,7 +106,7 @@ def show_all():
 
     page = int(request.args.get('page')) if request.args.get('page') else 1
     pagination = Pagination(posts, per_page=4, total=len(posts),
-                            page=page)
+                            page=page, link_size='large')
     return render_template('articles/articles.html', posts=posts,
                            form=form, query=search_term, cats=req_cat,
                            authors=req_auth, tags=req_tags, order=order,
