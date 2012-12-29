@@ -7,6 +7,8 @@ import abc
 
 class ACMTestCase(TestCase):
     """Test case wrapper that implements common initialization code"""    
+    __metaclass__ = abc.ABCMeta
+
     app = None
 
     def create_app(self):
