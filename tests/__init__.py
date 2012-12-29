@@ -1,18 +1,16 @@
 from flask.ext.testing import TestCase
 from flask.ext.wtf import Required, Email, Optional
-from acm_phoenix import db, create_app, register_blueprints
+from acm_phoenix import db, create_app
 
 import abc
 
 class ACMTestCase(TestCase):
     """Test case wrapper that implements common initialization code"""    
     app = None
-    client = None
 
     def create_app(self):
         """Creates testing application with correct database configuration"""
         self.app = create_app('config.TestingConfig')
-        self.client = self.app.test_client()
         return self.app
 
     def setUp(self):
