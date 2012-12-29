@@ -10,7 +10,7 @@
     <p>This is everything we think we know about you</p>
     <div id="gravatarViewport" class="span5 pull-left navUnit">
       <h3>Your profile</h3>
-      <img class="img-polaroid" src="{{ user.email | gravatar }}" title="(powered by gravatar.com)" />
+      <img class="img-polaroid" src="{{ user.email | gravatar(200) }}" title="(powered by gravatar.com)" />
       <br />
     </div>
     <div id="contactInfo" class="span6 pull-right navUnit">
