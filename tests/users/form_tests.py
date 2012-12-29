@@ -9,6 +9,7 @@ from flask.ext.wtf import (TextField, SelectField,
 
 class UserFormsTest(ACMFormTest):
     """Unit tests for User Forms."""
+    __test__ = True
     forms = [RegisterForm, EditForm]
 
     # Looping through the forms works here because RegisterForm and EditForm

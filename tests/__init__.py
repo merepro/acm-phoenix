@@ -27,6 +27,7 @@ class ACMTestCase(TestCase):
 
 class ACMFormTest(ACMTestCase):
     # Derived form tests should define the forms to be tested in this list.
+    __test__ = False
     forms = []
 
     def _get_field(self, form, field_name):
@@ -90,27 +91,27 @@ class ACMFormTest(ACMTestCase):
     @abc.abstractmethod
     def test_necessary_fields_in_form(self):
         """Tests that necessary fields are in forms to be tested."""
-        return
+        pass
 
     @abc.abstractmethod
     def test_fields_have_expected_types(self):
         """Tests that each field has the expected Field type."""
-        return
+        pass
 
     @abc.abstractmethod
     def test_fields_have_expected_validators(self):
         """Tests that form fields have the expected validators."""
-        return
+        pass
 
     @abc.abstractmethod
     def test_required_fields_make_form_valid(self):
         """Tests that form is valid iff required fields are valid."""
-        return
+        pass
 
     @abc.abstractmethod
     def test_forms_populate_models(self):
         """Tests that a validated form can populate associated model."""
-        return
+        pass
 
     def test_forms_have_csrf_disabled(self):
         """Tests that any form being tested has csrf disabled.
