@@ -224,9 +224,15 @@ def authenticate_user(flow):
 
   # Exchange code for fresh credentials
   credentials = flow.step2_exchange(code)
+  return verify_credentials_and_login(credentials)
+
+def verify_credentials_and_login(credentials):
+  id_token = credentials.id_token
+  if id_token is None:
+    flash(u'Invalid login credentials', 'error')
+    return redirect('/')
 
   # Extract email and email verification
-  id_token = credentials.id_token
   email = id_token['email']
   verified_email = id_token['verified_email']
 
