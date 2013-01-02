@@ -94,12 +94,12 @@ def wepay_membership_response(user):
   db.session.commit()
 
   # WePay Application settings
-  account_id = app.config['WEPAY_ACCT_ID']
-  access_token = app.config['WEPAY_ACC_TOK']
-  production = app.config['WEPAY_IN_PROD']
+  account_id = current_app.config['WEPAY_ACCT_ID']
+  access_token = current_app.config['WEPAY_ACC_TOK']
+  production = current_app.config['WEPAY_IN_PROD']
 
   wepay = WePay(production, access_token)
-  redirect_url = app.config['HOST_URL'] + '/verify/' + verification_key
+  redirect_url = current_app.config['HOST_URL'] + '/verify/' + verification_key
 
   response = wepay.call('/checkout/create', {
       'account_id': account_id,
@@ -154,8 +154,7 @@ def register():
     db.session.add(user)
     db.session.commit()
 
-    # Log the user in, as they now have an id
-    session['user_id'] = user.id
+    login_user(user)
 
     # flash will display a message to the user
     flash('Thanks for registering')
@@ -191,9 +190,9 @@ def verify_membership_payment(verification_key):
     user.membership_paid_on = user.member_since
     db.session.add(user)
     db.session.commit()
-    session['user_id'] = user.id
+    login_user(user)
 
-  return redirect('/')
+  return redirect(url_for('users.home'))
   
 @mod.route('/paymembership/')
 @login_required
@@ -201,7 +200,7 @@ def payment_redirect():
   """
   Redirects user to wepay page.
   """
-  user = User.query.get(session['user_id'])
+  user = current_user
   response = wepay_membership_response(user)
   user.wepay_checkout_id = response['checkout_id']
   db.session.add(user)
