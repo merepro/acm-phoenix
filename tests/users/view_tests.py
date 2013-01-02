@@ -2,6 +2,7 @@ from tests import ACMTestCase
 from flask import url_for, make_response
 from flask.ext.login import current_user
 from acm_phoenix.extensions import db
+from acm_phoenix.views import mod as indexModule
 from acm_phoenix.users.views import mod as usersModule
 from acm_phoenix.users.views import verify_credentials_and_login
 from acm_phoenix.users.decorators import oauth_flow
@@ -51,25 +52,25 @@ class UserViewTest(ACMTestCase):
 
         # Test that invalid credentials (missing id_token) abort.
         response = make_response(verify_credentials_and_login(credentials))
-        self.assertEqual(response.location, '/')
+        self.assertEqual(response.location, url_for('index.show_home'))
 
         # Test that credentials with unverified emails abort to home page.
         credentials.id_token = dict(email='testu001@ucr.edu', 
                                     verified_email='false')
         response = make_response(verify_credentials_and_login(credentials))        
-        self.assertEqual(response.location, '/')
+        self.assertEqual(response.location, url_for('index.show_home'))
 
         # Test that verified email redirects to register if non-existent user.
         credentials.id_token['verified_email'] = 'true'
         response = make_response(verify_credentials_and_login(credentials))
-        self.assertEqual(response.location, '/register')
+        self.assertEqual(response.location, url_for('users.register'))
 
         # Test that verified email redirects to profile if user exists.
         user = User(email='testu001@ucr.edu')
         db.session.add(user)
         db.session.commit()
         response = make_response(verify_credentials_and_login(credentials))
-        self.assertEqual(response.location, '/profile/')
+        self.assertEqual(response.location, url_for('users.home'))
 
         # User should now be logged into session.
         self.assertTrue(current_user.is_authenticated())

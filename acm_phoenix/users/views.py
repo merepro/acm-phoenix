@@ -13,6 +13,7 @@ import signpad2image
 import StringIO
 
 from acm_phoenix.extensions import db
+from acm_phoenix.views import mod as indexModule
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
@@ -228,7 +229,7 @@ def verify_credentials_and_login(credentials):
   id_token = credentials.id_token
   if id_token is None:
     flash(u'Invalid login credentials', 'error')
-    return redirect('/')
+    return redirect(url_for('index.show_home'))
 
   # Extract email and email verification
   email = id_token['email']
@@ -241,7 +242,7 @@ def verify_credentials_and_login(credentials):
       flash(u'We couldn\'t find any users with that email. '
             'You must register to be a member before logging '
             'in with rmail', 'error')
-      return redirect('/register')
+      return redirect(url_for('users.register'))
     else:
       # Log them in and send them to their request destination.
       login_user(user, remember=False)
@@ -251,7 +252,7 @@ def verify_credentials_and_login(credentials):
       return redirect(session['next_path'])
   else:
     flash(u'Sorry, we couldn\'t verify your email', 'error')
-    return redirect('/')
+    return redirect(url_for('index.show_home'))
 
 @mod.route('/user/view/<user_netid>/', methods = ['GET'])
 @login_required
