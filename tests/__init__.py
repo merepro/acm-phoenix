@@ -1,4 +1,4 @@
-from flask.ext.testing import TestCase
+from flask.ext.testing import TestCase, Twill
 from flask.ext.wtf import Required, Email, Optional
 from acm_phoenix import create_app
 from acm_phoenix.extensions import db
@@ -13,8 +13,9 @@ class ACMTestCase(TestCase):
 
     def create_app(self):
         """Creates testing application with correct database configuration"""
-        self.app = create_app('config.TestingConfig')
-        return self.app
+        app = create_app('config.TestingConfig')
+        self.twill = Twill(app, port=3000)
+        return app
 
     def setUp(self):
         """Creates database 'test.db' and loads models"""
