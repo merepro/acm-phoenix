@@ -80,12 +80,13 @@ def login(flow):
   auth_uri = flow.step1_get_authorize_url()
   return redirect(auth_uri)
 
-  
-def wepay_membership_response(user):
+@login_required  
+def wepay_membership_response():
   """
   Make a WePay API call for membership payment and return the response.
   """
   # Generate verification_key for wepay payment.
+  user = current_user
   random_string = base64.urlsafe_b64encode(os.urandom(30))
   verification_key = hashlib.sha224(random_string + user.email +
                                     user.name).hexdigest()
@@ -99,7 +100,9 @@ def wepay_membership_response(user):
   production = current_app.config['WEPAY_IN_PROD']
 
   wepay = WePay(production, access_token)
-  redirect_url = current_app.config['HOST_URL'] + '/verify/' + verification_key
+  redirect_url = current_app.config['HOST_URL'] + \
+      url_for('users.verify_membership_payment',
+              verification_key=verification_key)
 
   response = wepay.call('/checkout/create', {
       'account_id': account_id,
@@ -161,7 +164,7 @@ def register():
     
     # If user wants to pay membership now, redirect them to wepay.
     if form.reg_and_pay.data:
-      response = wepay_membership_response(user)
+      response = wepay_membership_response()
       
       # Keep track of user's checkout_id for later lookup on wepay.
       user.wepay_checkout_id = response['checkout_id']
@@ -201,7 +204,7 @@ def payment_redirect():
   Redirects user to wepay page.
   """
   user = current_user
-  response = wepay_membership_response(user)
+  response = wepay_membership_response()
   user.wepay_checkout_id = response['checkout_id']
   db.session.add(user)
   db.session.commit()
