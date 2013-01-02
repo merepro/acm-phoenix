@@ -1,15 +1,17 @@
 """Decorators for the User views"""
 from functools import wraps
 
-from flask import g, redirect, url_for, request
+from flask import g, redirect, url_for, request, current_app
 
-def requires_login(f):
-  """
-  Forces viewer to login when trying to access a certain function.
-  """
+def oauth_flow(f):
+  """Passes app oauth flow object to calling function."""
+  from oauth2client.client import OAuth2WebServerFlow
   @wraps(f)
   def decorated_function(*args, **kwargs):
-    if g.user is None:
-      return redirect(url_for('users.login', next=request.path))
-    return f(*args, **kwargs)
+    flow = OAuth2WebServerFlow(
+      client_id=current_app.config['GOOGLE_CLIENT_ID'],
+      client_secret=current_app.config['GOOGLE_CLIENT_SECRET'],
+      scope='https://www.googleapis.com/auth/userinfo.email',
+      redirect_uri=current_app.config['HOST_URL'] + '/oauth2callback')
+    return f(flow, *args, **kwargs)
   return decorated_function

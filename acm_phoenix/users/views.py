@@ -11,14 +11,11 @@ from datetime import datetime
 import signpad2image
 import StringIO
 
-# Google OAuth2
-from oauth2client.client import OAuth2WebServerFlow
-
 from acm_phoenix.extensions import db
 from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
-from acm_phoenix.users.decorators import requires_login
+from acm_phoenix.users.decorators import oauth_flow
 
 # Github Flavored Markdown
 from acm_phoenix.users.gfm import gfm
@@ -72,17 +69,11 @@ def edit_profile():
   return render_template('users/edit.html', user=user, form=form)
 
 @mod.route('/login/', methods=['GET', 'POST'])
-def login():
+@oauth_flow
+def login(flow):
   """
   Login with rmail account using Google OAuth2
   """
-  global flow
-  flow = OAuth2WebServerFlow(
-    client_id=current_app.config['GOOGLE_CLIENT_ID'],
-    client_secret=current_app.config['GOOGLE_CLIENT_SECRET'],
-    scope='https://www.googleapis.com/auth/userinfo.email',
-    redirect_uri=current_app.config['HOST_URL'] + '/oauth2callback')
-
   session['next_path'] = request.args.get('next')
   if session['next_path'] is None:
     session['next_path'] = url_for('users.home')
@@ -219,12 +210,11 @@ def payment_redirect():
   return redirect(response['checkout_uri'])
 
 @mod.route('/oauth2callback/')
-def authenticate_user():
+@oauth_flow
+def authenticate_user(flow):
   """
   Authenticate user as logged in after Google OAuth2 sends a callback.
   """
-  global flow
-
   error = request.args.get('error')
   if error:
     return redirect(url_for('users.home'))
