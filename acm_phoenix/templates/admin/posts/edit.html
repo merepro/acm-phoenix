@@ -64,7 +64,7 @@
           {% endif %}
         </div>
       </div>
-      <input type="hidden" id="author" name="author" value="{{ g.user.id }}" />
+      <input type="hidden" id="author" name="author" value="{{ current_user.id }}" />
       {{ lib.render_form_buttons(cancel_url) }}
     </div>
     <div class="span7">

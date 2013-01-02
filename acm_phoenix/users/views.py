@@ -1,6 +1,7 @@
 """Views for the users module"""
-from flask import (Blueprint, request, render_template, flash, g, session,
-                   redirect, url_for, current_app)
+from flask import (Blueprint, request, render_template, flash, session,
+                   redirect, url_for, current_app, abort)
+from flask.ext.login import login_required, login_user, current_user
 
 # WePay transaction
 from wepay import WePay
@@ -23,26 +24,23 @@ from acm_phoenix.users.gfm import gfm
 # User Blueprint
 mod = Blueprint('users', __name__, url_prefix='')
 
-# Google OAuth2 flow object to get user's email.
-flow = None
-
 # Routing rules
 @mod.route('/profile/')
-@requires_login
+@login_required
 def home():
   """
   Display User profile
   """
-  return render_template('users/profile.html', user=g.user)
+  return render_template('users/profile.html', user=current_user)
 
 @mod.route('/profile/edit/', methods=['GET', 'POST'])
-@requires_login
+@login_required
 def edit_profile():
   """
   Allow User to edit their profile info
   """
   form = EditForm(request.form)
-  user = g.user
+  user = current_user
   if form.validate_on_submit():
     # Checking if someone is trying to change their email to another user's.
     otherUser = User.query.filter_by(netid=form.netid.data,
@@ -176,7 +174,7 @@ def register():
   return render_template('users/register.html', form=form)
 
 @mod.route('/verify/<string:verification_key>')
-@requires_login
+@login_required
 def verify_membership_payment(verification_key):
   """
   Verifies that a user paid their membership by checking redirected key
@@ -197,7 +195,7 @@ def verify_membership_payment(verification_key):
   return redirect('/')
   
 @mod.route('/paymembership/')
-@requires_login
+@login_required
 def payment_redirect():
   """
   Redirects user to wepay page.
@@ -246,7 +244,7 @@ def verify_credentials_and_login(credentials):
       return redirect('/register')
     else:
       # Log them in and send them to their request destination.
-      session['user_id'] = user.id
+      login_user(user, remember=False)
       if 'next_path' not in session:
         session['next_path'] = url_for('users.home')
 
@@ -256,7 +254,7 @@ def verify_credentials_and_login(credentials):
     return redirect('/')
 
 @mod.route('/user/view/<user_netid>/', methods = ['GET'])
-@requires_login
+@login_required
 def view_profile(user_netid):
   """
   Displays a user page by clicking on their mini-gravatar icon
@@ -264,8 +262,8 @@ def view_profile(user_netid):
   """
   user = User.query.filter_by(netid=user_netid).first()
   #If the user clicked is the user himself, display his profile home
-  if user == g.user:
-    return render_template('users/profile.html', user=g.user)
+  if user == current_user and current_user.is_authenticated():
+    return render_template('users/profile.html', user=current_user)
   #Otherwise, display the profile page for other users
   else:
     return render_template('users/view.html', user=user)

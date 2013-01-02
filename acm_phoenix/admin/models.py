@@ -1,6 +1,7 @@
 """Models used for the Administration Panel"""
 
-from flask import render_template, send_file, g, redirect, url_for
+from flask import render_template, send_file, redirect, url_for
+from flask.ext.login import current_user
 from flask.ext.admin.contrib.sqlamodel import ModelView
 from flask.ext.admin import expose
 from flask.ext.admin.base import AdminIndexView
@@ -9,7 +10,6 @@ from flask.ext.admin.babel import gettext, lazy_gettext
 
 from acm_phoenix.users.models import User
 from acm_phoenix.users import constants as USER
-from acm_phoenix.users.decorators import requires_login
 
 from acm_phoenix.articles.models import Post, Tag, Category
 
@@ -33,7 +33,7 @@ class AdminView(AdminIndexView):
 
     def is_accessible(self):
         # Only accessible to those with at least a publisher role.
-        return g.user is not None and g.user.isPublisher()
+        return current_user.is_authenticated() and current_user.isPublisher()
 
 
 class UserAdmin(ModelView):
@@ -77,7 +77,7 @@ class UserAdmin(ModelView):
         Override of default ModelView is_accessible method.
         """
         # Only accessible to those with an admin role.
-        return g.user is not None and g.user.isAdmin()
+        return current_user.is_authenticated() and current_user.isAdmin()
 
     def __init__(self, session, **kwargs):
         # Just call parent class with predefined model.
@@ -114,7 +114,7 @@ class PostAdmin(ModelView):
     def is_accessible(self):
         """Override of default ModelView is_accessible."""
         # Only accessible to those with a publisher role.
-        return g.user is not None and g.user.isPublisher()
+        return current_user.is_authenticated() and current_user.isPublisher()
 
 class CategoryAdmin(ModelView):
     """
@@ -130,7 +130,7 @@ class CategoryAdmin(ModelView):
     def is_accessible(self):
         """Override of default ModelView is_accessible."""
         # Only accessible to those with a publisher role.
-        return g.user is not None and g.user.isPublisher()
+        return current_user.is_authenticated() and current_user.isPublisher()
 
 class TagAdmin(ModelView):
     """
@@ -146,7 +146,7 @@ class TagAdmin(ModelView):
     def is_accessible(self):
         """Override of default ModelView is_accessible."""
         # Only accessible to those with a publisher role.
-        return g.user is not None and g.user.isPublisher()
+        return current_user.is_authenticated() and current_user.isPublisher()
 
 
 class ReportAdmin(ModelView):
@@ -181,7 +181,7 @@ class ReportAdmin(ModelView):
     def is_accessible(self):
         """Override of default ModelView is_accessible."""
         # Only accessible to those with an admin role.
-        return g.user is not None and g.user.isAdmin()
+        return current_user.is_authenticated() and current_user.isAdmin()
 
     def __init__(self, session, **kwargs):
         super(ReportAdmin, self).__init__(User, session, name="report",

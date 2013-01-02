@@ -8,7 +8,7 @@ def create_app(config_object, debug=False):
     db.init_app(app)
     register_blueprints(app)
     register_filters(app)
-    register_decorators(app)
+    register_login_manager(app)
 
     return app
 
@@ -38,6 +38,19 @@ def register_admin_backend(app):
     admin.add_view(CategoryAdmin(db.session))
     admin.add_view(TagAdmin(db.session))
     admin.init_app(app)
+
+def register_login_manager(app):
+    from acm_phoenix.extensions import login_manager
+    from acm_phoenix.users.models import User
+
+    login_manager.login_view = 'users.login'
+    login_manager.refresh_view = 'users.login'
+    login_manager.login_message = ''
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+    login_manager.setup_app(app)
 
 def register_filters(app):
     """Initializes all filters needed for submodules."""
@@ -123,15 +136,3 @@ def register_filters(app):
             return ''
         else:
             return 'Ordered by ' + ORDER[order]
-
-def register_decorators(app):
-    """Initializes global app request decorators."""
-    from flask import g, session
-    from acm_phoenix.users.models import User
-
-    @app.before_request
-    def before_request():
-        """Pull user's profile from the database before each request."""
-        g.user = None
-        if 'user_id' in session:
-            g.user = User.query.get(session['user_id'])

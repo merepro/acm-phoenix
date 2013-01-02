@@ -1,10 +1,11 @@
 """Database Models used by users and other modules"""
 
+from flask.ext.login import UserMixin
 from acm_phoenix.extensions import db
 from acm_phoenix.users import constants as USER
 from datetime import datetime
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     """
     Defines the User object.
     """

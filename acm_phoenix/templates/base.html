@@ -94,7 +94,7 @@
                     {% endblock %}
 		    <ul class="nav">
 		      {% from "users/macros.html" import render_user_area %}
-		      {{ render_user_area(g.user) }}
+		      {{ render_user_area(current_user) }}
 		    </ul>
 		  </ul>
 		</div>

@@ -1,5 +1,6 @@
 from flask import (Blueprint, render_template, session, url_for, redirect,
                    request)
+from flask.ext.login import login_required, logout_user
 from flask.ext.paginate import Pagination
 
 from time import strftime
@@ -39,9 +40,10 @@ def show_home():
                            authors=authors)
 
 @mod.route('/logout')
+@login_required
 def logout():
     """
     Removes user information from session
     """
-    session.pop('user_id', None)
+    logout_user()
     return redirect(url_for('index.show_home'))

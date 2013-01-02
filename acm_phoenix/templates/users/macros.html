@@ -1,5 +1,5 @@
 {% macro render_user_area(user) %}
-  {% if user %}
+  {% if user.is_authenticated() %}
     <!-- Display relevant user data -->
     <li class="divider-vertical"></li>
     <li>
