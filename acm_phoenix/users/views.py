@@ -160,7 +160,7 @@ def register():
     flash('Thanks for registering')
     
     # If user wants to pay membership now, redirect them to wepay.
-    if form.reg_and_pay.data == True:
+    if form.reg_and_pay.data:
       response = wepay_membership_response(user)
       
       # Keep track of user's checkout_id for later lookup on wepay.
