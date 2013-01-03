@@ -41,7 +41,6 @@ def edit_profile():
   Allow User to edit their profile info
   """
   form = EditForm(request.form)
-  user = current_user
   if form.validate_on_submit():
     # Checking if someone is trying to change their email to another user's.
     otherUser = User.query.filter_by(netid=form.netid.data,
@@ -49,23 +48,23 @@ def edit_profile():
 
     # The user with the new netid and email either shouldn't exist or
     # should be the current user.
-    if otherUser is not None and user != otherUser:
+    if otherUser is not None and current_user != otherUser:
       flash(u'You seem to be trying to change your netid/email'
             ' to someone else\'s', 'error')
       return redirect(url_for('users.home'))
 
-    user.name = form.name.data
-    user.netid = form.netid.data
-    user.email = form.email.data
-    user.standing = form.standing.data
-    user.major = form.major.data
-    user.shirt_size = form.shirt_size.data
-    user.description = gfm(form.description.data)
+    current_user.name = form.name.data
+    current_user.netid = form.netid.data
+    current_user.email = form.email.data
+    current_user.standing = form.standing.data
+    current_user.major = form.major.data
+    current_user.shirt_size = form.shirt_size.data
+    current_user.description = gfm(form.description.data)
     
-    db.session.add(user)
+    db.session.add(current_user)
     db.session.commit()
     return redirect(url_for('users.home'))
-  return render_template('users/edit.html', user=user, form=form)
+  return render_template('users/edit.html', user=current_user, form=form)
 
 @mod.route('/login/', methods=['GET', 'POST'])
 @oauth_flow
@@ -76,9 +75,12 @@ def login(flow):
   session['next_path'] = request.args.get('next')
   if session['next_path'] is None:
     session['next_path'] = url_for('users.home')
-  
-  auth_uri = flow.step1_get_authorize_url()
-  return redirect(auth_uri)
+
+  if current_user.is_authenticated():
+    return redirect(session['next_path'])
+  else:
+    auth_uri = flow.step1_get_authorize_url()
+    return redirect(auth_uri)
 
 @login_required  
 def wepay_membership_response():
@@ -268,5 +270,8 @@ def view_profile(user_netid):
   if user == current_user and current_user.is_authenticated():
     return render_template('users/profile.html', user=current_user)
   #Otherwise, display the profile page for other users
-  else:
+  elif user is not None:
     return render_template('users/view.html', user=user)
+  else:
+    flash(u'Sorry, we couldn\'t find the user you asked for.', 'error')
+    return redirect(url_for('users.home'))
