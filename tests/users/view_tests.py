@@ -11,8 +11,8 @@ from apiclient.http import HttpMockSequence
 
 class UserViewTest(ACMTestCase):
     """Unit tests for the User views."""
-    def test_requires_login(self):
-        """Tests views that require a login redirect if no logged in user."""
+    def test_login_required(self):
+        """Tests views that require a login redirect if no current user."""
         response = self.client.get('/profile/')
         self.assertRedirects(response, url_for('users.login', next='/profile/'))
 
