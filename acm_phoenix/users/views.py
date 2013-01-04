@@ -18,6 +18,7 @@ from acm_phoenix.users import constants as USER
 from acm_phoenix.users.forms import RegisterForm, EditForm
 from acm_phoenix.users.models import User
 from acm_phoenix.users.decorators import oauth_flow
+from oauth2client.client import FlowExchangeError
 
 # Github Flavored Markdown
 from acm_phoenix.users.gfm import gfm
@@ -217,16 +218,19 @@ def authenticate_user(flow):
   """
   Authenticate user as logged in after Google OAuth2 sends a callback.
   """
-  error = request.args.get('error')
-  if error:
-    return redirect(url_for('users.home'))
-
   # Get OAuth2 authentication code
   code = request.args.get('code')
+  error = request.args.get('error')
+  if error or code is None:
+    flash(u'There was an error authenticating you. Please again.', 'error')
+    return redirect(url_for('index.show_home'))
 
-  # Exchange code for fresh credentials
-  credentials = flow.step2_exchange(code)
-  return verify_credentials_and_login(credentials)
+  try:
+    # Exchange code for fresh credentials
+    credentials = flow.step2_exchange(code)
+    return verify_credentials_and_login(credentials)
+  except FlowExchangeError:
+    abort(403)
 
 def verify_credentials_and_login(credentials):
   id_token = credentials.id_token
