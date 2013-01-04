@@ -8,9 +8,8 @@ Flask-Paginate
 Flask-Testing
 Flask-Login
 blinker
-PIL==1.1.7
 google-api-python-client==1.0
-xhtml2pdf==0.0.4
-wepay==0.1.5
-git+git://github.com/videntity/python-signpad2image.git#egg=python-signpad2image
+git+git://github.com/acm-ucr/xhtml2pdf.git#egg=xhtml2pdf
+wepay
+git+git://github.com/acm-ucr/python-signpad2image.git#egg=python-signpad2image
 nose
