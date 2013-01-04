@@ -127,13 +127,15 @@ def register():
     user = User.query.filter_by(netid=form.netid.data,
                                 email=form.email.data).first()
     if user:
-      flash(u'NetID/Email already registred', 'error')
+      flash(u'NetID/Email already registered', 'error')
       return render_template("users/register.html", form=form)
 
     raw_signature = request.form['output']
     
     # Convert drawn signature to base64 encoded image.
     if raw_signature.find("data:image") == -1:
+      from signpad2image import s2i
+
       PIL_image = s2i(
         raw_signature,
         input_image=os.path.abspath('acm_phoenix/static/packages/signpad2image'
@@ -164,7 +166,7 @@ def register():
     
     # If user wants to pay membership now, redirect them to wepay.
     if form.reg_and_pay.data:
-      response = wepay_membership_response()
+      response = wepay_membership_response(user)
       
       # Keep track of user's checkout_id for later lookup on wepay.
       user.wepay_checkout_id = response['checkout_id']
@@ -193,7 +195,6 @@ def verify_membership_payment(verification_key):
     user.membership_paid_on = user.member_since
     db.session.add(user)
     db.session.commit()
-    login_user(user)
 
   return redirect(url_for('users.home'))
   
@@ -204,7 +205,7 @@ def payment_redirect():
   Redirects user to wepay page.
   """
   user = current_user
-  response = wepay_membership_response()
+  response = wepay_membership_response(user)
   user.wepay_checkout_id = response['checkout_id']
   db.session.add(user)
   db.session.commit()
