@@ -66,7 +66,7 @@ def edit_profile():
     return redirect(url_for('users.home'))
   return render_template('users/edit.html', user=current_user, form=form)
 
-@mod.route('/login/', methods=['GET', 'POST'])
+@mod.route('/login/')
 @oauth_flow
 def login(flow):
   """
@@ -256,7 +256,7 @@ def verify_credentials_and_login(credentials):
     flash(u'Sorry, we couldn\'t verify your email', 'error')
     return redirect(url_for('index.show_home'))
 
-@mod.route('/user/view/<user_netid>/', methods = ['GET'])
+@mod.route('/user/view/<user_netid>/')
 @login_required
 def view_profile(user_netid):
   """
